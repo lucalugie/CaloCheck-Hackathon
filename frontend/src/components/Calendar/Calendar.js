@@ -1,4 +1,4 @@
-import useViewModel from '@Component/Calendar/useViewModel';
+import useViewModel from './useViewModel';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCaretRight, faCaretLeft} from '@fortawesome/free-solid-svg-icons';
