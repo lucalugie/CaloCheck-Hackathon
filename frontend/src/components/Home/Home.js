@@ -10,7 +10,6 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 function Home({ className }) {
   return (
     <div className={className}>
-      <Navbar />
       <MyNutrition />
       <MyInfo />
       <ButtonContainer>
@@ -18,7 +17,6 @@ function Home({ className }) {
           <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
         </button>
       </ButtonContainer>
-      <Footer />
     </div>
   );
 }
