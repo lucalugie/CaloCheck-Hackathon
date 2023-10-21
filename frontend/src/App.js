@@ -6,10 +6,11 @@
 // import Buyfood from "./components/Buyfood";
 import Pastfood from "./components/Pastfood";
 // import PieColor from "./components/Piedayly";
+// import TodayFood from "./components/TodayFood";
 function App() {
   return (
     <>
-      <Pastfood />
+      <Pastfood/>
     </>
   );
 }

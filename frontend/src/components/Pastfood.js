@@ -37,9 +37,6 @@ const Pastfood = ({ className }) => (
           <PieColor />
         </div>
     </div>
-   
-
-
   </div>
   
 );
