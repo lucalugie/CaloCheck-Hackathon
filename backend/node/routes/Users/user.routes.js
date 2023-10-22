@@ -3,7 +3,7 @@ const service = require('./user.service');
 const userRouter = express.Router();
 
 
-userRouter.get ('/',async (req, res) => {
+userRouter.post('/',async (req, res) => {
    return await service.postCode(req, res);
 
 });

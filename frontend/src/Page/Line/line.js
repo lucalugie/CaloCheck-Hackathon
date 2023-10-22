@@ -3,7 +3,7 @@
     const LineCode = LineFunction();
     return (
         <>
-            
+             <p>${LineCode}</p>
         </>
     )
  }

@@ -7,41 +7,38 @@ dotenv.config();
 async function postCode(req, res) {
     try {
         const {code} = req.body
-        
-        axios.post(API.token, {
-            "grant_type": "authorization_code",
-            "code": code,
-            "redirect_uri": process.env.REDIRECT_URI,
-            "client_id": process.env.CLIENT_ID,
-            "client_secret": process.env.CLIENT_SECRET
+        const token = await axios.post(API.token, {
+            grant_type: "authorization_code",
+            code: code,
+            redirect_uri: process.env.REDIRECT_URI,
+            client_id: process.env.CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET
         }, 
-        {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        })
-        .then((response) => {
-        const {data} = response
-        const {access_token} = data
-        axios.get(API.profile, {
-            headers: {
-                "Authorization": `Bearer ${access_token}`
-            }
-        })
-        .then((response) => {
-        const {data} = response
-        const {displayName, userId} = data
-        Users.create({
-            userlineId: userId,
-            displayName: displayName
-        })
-        res.status(200).json("Succcess")
-        })
-        })
+        {headers: {'content-type': 'application/x-www-form-urlencoded'}})
         
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({error})
+        const profile = await axios.get(API.profile, {
+            headers: {
+                Authorization: `Bearer ${token.data.access_token}`
+            }
+        })
+
+        
+        if(profile){
+            const user = await Users.create({
+                userlineId: profile.data.userId,
+                displayName: profile.data.displayName,
+                pictureUrl: profile.data.pictureUrl,
+                createdAt: new Date()
+            })
+            res.json("success")
+            res.status(201).json(user);
+    
+        }
+
+
+    } 
+    catch (error) {
+        res.status(500).json(error)
     }
 
 }
