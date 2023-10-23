@@ -11,21 +11,14 @@ const Users = sequelize.define("users",
     type: DataTypes.STRING,
     allowNull:true
   },
-  profileImage: {
-    type: DataTypes.STRING,
-    allowNull:true
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    allowNull:true
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    timestamps:false,
+  pictureUrl: {
+    type: DataTypes.TEXT,
     allowNull:true
   }
 
-  
+},
+{
+  updatedAt: false
 });
 
 module.exports = Users;

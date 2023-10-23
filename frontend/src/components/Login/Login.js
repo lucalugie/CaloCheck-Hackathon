@@ -4,6 +4,7 @@ const { REACT_APP_CLIENT_ID, REACT_APP_REDIRECT_URI } = process.env;
 
 function Login() {
   const {randomState} = LoginFunction();
+
   return (
     <>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
