@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
-function MyNutrition({ className }) {
+function MyNutrition({ className, nutritionData }) {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0");
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
+
+  function findPercentage(achieve, goals) {
+    const percentage = (achieve / goals) * 100;
+    return Math.round(percentage);
+  }
 
   return (
     <div className={className}>
@@ -31,28 +36,43 @@ function MyNutrition({ className }) {
               <p className="progress-label">โปรตีน</p>
               <progress
                 className="progress progress-secondary w-60"
-                value={0}
+                value={findPercentage(
+                  nutritionData.ach_protein,
+                  nutritionData.goals_protein
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">0/70</p>
+              <p className="progress-number">
+                {nutritionData.ach_protein}/{nutritionData.goals_protein}
+              </p>
             </div>
             <div className="progress-item">
               <p className="progress-label">ไขมัน</p>
               <progress
                 className="progress progress-secondary w-56"
-                value="10"
+                value={findPercentage(
+                  nutritionData.ach_fat,
+                  nutritionData.goals_fat
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">5/44</p>
+              <p className="progress-number">
+                {nutritionData.ach_fat}/{nutritionData.goals_fat}
+              </p>
             </div>
             <div className="progress-item">
               <p className="progress-label">เกลือ</p>
               <progress
                 className="progress progress-secondary w-56"
-                value="40"
+                value={findPercentage(
+                  nutritionData.ach_salt,
+                  nutritionData.goals_salt
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">10/23</p>
+              <p className="progress-number">
+                {nutritionData.ach_salt}/{nutritionData.goals_salt}
+              </p>
             </div>
           </div>
 
@@ -64,7 +84,7 @@ function MyNutrition({ className }) {
               }}
             >
               <div className="details">
-                <p>117</p>
+                <p>{nutritionData.left}</p>
                 <p>ที่เหลืออยู่</p>
               </div>
             </div>
@@ -75,28 +95,43 @@ function MyNutrition({ className }) {
               <p className="progress-label">ผัก</p>
               <progress
                 className="progress progress-secondary w-56"
-                value="90"
+                value={findPercentage(
+                  nutritionData.ach_veg,
+                  nutritionData.goals_veg
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">4/5</p>
+              <p className="progress-number">
+                {nutritionData.ach_veg}/{nutritionData.goals_veg}
+              </p>
             </div>
             <div className="progress-item">
               <p className="progress-label">คาร์โบไฮเดรต</p>
               <progress
                 className="progress progress-secondary w-56"
-                value="70"
+                value={findPercentage(
+                  nutritionData.ach_carb,
+                  nutritionData.goals_carb
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">195/225</p>
+              <p className="progress-number">
+                {nutritionData.ach_carb}/{nutritionData.goals_carb}
+              </p>
             </div>
             <div className="progress-item">
               <p className="progress-label">น้ำตาล</p>
               <progress
                 className="progress progress-secondary w-56"
-                value="100"
+                value={findPercentage(
+                  nutritionData.ach_sugar,
+                  nutritionData.goals_sugar
+                )}
                 max="100"
               ></progress>
-              <p className="progress-number">23/23</p>
+              <p className="progress-number">
+                {nutritionData.ach_sugar}/{nutritionData.goals_sugar}
+              </p>
             </div>
           </div>
         </div>

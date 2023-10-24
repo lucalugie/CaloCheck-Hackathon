@@ -9,7 +9,7 @@ function Welcome({ className }) {
           <h1 className="font-bold text-2xl text-center">your guide to food balance+</h1>
         </div>
         <button className="btn btn-active btn-primary m-4 w-1/2 max-w-xs">login with Line</button>
-        <button className="btn btn-outline btn-primary w-1/2 max-w-xs mb-28">Primary</button>
+        {/* <button className="btn btn-outline btn-primary w-1/2 max-w-xs mb-28">Primary</button> */}
       </div>
 
       <svg preserveAspectRatio="xMidYMid slice" viewBox="10 10 80 80">

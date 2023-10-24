@@ -13,8 +13,8 @@ function Complete({ className }) {
         </button>
       </Link>
 
-      <div className="container flex flex-col justify-center">
-        <div className="title flex flex-col justify-center items-center mt-20 text-center">
+      <div className="wrap w-full h-1/2">
+        <div className="title flex flex-col justify-center items-center text-center">
           <FontAwesomeIcon
             icon={faCircleCheck}
             className="text-7xl text-primary"
@@ -40,7 +40,13 @@ function Complete({ className }) {
 }
 
 export default styled(Complete)`
-  .container {
-
-  }
+.wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 `;
