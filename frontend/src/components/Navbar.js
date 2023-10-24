@@ -34,7 +34,7 @@ function Navbar() {
               <Link to="/">Homepage</Link>
               </li>
               <li>
-              <Link to="/calendar">Calendar</Link>
+              <Link to="/datastatus">Calendar</Link>
               </li>
               <li>
               <Link to="/ai-scan">AI scan</Link>

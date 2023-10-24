@@ -1,13 +1,18 @@
 import React from 'react';
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 
 const Addfood = ({ className }) => {
   return (
   <div className={className}>
-     <div className="button">
-      <button  class="btn btn-active btn-secondary">⬅back</button>
-      </div>
+      <Link to="/myfood">
+        <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
+          <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
+        </button>
+      </Link>
 
       <div className="flex justify-center items-center h-screen">
   <div className="card w-96 bg-base-100 shadow-xl mx-4">
@@ -18,7 +23,8 @@ const Addfood = ({ className }) => {
       <h2 className="card-title">ปรุงเอง</h2>
       <p>คุณปรุงอาหารด้วยตัวเอง ?</p>
       <div className="card-actions">
-        <button className="btn btn-success">Cooking</button>
+      <Link to="/myfood/Addfood/Cookfood">
+        <button className="btn btn-success">Cooking</button></Link>
       </div>
     </div>
   </div>
@@ -30,7 +36,8 @@ const Addfood = ({ className }) => {
       <h2 className="card-title">ซื้อมา</h2>
       <p>คุณซื้ออาหารมาทาน ?</p>
       <div className="card-actions">
-        <button className="btn btn-warning">Shopping</button>
+      <Link to="/myfood/Addfood/Buyfood">
+        <button className="btn btn-warning">Shopping</button></Link>
       </div>
     </div>
   </div>

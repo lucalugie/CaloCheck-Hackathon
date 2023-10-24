@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBarcode } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 
 const MyFood = ({ className }) => {
@@ -37,6 +37,7 @@ const MyFood = ({ className }) => {
       </div>
       <div className="Myfood--list">
         {tableData.map((item) => (
+          <Link to={`/myfood/Pastfood/${item.name}?kcal=${item.kcal}`}>
           <div
             key={item.id}
             tabIndex={0}
@@ -47,14 +48,18 @@ const MyFood = ({ className }) => {
               <p>
                 {item.amount} - {item.kcal} Kcal
               </p>
-              <Link to={`/Pastfood/${item.name}?kcal=${item.kcal}`}>ดูข้อมูล</Link>
+              ดูข้อมูล
             </div>
            
-          </div>
+          </div></Link>
         ))}
         <div className="button">
-          <div class="flex-grow"></div>
-          <button className="btn btn-success">➕ADD</button>
+          <div className="flex-grow"></div>
+          <Link to="/myfood/Addfood">
+          <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
+            <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
+          </button>
+        </Link>
         </div>
       </div>
     </div>

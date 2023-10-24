@@ -1,12 +1,12 @@
 import MyInfo from "./MyInfo";
 import MyNutrition from "./MyNutrition";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function Home({ className }) {
-
   const infoDemoData = {
     name: "Premey",
     age: 27,
@@ -14,7 +14,8 @@ function Home({ className }) {
     height: 160,
     weight: 75,
     bmi: 29.3,
-    image: "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg",
+    image:
+      "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg",
   };
 
   const nutritionDemoData = {
@@ -38,12 +39,14 @@ function Home({ className }) {
 
   return (
     <div className={className}>
-      <MyNutrition nutritionData={nutritionDemoData}/>
+      <MyNutrition nutritionData={nutritionDemoData} />
       <MyInfo infoData={infoDemoData} />
       <ButtonContainer>
-        <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
-          <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
-        </button>
+        <Link to="/myfood">
+          <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
+            <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
+          </button>
+        </Link>
       </ButtonContainer>
     </div>
   );
