@@ -1,15 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 const Pastfood = ({ className }) => {
-  const { name, kcal } = useParams();
+  const { name,kcal } = useParams();
   return (
   <div className={className}>
-    <div className="back">
-      <button class="btn btn-active btn-secondary">⬅back</button>
-    </div>
+     <Link to="/myfood">
+        <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
+          <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
+        </button>
+      </Link>
+    
     <div className="Text">
       <h1>
         <b>{name}</b>
@@ -37,7 +43,7 @@ const Pastfood = ({ className }) => {
             className="input input-bordered input-error w-full max-w-xs"
           />
           <br/>
-          <PieColor />
+          <PieColor kcal={kcal}/>
         </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 const pieParams = { height: 200, margin: { right: 5 } };
 
-export default function PieColor() {
+export default function PieColor({ kcal }) {
   return (
     <Stack direction="row" width="100%" textAlign="center" spacing={2}>
       <Box flexGrow={1}>
@@ -35,7 +35,7 @@ export default function PieColor() {
           ]}
           {...pieParams}
         />
-        <Typography>300</Typography>
+        <Typography>{kcal}</Typography>
         <Typography>Kcal</Typography>
         <div className="badge badge bg-purple-600 text-white">คาร์โบไฮเดรต</div>
         <div className="badge badge bg-red-600 text-white">โปรตีน</div>

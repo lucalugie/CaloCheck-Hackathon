@@ -6,46 +6,65 @@ import { Link } from "react-router-dom";
 
 const Cookfood = ({ className }) => {
   // กำหนดค่าเริ่มต้นของ namefood เป็น ""
-  const [namefood, setNamefood] = useState("ข้าวผัด");
-  const [calories, setCalories] = useState(0);
-  const [num, setNum] = useState(0);
-  const [carbo, setCarbo] = useState(0);
-  const [protein, setProtein] = useState(0);
-  const [vegetable, setVegetable] = useState(0);
-  const [fat, setFat] = useState(0);
-  const [sugar, setSugar] = useState(0);
-  const [salt, setSalt] = useState(0);
+  const [namefood, setNamefood] = useState("");
+  const [calories, setCalories] = useState('');
+  const [num, setNum] = useState('');
+  const [carbo, setCarbo] = useState('');
+  const [protein, setProtein] = useState('');
+  const [vegetable, setVegetable] = useState('');
+  const [fat, setFat] = useState('');
+  const [sugar, setSugar] = useState('');
+  const [salt, setSalt] = useState('');
 
   // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
   const handleNamefoodChange = (event) => {
     setNamefood(event.target.value);
   };
+  const handleCaloriesChange = (e) => {
+    const input = e.target.value;
 
-  const handleCaloriesChange = (event) => {
-    setCalories(Number(event.target.value));
-  };
 
-  const handleNumChange = (event) => {
-    setNum(Number(event.target.value));
-  };
-  const handleCarboChange = (event) => {
-    setCarbo(Number(event.target.value));
-  };
-  const handleProteinChange = (event) => {
-    setProtein(Number(event.target.value));
-  };
-  const handleVegetableChange = (event) => {
-    setVegetable(Number(event.target.value));
-  };
-  const handleFatChange = (event) => {
-    setFat(Number(event.target.value));
-  };
-  const handleSugarChange = (event) => {
-    setSugar(Number(event.target.value));
-  };
-  const handleSaltChange = (event) => {
-    setSalt(Number(event.target.value));
-  };
+    if (/^\d*$/.test(input)) {
+      setCalories(input);
+    }};
+  const handleNumChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setNum(input);
+    }};
+  const handleCarboChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setCarbo(input);
+    }};
+  const handleProteinChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setProtein(input);
+    }};
+  const handleVegetableChange = (e) => {
+    const input = e.target.value;
+    if (/^\d*$/.test(input)) {
+      setVegetable(input);
+    }};
+  const handleFatChange = (e) => {
+    const input = e.target.value;
+    if (/^\d*$/.test(input)) {
+      setFat(input);
+    }};
+  const handleSugarChange = (e) => {
+    const input = e.target.value;
+    if (/^\d*$/.test(input)) {
+      setSugar(input);
+    }};
+  const handleSaltChange = (e) => {
+    const input = e.target.value;
+    if (/^\d*$/.test(input)) {
+      setSalt(input);
+    }};
 
   return (
     <div className={className}>
@@ -84,7 +103,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
               value={calories}
@@ -101,7 +119,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
               value={num}
@@ -134,7 +151,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               class="input input-bordered input-primary w-full max-w-xs"
               value={carbo}
@@ -166,7 +182,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered input-secondary w-full max-w-xs"
               value={protein}
@@ -189,7 +204,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered input-success w-full max-w-xs"
               value={vegetable}
@@ -205,7 +219,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered input-warning w-full max-w-xs"
               value={fat}
@@ -221,7 +234,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered input-error w-full max-w-xs"
               value={sugar}
@@ -237,7 +249,6 @@ const Cookfood = ({ className }) => {
             </label>
             <input
               type="number"
-              min="0"
               placeholder="Type here"
               className="input input-bordered input-info w-full max-w-xs"
               value={salt}

@@ -14,6 +14,9 @@ const Addfood = ({ className }) => {
         </button>
       </Link>
 
+<div  className="cc">
+  
+
       <div className="flex justify-center items-center h-screen">
   <div className="card w-96 bg-base-100 shadow-xl mx-4">
     <figure className="px-10 pt-10">
@@ -42,6 +45,9 @@ const Addfood = ({ className }) => {
     </div>
   </div>
 </div>
+
+</div>
+
   </div>
 );};
 
@@ -52,5 +58,12 @@ export default styled(Addfood)`
   left: 20px;
   padding: 10px 20px;
  font-size: calc(60% + 2vmin);
+}
+.cc{
+  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 `;
