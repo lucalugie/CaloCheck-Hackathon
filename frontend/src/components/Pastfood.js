@@ -1,18 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
+import { useParams } from 'react-router-dom';
 
-const Pastfood = ({ className }) => (
+const Pastfood = ({ className }) => {
+  const { name, kcal } = useParams();
+  return (
   <div className={className}>
     <div className="back">
       <button class="btn btn-active btn-secondary">⬅back</button>
     </div>
     <div className="Text">
       <h1>
-        <b>ข้าวสวยหอมมะลิตราอีซี่โก</b>
+        <b>{name}</b>
       </h1>
     </div>
-    <div className="Nutritions">
+    <div className="Nutritions text-accent">
       <h2>
         <b>Nutritions</b>
         </h2>
@@ -39,7 +42,7 @@ const Pastfood = ({ className }) => (
     </div>
   </div>
   
-);
+);};
 
 export default styled(Pastfood)`
   .back {
@@ -60,7 +63,6 @@ export default styled(Pastfood)`
   }
   .Nutritions h2{
     font-size: calc(60% + 1vmin);
-    color: #2baf2b;
     display: flex;
     flex-direction: column;
     align-items: center;

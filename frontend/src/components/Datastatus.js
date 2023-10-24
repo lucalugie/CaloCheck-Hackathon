@@ -1,60 +1,62 @@
-import React from "react";
+import React, { useState} from "react";
 import styled from "styled-components";
 import PieAll from "./Pieall";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 
-const Datastatus = ({ className }) => (
-  <div className={className}>
-  <div className="data">
-  <div className="form-control w-full max-w-xs">
-  <div className="overflow-x-auto">
-  <div className="Text">
-      <h1>
-        <b>🍽️รายการอาหาร</b>
-        <br/>
-      </h1>
+
+const Datastatus = ({ className }) => {
+  const [tableData, setTableData] = useState([
+    { id: 1, name: 'ข้าวผัด', amount: '1 x 1 จาน', kcal: 495 },
+    { id: 2, name: 'ข้าวกุ้งทอด', amount: '1 x 1 จาน', kcal: 610 },
+    { id: 3, name: 'ข้าวสวยหอมมะลิตราอีซี่โก', amount: '1 x 1 จาน', kcal: 300 },
+  ]);
+
+  return (
+    <div className={className}>
+      <div className="data">
+        <div className="form-control w-full max-w-xs">
+          <div className="overflow-x-auto">
+            <div className="Text">
+              <h1>
+                <b>
+                  <FontAwesomeIcon icon={faUtensils} style={{ marginRight: '2rem' }} /> รายการอาหาร
+                </b>
+                <br />
+              </h1>
+            </div>
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>ชื่ออาหาร</th>
+                  <th>จำนวน</th>
+                  <th>Kcal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
+                {tableData.map((data) => (
+                  <tr key={data.id}>
+                    <th>{data.id}</th>
+                    <td>{data.name}</td>
+                    <td>{data.amount}</td>
+                    <td>{data.kcal}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <br />
+            <div>
+              <PieAll/>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  <table className="table">
-    {/* head */}
-    <thead>
-      <tr>
-        <th></th>
-        <th>ชื่ออาหาร</th>
-        <th>จำนวน</th>
-        <th>Kcal</th>
-      </tr>
-    </thead>
-    <tbody>
-      {/* row 1 */}
-      <tr>
-        <th>1</th>
-        <td>ข้าวผัด</td>
-        <td>1 x 1 จาน </td>
-        <td>495</td>
-      </tr>
-      {/* row 2 */}
-      <tr>
-        <th>2</th>
-        <td>ข้าวกุ้งทอด</td>
-        <td>1 x 1 จาน </td>
-        <td>610</td>
-      </tr>
-      {/* row 3 */}
-      <tr>
-        <th>3</th>
-        <td>ข้าวสวยหอมมะลิตราอีซี่โก</td>
-        <td>1 x 1 จาน</td>
-        <td>300</td>
-      </tr>
-    </tbody>
-  </table>
-  <br/>
-</div>
-  <PieAll/>
-  </div>
-  </div>
-  </div>
   
-);
+);};
 export default styled(Datastatus)`
 .data {
   font-size: calc(60% + 2vmin);

@@ -1,8 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
 
-const Todayfood = ({ className }) => (
+const Todayfood = ({ className }) => {
+  const [num, setNum] = useState(1);
+
+  const handleNumChange = (event) => {
+    setNum(Number(event.target.value)); 
+  };
+  const [k, setK] = useState(80);
+  
+  const [tableData, setTableData] = useState([
+    { id: 1, name: 'คาร์โบไฮเดรต', value: k, progressClass: 'accent' },
+    { id: 2, name: 'น้ำตาล', value: 35, progressClass: 'secondary' },
+    { id: 3, name: 'โปรตีน', value: 50, progressClass: 'error' },
+    { id: 4, name: 'ผัก', value: 10, progressClass: 'success' },
+    { id: 5, name: 'ไขมัน', value: 60, progressClass: 'warning' },
+    { id: 6, name: 'เกลือ', value: 20, progressClass: 'info' },
+  ]);
+   // ใช้ useEffect เพื่ออัปเดตค่า k จาก API หรือตามเหตุการณ์อื่น ๆ
+   useEffect(() => {
+    // ตัวอย่างการใช้ fetch เพื่อดึงค่าจาก API
+    const fetchDataAndUpdateK = async () => {
+      try {
+        const response = await fetch('your_api_endpoint_here');
+        const data = await response.json();
+        setK(data.k);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // เรียกใช้งาน fetchDataAndUpdateK เมื่อคอมโพเนนต์โหลดหรือตามเหตุการณ์ที่คุณต้องการ
+    fetchDataAndUpdateK();
+  }, []); // อย่าลืมใส่อาเรย์ที่เป็นขึ้นตอนเป็นว่างเพื่อให้มันทำงานเมื่อคอมโพเนนต์โหลดครั้งแรกเท่านั้น
+
+  return (
   <div className={className}>
 <div className="back">
       <button class="btn btn-active btn-secondary">⬅back</button>
@@ -12,7 +45,7 @@ const Todayfood = ({ className }) => (
         <b>ข้าวสวยหอมมะลิตราอีซี่โก</b>
       </h1>
     </div>
-    <div className="Nutritions">
+    <div className="Nutritions text-accent">
       <h2>
         <b>Nutritions</b>
         </h2>
@@ -30,8 +63,10 @@ const Todayfood = ({ className }) => (
           <input
            type="number"
            min="1"
-            placeholder="1"
-            className="input input-bordered input-error w-full max-w-xs"
+          placeholder="1"
+          className="input input-bordered input-error w-full max-w-xs"
+            value={num}
+            onChange={handleNumChange}
           />
           <br/>
           <PieColor />
@@ -47,36 +82,15 @@ const Todayfood = ({ className }) => (
     </div>
     <div className="daylylist">
     <div className="dayly grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 gap-y-6 sm:gap-y-10 w-5rem">
-  <div className="list">
-    <h2>คาร์โบไฮเดรต</h2>
-    <progress className="progress progress-accent    " value="80" max="100" ></progress>
-    <h3>40%</h3>
+ 
+    {tableData.map((item) => (
+  <div className="list" key={item.id}>
+    <h2>{item.name}</h2>
+    <progress className={`progress progress-${item.progressClass}`} value={item.value} max="100" />
+    <h3>{item.value}%</h3>
   </div>
-  <div className="list">
-    <h2>น้ำตาล</h2>
-    <progress className="progress progress-secondary  " value="35" max="100"></progress>
-    <h3>35%</h3>
-  </div>
-  <div className="list">
-    <h2>โปรตีน</h2>
-    <progress className="progress progress-error  " value="50" max="100"></progress>
-    <h3>50%</h3>
-  </div>
-  <div className="list">
-    <h2>ผัก</h2>
-    <progress className="progress progress-success " value="10" max="100"></progress>
-    <h3>10%</h3>
-  </div>
-  <div className="list">
-    <h2>ไขมัน</h2>
-    <progress className="progress progress-warning " value="60" max="100"></progress>
-    <h3>60%</h3>
-  </div>
-  <div className="list">
-    <h2>เกลือ</h2>
-    <progress className="progress progress-info  " value="20" max="100"></progress>
-    <h3>20%</h3>
-  </div>
+    ))}
+   
 </div>
     </div>
     
@@ -93,7 +107,7 @@ const Todayfood = ({ className }) => (
   
   </div>
   
-);
+);};
 
 export default styled(Todayfood)`
 .back {
@@ -114,7 +128,6 @@ export default styled(Todayfood)`
 }
 .Nutritions h2{
   font-size: calc(60% + 1vmin);
-  color: #2baf2b;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,7 +176,6 @@ export default styled(Todayfood)`
   justify-content: center;
 }
 .list{
-  min-width: 10rem;
   width: 100%;
 }
 .list h2{

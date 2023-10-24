@@ -1,18 +1,19 @@
-
+import { Routes, Route } from "react-router-dom";
 // import Login from "./components/Login";
-// import MyFood from "./components/MyFood";
+import MyFood from "./components/MyFood";
 // import Addfood from "./components/Addfood";
 // import Cookfood from "./components/Cookfood";
 // import Buyfood from "./components/Buyfood";
-// import Pastfood from "./components/Pastfood";
-// import PieColor from "./components/Piedayly";
+import Pastfood from "./components/Pastfood";
 // import TodayFood from "./components/TodayFood";
-// import PieAll from "./components/Pieall";
-import Datastatus from "./components/Datastatus";
+// import Datastatus from "./components/Datastatus";
 function App() {
   return (
     <>
-      <Datastatus/>
+    <Routes>
+    <Route path="/Pastfood/:name/:kcal" element={<Pastfood />} />
+    <Route path="/" element={<MyFood />} />
+    </Routes>
     </>
   );
 }

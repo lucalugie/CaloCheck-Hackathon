@@ -2,7 +2,8 @@ import React from 'react';
 import styled from "styled-components";
 
 
-const Addfood = ({ className }) => (
+const Addfood = ({ className }) => {
+  return (
   <div className={className}>
      <div className="button">
       <button  class="btn btn-active btn-secondary">⬅back</button>
@@ -27,7 +28,7 @@ const Addfood = ({ className }) => (
     </figure>
     <div className="card-body items-center text-center">
       <h2 className="card-title">ซื้อมา</h2>
-      <p>คุณซื้ออาหารมารับประทานเหรอ ?</p>
+      <p>คุณซื้ออาหารมาทาน ?</p>
       <div className="card-actions">
         <button className="btn btn-warning">Shopping</button>
       </div>
@@ -35,7 +36,7 @@ const Addfood = ({ className }) => (
   </div>
 </div>
   </div>
-);
+);};
 
 export default styled(Addfood)`
   .button {
