@@ -84,7 +84,7 @@ function AI({ className }) {
           <input
             type="file"
             accept="image/*"
-            capture="camera" 
+            capture="camera"
             style={{ display: "none" }}
             id="camera-input"
             onChange={handleFileInputChange}
@@ -135,12 +135,13 @@ function AI({ className }) {
           )}
         </div>
 
-        {/* bottom */} 
-        {selectedImage ? (<Link to="/ai-scan/confirm">
-          <div className="flex row justify-center items-center">
-           
-            <button className="btn btn-primary w-1/3 max-w-xs">Start</button>
-          </div></Link>
+        {/* bottom */}
+        {selectedImage ? (
+          <Link to="/ai-scan/confirm">
+            <div className="flex row justify-center items-center">
+              <button className="btn btn-primary w-1/3 max-w-xs">Start</button>
+            </div>
+          </Link>
         ) : (
           <div className="flex row justify-center items-center">
             <button className="btn btn-primary w-1/3 max-w-xs" disabled>
@@ -167,7 +168,7 @@ export default styled(AI)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    top: 50%
+    top: 50%;
   }
 `;
 

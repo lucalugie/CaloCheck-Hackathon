@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Settings({ className }) {
   const [formData, setFormData] = useState({
@@ -7,6 +7,7 @@ function Settings({ className }) {
     height: "",
     weight: "",
     gender: "",
+    bmi: "",
   });
   const [error, setError] = useState("");
   const [mode, setMode] = useState("display");
@@ -14,7 +15,11 @@ function Settings({ className }) {
     "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
 
   const isButtonDisabled =
-    !formData.age || !formData.height || !formData.weight || !formData.gender;
+    !formData.age ||
+    !formData.height ||
+    !formData.weight ||
+    !formData.gender ||
+    !formData.bmi;
 
   const [infoData, setInfoData] = useState({
     name: "Premey",
@@ -39,6 +44,7 @@ function Settings({ className }) {
         height: formData.height,
         weight: formData.weight,
         gender: formData.gender,
+        bmi: formData.bmi,
       });
     }
   };
@@ -49,15 +55,28 @@ function Settings({ className }) {
   };
 
   const handleEditClick = () => {
+    const BMI = calculateBMI(infoData.weight, infoData.height);
     setFormData({
       age: infoData.age,
       height: infoData.height,
       weight: infoData.weight,
       gender: infoData.gender,
+      bmi: BMI,
     });
 
     setMode("edit");
   };
+
+  function calculateBMI(weight, height) {
+    weight = parseFloat(weight);
+    height = parseFloat(height);
+    const BMI = weight / ((height * height) / 10000);
+    return parseFloat(BMI).toFixed(2);
+  }
+
+  useEffect(() => {
+    console.log("Updated formData:", formData);
+  }, []); //formdata
 
   return (
     <div className={className}>
@@ -153,7 +172,7 @@ function Settings({ className }) {
                 <div className="boxwrap-editmode m-2 p-4">
                   <div className="box flex flex-row justify-center items-center m-4">
                     <select
-                      class="select select-secondary w-full max-w-xs text-center font-bold text-xl mt-4"
+                      className="select select-secondary w-full max-w-xs text-center font-bold text-xl mt-4"
                       value={formData.gender}
                       onChange={(e) =>
                         setFormData({ ...formData, gender: e.target.value })
@@ -187,12 +206,13 @@ function Settings({ className }) {
                       ส่วนสูง
                     </div>
                     <input
-                      type="number"
+                      type="text"
                       placeholder={formData.height}
                       value={formData.height}
-                      onChange={(e) =>
-                        setFormData({ ...formData, height: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const newValue = e.target.value.replace(/[^0-9]/g, "");
+                        setFormData({ ...formData, height: newValue });
+                      }}
                       className="input input-bordered input-secondary w-1/3 max-w-xs text-center"
                     />
                     <div className="pl-4 font-bold text-xl text-center text-center">
@@ -204,12 +224,13 @@ function Settings({ className }) {
                       น้ำหนัก
                     </div>
                     <input
-                      type="number"
+                      type="text"
                       placeholder={formData.weight}
                       value={formData.weight}
-                      onChange={(e) =>
-                        setFormData({ ...formData, weight: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const newValue = e.target.value.replace(/[^0-9]/g, "");
+                        setFormData({ ...formData, weight: newValue });
+                      }}
                       className="input input-bordered input-secondary w-1/3 max-w-xs text-center"
                     />
                     <div className="pl-4 font-bold text-xl text-center">

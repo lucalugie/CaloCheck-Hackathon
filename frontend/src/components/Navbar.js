@@ -37,7 +37,10 @@ function Navbar() {
               <Link to="/datastatus">Calendar</Link>
               </li>
               <li>
-              <Link to="/ai-scan">AI scan</Link>
+              <Link to="/ai-scan">AI Scan</Link>
+              </li>
+              <li>
+              <Link to="/ig-scan">IG-story Scan</Link>
               </li>
             </ul>
           </div>

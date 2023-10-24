@@ -1,11 +1,7 @@
 import styled from "styled-components";
 
 function MyNutrition({ className, nutritionData }) {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDate.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
+
 
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
@@ -15,20 +11,7 @@ function MyNutrition({ className, nutritionData }) {
   return (
     <div className={className}>
       <div className="nutritionWrap bg-primary flex flex-col">
-        <div className="nutriNavbar flex flex-row justify-between">
-          <div className="m-4 ml-6 font-bold">Today</div>
-          <div className="join border-transparent ">
-            <button className="join-item btn bg-transparent border-transparent hover:bg-transparent hover:border-transparent">
-              «
-            </button>
-            <button className="join-item btn font-bold bg-transparent border-transparent hover:bg-transparent hover:border-transparent">
-              {formattedDate}
-            </button>
-            <button className="join-item btn bg-transparent border-transparent hover:bg-transparent hover:border-transparent">
-              »
-            </button>
-          </div>
-        </div>
+        
 
         <div className="nutrition">
           <div className="progressWrapper left">

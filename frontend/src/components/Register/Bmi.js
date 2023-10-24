@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
   const [age, setAge] = useState(dataage || "");
-  const [height, setHeight] = useState( dataheight || "");
+  const [height, setHeight] = useState(dataheight || "");
   const [weight, setWeight] = useState(dataweight || "");
   const [error, setError] = useState("");
 
@@ -23,7 +23,6 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
   const handleSubmit = () => {
     onSubmit(age, weight, height);
   };
-
 
   return (
     <div className={className}>
@@ -66,10 +65,13 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
           <div className="box flex flex-row justify-center items-center ">
             <div className="pr-4 font-bold text-xl text-center">ส่วนสูง</div>
             <input
-              type="number"
+              type="text"
               placeholder="0"
               value={height}
-              onChange={(e) => setHeight(e.target.value)}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setHeight(newValue);
+              }}
               className="input input-bordered input-secondary w-1/4 max-w-xs text-center"
             />
             <div className="pl-4 font-bold text-xl text-center text-center">
@@ -79,10 +81,13 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
           <div className="box flex flex-row justify-center items-center">
             <div className="pr-4 font-bold text-xl text-center">น้ำหนัก</div>
             <input
-              type="number"
+              type="text"
               placeholder="0"
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setWeight(newValue);
+              }}
               className="input input-bordered input-secondary w-1/4 max-w-xs text-center"
             />
             <div className="pl-4 font-bold text-xl text-center">kg.</div>

@@ -9,6 +9,7 @@ function Register() {
     age: "",
     weight: "",
     height: "",
+    bmi: "",
   });
 
   const [currentStep, setCurrentStep] = useState("Gender");
@@ -19,8 +20,8 @@ function Register() {
   };
 
   const handleBmiSubmit = (age, weight, height) => {
-    setUserData({ ...userData, age, weight, height });
-    console.log(currentStep);
+    const bmi = calculateBMI(weight, height);
+    setUserData({ ...userData, age, weight, height, bmi });
     setCurrentStep("Complete");
     // submit the data to the database.
   };
@@ -29,6 +30,13 @@ function Register() {
     setCurrentStep(step);
     console.log(currentStep);
   };
+
+  function calculateBMI(weight, height) {
+    weight = parseFloat(weight);
+    height = parseFloat(height);
+    const BMI = weight / ((height * height) / 10000);
+    return parseFloat(BMI).toFixed(2);
+  }
 
   useEffect(() => {
     console.log("Updated userData:", userData);
@@ -49,10 +57,12 @@ function Register() {
             onEdit={() => handleEditStep("Gender")}
           />
         )}
-        {currentStep === "Complete" &&userData.gender &&
+        {currentStep === "Complete" &&
+          userData.gender &&
           userData.age &&
           userData.weight &&
-          userData.height && <Complete />}
+          userData.height &&
+          userData.bmi && <Complete />}
       </div>
     </>
   );
