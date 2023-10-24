@@ -26,28 +26,53 @@ async function login(req, res) {
 
         const userId = profile.data.userId;
 
+        const member = await Users.findOne(
+            {
+                where: {
+                    userlineId: userId,
+                },
+            }
+        )
+       
+        //,{ algorithm: 'HS256' } ,{expiresIn: "1h"}
 
-         jwt.sign({ userId }, process.env.PRIVATE_KEY, { algorithm: 'HS256' }, (err, tokenid) => {
+        console.log("userId",userId)
+         jwt.sign({ userId }, process.env.PRIVATE_KEY,{ algorithm: 'HS256', expiresIn: "5 Days" }, async (err, tokenid)  => {
         if (err) {
             console.error('Error signing JWT:', err);
             return res.status(500).send('Internal Server Error');
         }
-
-        const user = Users.create({
+        if(!member){
+        const user = await Users.create({
             displayName: profile.data.displayName,
             pictureUrl: profile.data.pictureUrl,
             userlineId: profile.data.userId
         })
-        console.log("encoded",tokenid)
-        res.cookie('token', tokenid);
-        res.status(200).json(user);
-});
+        res.cookie('token', tokenid,{
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+          }).status(200).json(user);
+        }else{
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+              }).status(200).json(member);
+        }
+        console.log("encoded(Time) ",tokenid)
+
+
+    });
+        
+        
     }
 
     catch (error) 
     {
         console.log("error")
-        console.log(error)
         res.status(500).json(error)
     }
 }
@@ -68,7 +93,37 @@ async function sync() {
 
 }
 
+async function getMember(req, res) {
+    if(!req.cookies.token){
+        return res.status(400).json({
+          status: 'Failed',
+          message: 'No data',
+        });
+      }
+         jwt.verify(req.cookies.token, process.env.JWT_SECRET, async (err, decoded) => {
+          if(decoded){
+            const member = await User.findOne({username : decoded.data}, {username: 1, steam: 1, discord: 1, _id: 0});
+            if(!member){
+              return res.status(400).json({
+                status: 'Failed'
+              });
+            }else{
+              return res.status(200).json({
+              status: 'Success',
+              data: member
+            })
+            }
+          }else{
+            return res.status(400).json({
+              status: 'Failed',
+              message: err
+            })
+          }
+      })
+}
+
 module.exports = {
     login,
+    getMember
 
 }
