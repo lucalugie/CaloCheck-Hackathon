@@ -1,97 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Complete from "./Complete";
+import Gender from "./Gender";
+import Bmi from "./Bmi";
 
 function Register() {
   const [userData, setUserData] = useState({
     gender: "",
-    age: '',
-    weight: '',
-    height: '',
-    bmi: '',
+    age: "",
+    weight: "",
+    height: "",
   });
 
-  const [currentStep, setCurrentStep] = useState('Gender');
+  const [currentStep, setCurrentStep] = useState("Gender");
 
   const handleGenderSubmit = (gender) => {
     setUserData({ ...userData, gender });
-    setCurrentStep('Bmi');
+    setCurrentStep("Bmi");
   };
 
-  const handleBmiSubmit = (bmi) => {
-    setUserData({ ...userData, bmi });
+  const handleBmiSubmit = (age, weight, height) => {
+    setUserData({ ...userData, age, weight, height });
+    console.log(currentStep);
+    setCurrentStep("Complete");
     // submit the data to the database.
   };
 
   const handleEditStep = (step) => {
     setCurrentStep(step);
+    console.log(currentStep);
   };
+
+  useEffect(() => {
+    console.log("Updated userData:", userData);
+  }, [userData]);
 
   return (
     <>
       <div>
-     {currentStep === 'Gender' && (
-        <genderComponent data={userData.gender} onSubmit={handleGenderSubmit} />
-      )}
-      {currentStep === 'Bmi' && userData.gender && (
-        <BmiComponent data={{ age: userData.age, weight: userData.weight, height: userData.height, bmi: userData.bmi }} onSubmit={handleBmiSubmit} onEdit={() => handleEditStep('Gender')} />
-      )}
-      {currentStep === 'Height' && userData.gender && userData.age && userData.weight && userData.height && userData.bmi && (
-        <CompleteComponent />
-      )}
-    </div>
+        {currentStep === "Gender" && (
+          <Gender data={userData.gender} onSubmit={handleGenderSubmit} />
+        )}
+        {currentStep === "Bmi" && userData.gender && (
+          <Bmi
+            dataage={userData.age}
+            dataweight={userData.weight}
+            dataheight={userData.height}
+            onSubmit={handleBmiSubmit}
+            onEdit={() => handleEditStep("Gender")}
+          />
+        )}
+        {currentStep === "Complete" &&userData.gender &&
+          userData.age &&
+          userData.weight &&
+          userData.height && <Complete />}
+      </div>
     </>
   );
 }
 export default Register;
-
-
-// function AgeComponent({ data, onSubmit }) {
-//   const [age, setAge] = useState(data || '');
-
-//   const handleSubmit = () => {
-//     onSubmit(age);
-//   };
-
-//   return (
-//     <div>
-//       <h1>Age Input</h1>
-//       <input type="text" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} />
-//       <button onClick={handleSubmit}>Next</button>
-//     </div>
-//   );
-// }
-
-// function NameComponent({ data, onSubmit, onEdit }) {
-//   const [name, setName] = useState(data || '');
-
-//   const handleSubmit = () => {
-//     onSubmit(name);
-//   };
-
-//   return (
-//     <div>
-//       <h1>Name Input</h1>
-//       <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-//       <button onClick={handleSubmit}>Next</button>
-//       <button onClick={onEdit}>Edit</button>
-//     </div>
-//   );
-// }
-
-// function HeightComponent({ data, onSubmit, onEdit }) {
-//   const [height, setHeight] = useState(data || '');
-
-//   const handleSubmit = () => {
-//     onSubmit(height);
-//   };
-
-//   return (
-//     <div>
-//       <h1>Height Input</h1>
-//       <input type "text" placeholder="Height" value={height} onChange={(e) => setHeight(e.target.value)} />
-//       <button onClick={handleSubmit}>Complete</button>
-//       <button onClick={onEdit}>Edit</button>
-//     </div>
-//   );
-// }
-
-// export default App;

@@ -2,9 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
-// import Gender from "./components/Register/Gender";
-// import Bmi from "./components/Register/Bmi";
-// import Complete from "./components/Register/Complete";
 import Welcome from "./components/Register/Welcome";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -18,6 +15,8 @@ import Addfood from "./components/Addfood/Addfood";
 import Cookfood from "./components/Addfood/Cookfood";
 import Buyfood from "./components/Addfood/Buyfood";
 import Datastatus from "./components/DataStatus/Datastatus";
+import Register from "./components/Register/Register";
+import ConfirmAI from "./components/Scan/ConfirmAI";
 
 function App() {
   return (
@@ -29,8 +28,10 @@ function App() {
           {/* <Route path="/gender" element={<Gender />}></Route>
           <Route path="/bmi" element={<Bmi />}></Route>
           <Route path="/complete" element={<Complete />}></Route> */}
+          <Route path="/register" element={<Register />}></Route>
           <Route path="/welcome" element={<Welcome />}></Route>
           <Route path="/ai-scan" element={<AI />}></Route>
+          <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/myfood" element={<MyFood />}></Route>
           <Route path="/myfood/Pastfood/:name/:kcal" element={<Pastfood />}></Route>

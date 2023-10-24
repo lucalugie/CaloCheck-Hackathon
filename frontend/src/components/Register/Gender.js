@@ -14,17 +14,23 @@ function Gender({ className, data, onSubmit }) {
 
   const handleGenderSelection = (gender) => {
     setSelectedGender(gender);
+    console.log(gender);
   };
 
   const handleSubmit = (gender) => {
     onSubmit(gender);
+    console.log(selectedGender);
   };
+
 
   return (
     <div className={className}>
-      <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
+      <Link to="/welcome">
+       <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
         <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
-      </button>
+      </button> 
+      </Link>
+      
 
       <div className="wrap w-full h-1/2">
         <div className="title flex flex-col justify-center items-center">
@@ -71,7 +77,7 @@ function Gender({ className, data, onSubmit }) {
           <div className="flex row justify-center items-center">
             <button
               className="btn btn-primary w-1/3 max-w-xs"
-              onClick={handleSubmit}
+              onClick={ () => handleSubmit(selectedGender)}
             >
               Next
             </button>

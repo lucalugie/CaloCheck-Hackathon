@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function AI({ className }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -23,7 +24,6 @@ function AI({ className }) {
       reader.onload = (e) => {
         const base64Image = e.target.result;
         setSelectedImage(base64Image);
-        console.log(`img not null: ${base64Image}`);
         handleShowSlectedImage();
       };
       reader.readAsDataURL(file);
@@ -44,7 +44,7 @@ function AI({ className }) {
 
   return (
     <div className={className}>
-      <div className="wrap w-full h-1/2">
+      <div className="wrap w-full h-1/2 mt-14">
         <h1 className="text-2xl font-bold text-center flex flex-col justify-center items-center">
           Welcome to AI Food Scanning
         </h1>
@@ -109,7 +109,7 @@ function AI({ className }) {
           </label>
         </div>
         {/* show */}
-        <div className="flex row justify-center items-center m-4 mb-8">
+        <div className="flex row justify-center items-center mb-4">
           {showSelectedImage && selectedImage ? (
             <div className="card w-80 border border-primary aspect-w-1 aspect-h-1">
               <div className="card-body items-center text-center">
@@ -135,11 +135,12 @@ function AI({ className }) {
           )}
         </div>
 
-        {/* bottom */}
-        {selectedImage ? (
+        {/* bottom */} 
+        {selectedImage ? (<Link to="/ai-scan/confirm">
           <div className="flex row justify-center items-center">
+           
             <button className="btn btn-primary w-1/3 max-w-xs">Start</button>
-          </div>
+          </div></Link>
         ) : (
           <div className="flex row justify-center items-center">
             <button className="btn btn-primary w-1/3 max-w-xs" disabled>
@@ -163,13 +164,10 @@ export default styled(AI)`
   }
 
   .wrap {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    top: 50%
   }
 `;
 

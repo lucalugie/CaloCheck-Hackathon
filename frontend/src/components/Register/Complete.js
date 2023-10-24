@@ -7,11 +7,6 @@ import { Link } from "react-router-dom";
 function Complete({ className }) {
   return (
     <div className={className}>
-      <Link to="/bmi">
-        <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
-          <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
-        </button>
-      </Link>
 
       <div className="wrap w-full h-1/2">
         <div className="title flex flex-col justify-center items-center text-center">

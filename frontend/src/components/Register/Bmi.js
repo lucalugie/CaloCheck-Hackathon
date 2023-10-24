@@ -1,18 +1,13 @@
 import styled from "styled-components";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-function Bmi({ className, data, onSubmit, onEdit}) {
-  // const [age, setAge] = useState("");
-  // const [height, setHeight] = useState("");
-  // const [weight, setWeight] = useState("");
+function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
+  const [age, setAge] = useState(dataage || "");
+  const [height, setHeight] = useState( dataheight || "");
+  const [weight, setWeight] = useState(dataweight || "");
   const [error, setError] = useState("");
-
-  const [personal, setPersonal] = useState(data || { age: '', weight: '', height: '', bmi: '' });
-
-  const navigate = useNavigate();
 
   const isButtonDisabled = !age || !height || !weight;
 
@@ -21,21 +16,23 @@ function Bmi({ className, data, onSubmit, onEdit}) {
       setError("Please fill in all fields.");
     } else {
       setError("");
-      navigate("/complete");
+      handleSubmit();
     }
   };
 
-    const handleSubmit = () => {
-    onSubmit(personal);
+  const handleSubmit = () => {
+    onSubmit(age, weight, height);
   };
+
 
   return (
     <div className={className}>
-      <Link to="/gender">
-        <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4">
-          <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
-        </button>
-      </Link>
+      <button
+        className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4"
+        onClick={onEdit}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
+      </button>
 
       <div className="wrap w-full h-1/2">
         <div className="title flex flex-col justify-center items-center">
@@ -57,10 +54,10 @@ function Bmi({ className, data, onSubmit, onEdit}) {
             <input
               type="text"
               placeholder="0"
-              value={personal.age}
+              value={age}
               onChange={(e) => {
                 const newValue = e.target.value.replace(/[^0-9]/g, "");
-                setPersonal({ ...personal, age: newValue });
+                setAge(newValue);
               }}
               className="input input-bordered input-secondary w-1/4 max-w-xs text-center"
             />
@@ -71,8 +68,8 @@ function Bmi({ className, data, onSubmit, onEdit}) {
             <input
               type="number"
               placeholder="0"
-              value={personal.height}
-              onChange={(e) => setPersonal({ ...personal, height: e.target.value})}
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
               className="input input-bordered input-secondary w-1/4 max-w-xs text-center"
             />
             <div className="pl-4 font-bold text-xl text-center text-center">
@@ -84,8 +81,8 @@ function Bmi({ className, data, onSubmit, onEdit}) {
             <input
               type="number"
               placeholder="0"
-              value={personal.weight}
-              onChange={(e) => setPersonal({ ...personal, weight: e.target.value})}
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
               className="input input-bordered input-secondary w-1/4 max-w-xs text-center"
             />
             <div className="pl-4 font-bold text-xl text-center">kg.</div>
@@ -96,13 +93,13 @@ function Bmi({ className, data, onSubmit, onEdit}) {
         {/* form */}
         <div className="flex row justify-center items-center">
           <button
-            className={`btn btn-primary w-1/3 ${
+            className={`btn btn-success w-1/3 ${
               isButtonDisabled ? "disabled" : ""
             }`}
             disabled={isButtonDisabled}
             onClick={handleNextClick}
           >
-            Next
+            complete
           </button>
         </div>
       </div>
