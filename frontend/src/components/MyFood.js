@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {  faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 
 const MyFood = ({ className }) => {
@@ -25,30 +25,31 @@ const MyFood = ({ className }) => {
         </h1>
         <div className="Myfood--search">
           <div className="input-with-icon">
-            <FontAwesomeIcon icon={faMagnifyingGlass} className="input-icon1" />
             <input
               type="text"
               placeholder="Search..."
               className="input input-bordered w-full max-w-xs"
             />
-            <FontAwesomeIcon icon={faBarcode} className="input-icon" />
+           <button className="btn btn-accent">
+  <FontAwesomeIcon icon={faBarcode} className="input-icon" />
+</button>
           </div>
         </div>
       </div>
       <div className="Myfood--list">
         {tableData.map((item) => (
-          <Link to={`/myfood/Pastfood/${item.name}?kcal=${item.kcal}`}>
+          <Link to={`/myfood/Pastfood/${item.name}/${item.kcal}`}>
           <div
             key={item.id}
             tabIndex={0}
-            className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2"
+            className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2"style={{ minWidth: '16rem' }}
           >
             <div className="collapse-title text-xl font-medium">{item.name} </div>
             <div className="collapse-content">
               <p>
                 {item.amount} - {item.kcal} Kcal
               </p>
-              ดูข้อมูล
+              
             </div>
            
           </div></Link>
@@ -105,19 +106,15 @@ export default styled(MyFood)`
 }
 .button{
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
 }
 .input-with-icon {
   display: flex; /* ให้ข้อความและ icon อยู่ในบรรทัดเดียวกัน */
   align-items: center; /* จัดตำแหน่งให้ตรงกัน */
 }
 
-.input-icon {
-  margin-left: 1rem; /* ปรับตำแหน่งของ icon ตามที่คุณต้องการ */
-}
-.input-icon1 {
-  margin-right: 5px; /* ปรับตำแหน่งของ icon ตามที่คุณต้องการ */
-}
+
+
 .list{
   margin : 1rem;
   border-radius: 100px;

@@ -9,7 +9,7 @@ import AI from "./components/Scan/AI";
 import Settings from "./components/Register/Settings";
 // import Barcode from "./components/Scan/Barcode";
 import MyFood from "./components/MyFood";
-import Pastfood from "./components/Food/Pastfood"
+import Pastfood from "./components/Food/Pastfood";
 import TodayFood from "./components/Food/TodayFood"; 
 import Addfood from "./components/Addfood/Addfood";
 import Cookfood from "./components/Addfood/Cookfood";
@@ -38,6 +38,7 @@ function App() {
           <Route path="/myfood" element={<MyFood />}></Route>
           <Route path="/myfood/Pastfood/:name/:kcal" element={<Pastfood />}></Route>
           <Route path="/myfood/Addfood" element={<Addfood />}></Route>
+          
           <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
           <Route path="/myfood/Addfood/Buyfood" element={<Buyfood/>}></Route>
           <Route path="/datastatus" element={<Datastatus/>}></Route>

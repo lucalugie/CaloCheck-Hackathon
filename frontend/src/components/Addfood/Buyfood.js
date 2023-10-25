@@ -6,34 +6,47 @@ import { Link } from "react-router-dom";
 
 const Buyfood = ({ className }) => {
   // กำหนดค่าเริ่มต้นของ namefood เป็น ""
-  const [namefood, setNamefood] = useState("ข้าวผัด");
-  const [calories, setCalories] = useState(0);
-  const [num, setNum] = useState(0);
-  const [carbo, setCarbo] = useState(0);
-  const [protein, setProtein] = useState(0);
-  const [vegetable, setVegetable] = useState(0);
+  const [namefood, setNamefood] = useState("");
+  const [calories, setCalories] = useState('');
+  const [num, setNum] = useState('');
+  const [carbo, setCarbo] = useState('');
+  const [protein, setProtein] = useState('');
+  const [vegetable, setVegetable] = useState('');
 
   // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
   const handleNamefoodChange = (event) => {
     setNamefood(event.target.value);
   };
+  const handleCaloriesChange = (e) => {
+    const input = e.target.value;
 
-  const handleCaloriesChange = (event) => {
-    setCalories(Number(event.target.value));
-  };
 
-  const handleNumChange = (event) => {
-    setNum(Number(event.target.value));
-  };
-  const handleCarboChange = (event) => {
-    setCarbo(Number(event.target.value));
-  };
-  const handleProteinChange = (event) => {
-    setProtein(Number(event.target.value));
-  };
-  const handleVegetableChange = (event) => {
-    setVegetable(Number(event.target.value));
-  };
+    if (/^\d*$/.test(input)) {
+      setCalories(input);
+    }};
+  const handleNumChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setNum(input);
+    }};
+  const handleCarboChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setCarbo(input);
+    }};
+  const handleProteinChange = (e) => {
+    const input = e.target.value;
+
+    if (/^\d*$/.test(input)) {
+      setProtein(input);
+    }};
+  const handleVegetableChange = (e) => {
+    const input = e.target.value;
+    if (/^\d*$/.test(input)) {
+      setVegetable(input);
+    }};
 
   return (
     <div className={className}>
