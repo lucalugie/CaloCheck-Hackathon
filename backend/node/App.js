@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
 const lineRouter = require('./routes/Line/line.routes');
+const foodnutritionRounter = require('./routes/Foodnutrition/foodnutrition.routes');
 const usersRounter = require('./routes/Users/users.routes');
 const {connect, sync} = require('./config/database');
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', lineRouter);
 app.use('/users', usersRounter);
+app.use('/foodnutrition', foodnutritionRounter);
 //create server
 app.listen(3000, () => {
     console.log('Listening on port 3000');
