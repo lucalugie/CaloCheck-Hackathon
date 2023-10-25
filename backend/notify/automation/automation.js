@@ -1,56 +1,85 @@
-const Novels = require("../../node/model/User");
+const Users = require("../../node/model/User");
 const dotenv = require('dotenv');
 const axios = require('axios');
-
+const { Op } = require("sequelize");
+const Usershistory = require("../../node/model/Usershistory");
 dotenv.config();
 
 
 async function Message() {
+    try{
+        const currentTime = new Date(); //เวลาปัจจุบัน
+    
+    // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 9 โมงเช้า)
+        const notificationTimeBreakfast = new Date(); 
+        notificationTimeBreakfast.setHours(9, 0, 0, 0); //เวลาทานอาหารเช้า
+
+   
+    // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 12.30 โมงเช้า)
+    const notificationTimeLunch = new Date(); 
+    notificationTimeLunch.setHours(13, 0, 0, 0); //เวลาทานอาหารเช้า
+
+    // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ก่อน 20.00 น.)
+    const notificationTimeDinner = new Date(); 
+    notificationTimeDinner.setHours(20, 0, 0, 0); //เวลาทานอาหารเช้า
+
+  
+    setInterval(() => {
+        const currentTime = new Date();
+        if (currentTime >= notificationTimeBreakfast) {  //เช็คทุก 9.00 น.ของทุกวัน
+          sendMessageBreakfast();
+        }
+      },24 * 60 * 60 * 1000);
 
 
-      //ตั้งเวลาส่งข้อความที่กำหนด (อาหารเช้า)
-      const targetTimeBreakfast = new Date();
-      targetTimeBreakfast.setDate(targetTimeBreakfast.getDate()); // เพิ่ม 1 วัน
-      targetTimeBreakfast.setHours(18,38, 0, 0); // ตั้งเวลาเที่ยงคืน
-      const currentTimeBreakfast = new Date();
-      
-      const delayBreakfast = targetTimeBreakfast - currentTimeBreakfast;
-      setTimeout(sendMessageBreakfast, delayBreakfast);
+    setInterval(() => {
+        const currentTime = new Date();
+        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 19.00 น.ของทุกวัน
+            sendMessageLunch();
+        }
+      },24 * 60 * 60 * 1000);
+ 
+    
+      setInterval(() => {
+        const currentTime = new Date();
+        if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
+            sendMessageDinner();
+        }
+      },24 * 60 * 60 * 1000);
 
 
-      //ตั้งเวลาส่งข้อความที่กำหนด (อาหารเที่ยง)
-      const targetTimeLunch = new Date();
-      targetTimeLunch.setDate(targetTimeLunch.getDate()); // เพิ่ม 1 วัน
-      targetTimeLunch.setHours(12,30, 0, 0); // ตั้งเวลาเที่ยงคืน
-      const currentTimeLunch = new Date();
-      
-      const delayLunch = targetTimeLunch - currentTimeLunch;
-      setTimeout(sendMessageLunch, delayLunch);
 
 
-      //ตั้งเวลาส่งข้อความที่กำหนด (อาหารเย็น)
-      const targetTimeDinner = new Date();
-      targetTimeDinner.setDate(targetTimeDinner.getDate()); // เพิ่ม 1 วัน
-      targetTimeDinner.setHours(19,0, 0, 0); // ตั้งเวลาเที่ยงคืน
-      const currentTimeDinner = new Date();
-      
-      const delayDinner = targetTimeDinner - currentTimeDinner;
-      setTimeout(sendMessageDinner, delayDinner);
+
+    }
+    catch(error){
+        console.log("error from automation") 
+    }
+
+
+
 
 }
 
 //send Message
 async function sendMessageBreakfast() {
-    const novel = await Novels.findAll();
+    console.log("send message Breakfast")
+    const users = await Usershistory.findAll({
+        where: {
+            createdAt: {
+                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+            },
+        },
+    });
     try {
-        novel.forEach(async (element) => {
-            const code = element.userlineId
+        users.forEach(async (element) => {
+            const code = element.userlineid
             const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
                 to: code,
                 messages: [
                     {
                         "type": "text",
-                        "text": "แดกอาหารเช้าซะ"
+                        "text": "คุณทานอาหารเช้าเเล้วรึยัง"
                     }
                 ]
             }, {
@@ -69,13 +98,75 @@ async function sendMessageBreakfast() {
 }
   
 async function sendMessageLunch() {
-    const novel = await Novels.findAll();
+    console.log("send message Breakfast")
+    const users = await Usershistory.findAll({
+        where: {
+            createdAt: {
+                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+            },
+        },
+    });
+    try {
+        users.forEach(async (element) => {
+            const code = element.userlineid
+            const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
+                to: code,
+                messages: [
+                    {
+                        "type": "text",
+                        "text": "คุณทานอาหารกลางวันเเล้วรึยัง"
+                    }
+                ]
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
+                }
+            })
+        
+          
+        });
+    }
+    catch (error) {
+        console.log("error")
+    }
+
 
 
 }
 
 async function sendMessageDinner() {
-    const novel = await Novels.findAll();
+    console.log("send message Breakfast")
+    const users = await Usershistory.findAll({
+        where: {
+            createdAt: {
+                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+            },
+        },
+    });
+    try {
+        users.forEach(async (element) => {
+            const code = element.userlineid
+            const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
+                to: code,
+                messages: [
+                    {
+                        "type": "text",
+                        "text": "คุณทานอาหารเย็นเเล้วรึยัง"
+                    }
+                ]
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
+                }
+            })
+        
+          
+        });
+    }
+    catch (error) {
+        console.log("error")
+    }
+
 
 
 }
