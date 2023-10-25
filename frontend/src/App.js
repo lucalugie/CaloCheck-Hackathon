@@ -1,7 +1,6 @@
 import Login from "./components/Login/Login";
 import Line from "./Page/Line/line";
 import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
 import Welcome from "./components/Register/Welcome";
@@ -47,8 +46,8 @@ function App() {
 
           <Route path="/today" element={<TodayFood />}></Route>
 
-          <Route path="/" element={<Login />} />
-          <Route path="/line" element={<Line />} />
+          {/* <Route path="/" element={<Login />} />
+          <Route path="/line" element={<Line />} /> */}
         </Routes>
       </Container>
       <Footer />
