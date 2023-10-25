@@ -7,13 +7,31 @@ import { Link } from 'react-router-dom';
 const MyFood = ({ className }) => {
 
   const [tableData, setTableData] = useState([
-    { id: 1, name: "ข้าวผัด", amount: "1 x 1 จาน", kcal: 495 },
-    { id: 2, name: "ข้าวกุ้งทอด", amount: "1 x 1 จาน", kcal: 610 },
+    { id: 1, name: "ข้าวผัด", amount: "1 x 1 จาน", kcal: 495,
+    protein: 70,
+    fat: 44,
+    salt: 23,
+    sugar: 25,
+    veg: 5,
+    carb: 225 },
+    { id: 2, name: "ข้าวกุ้งทอด", amount: "1 x 1 จาน", kcal: 610,
+    protein: 70,
+    fat: 44,
+    salt: 23,
+    sugar: 25,
+    veg: 5,
+    carb: 250},
     {
       id: 3,
       name: "ข้าวสวยหอมมะลิตราอีซี่โก",
       amount: "1 x 1 จาน",
       kcal: 300,
+      protein: 70,
+      fat: 44,
+      salt: 23,
+      sugar: 25,
+      veg: 5,
+      carb: 100
     },
   ]);
 
@@ -38,7 +56,7 @@ const MyFood = ({ className }) => {
       </div>
       <div className="Myfood--list">
         {tableData.map((item) => (
-          <Link to={`/myfood/Pastfood/${item.name}/${item.kcal}`}>
+          <Link to={`/myfood/Pastfood/${item.name}/${item.kcal}/${item.amount}/${item.protein}/${item.fat}/${item.salt}/${item.sugar}/${item.veg}/${item.carb}`}>
           <div
             key={item.id}
             tabIndex={0}

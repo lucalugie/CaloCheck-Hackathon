@@ -6,7 +6,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 const pieParams = { height: 200, margin: { right: 5 } };
 
-export default function PieColor({ kcal }) {
+export default function PieColor({ kcal, carb, protein, fat, veg, sugar, salt }) {
   return (
     <Stack direction="row" width="100%" textAlign="center" spacing={2}>
       <Box flexGrow={1}>
@@ -15,12 +15,12 @@ export default function PieColor({ kcal }) {
           series={[
             {
               data: [
-                { value: 10, color: "#673ab7" },
-                { value: 15, color: "#e51c23" },
-                { value: 10, color: "#ffc107" },
-                { value: 20, color: "#259b24" },
-                { value: 20, color: "#03a9f4" },
-                { value: 20, color: "#3f51b5" },
+                { value: carb, color: "#673ab7" },
+                { value: protein, color: "#e51c23" },
+                { value: fat, color: "#ffc107" },
+                { value: veg, color: "#259b24" },
+                { value: sugar, color: "#03a9f4" },
+                { value: salt, color: "#3f51b5" },
               ],
 
               innerRadius: 20, //ช่องว่าง ตรงกลาง/ระหว่างส่วน วงใน

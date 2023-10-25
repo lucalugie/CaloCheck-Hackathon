@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
 import { useParams, useLocation } from 'react-router-dom';
@@ -7,7 +7,12 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 
 const Pastfood = ({ className }) => {
-  const { name,kcal } = useParams();
+  const { name, kcal, protein, fat, salt, sugar, veg, carb } = useParams();
+  const [quantity, setQuantity] = useState(1); // เพิ่มสถานะเก็บจำนวน
+
+  const handleQuantityChange = (event) => {
+    setQuantity(Number(event.target.value));
+  };
   return (
   <div className={className}>
      <Link to="/myfood">
@@ -15,7 +20,6 @@ const Pastfood = ({ className }) => {
           <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
         </button>
       </Link>
-    
     <div className="Text">
       <h1>
         <b>{name}</b>
@@ -41,9 +45,17 @@ const Pastfood = ({ className }) => {
            min="1"
             placeholder="1"
             className="input input-bordered input-error w-full max-w-xs"
+            value={quantity}
+            onChange={handleQuantityChange}
           />
           <br/>
-          <PieColor kcal={kcal}/>
+          <PieColor kcal={kcal* quantity}
+  protein={protein* quantity}
+  fat={fat* quantity}
+  salt={salt* quantity}
+  sugar={sugar* quantity}
+  veg={veg* quantity}
+  carb={carb* quantity}/>
         </div>
     </div>
   </div>
