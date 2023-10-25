@@ -33,7 +33,7 @@ function App() {
           <Route path="/ai-scan" element={<AI />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/myfood" element={<MyFood />}></Route>
-          <Route path="/myfood/Pastfood/:name/:kcal" element={<Pastfood />}></Route>
+          <Route path="/myfood/Pastfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb" element={<Pastfood />}></Route>
           <Route path="/myfood/Addfood" element={<Addfood />}></Route>
           
           <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
