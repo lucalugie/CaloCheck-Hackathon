@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 
+
 const sequelize = new Sequelize(
     'calocheck', // Database name
     'premesocute', // Username
@@ -31,6 +32,32 @@ async function sync() {
       'Unable to sync to the database:',
       error
 ); }
+}
+
+async function relation () { 
+try {
+  const db = {};
+  db.Sequelize = Sequelize;
+  db.sequelize = sequelize;
+  db.User = sequelize.import('./model/users');
+  db.foodnutrition = sequelize.import('../model/foodnutrition');
+  db.Usershistory = sequelize.import('../model/Usershistory');
+  db.Usershistory.hasMany(
+    db.User,
+    {
+      foreignKey:{name:'userlineid',fild:'userlineId'}
+    },
+    db.foodnutrition,
+    {
+      foreignKey:{name:'idfood',fild:'idfood'}
+    },
+    
+    );
+    db.Usershistory.belongsTo(db.User, { foreignKey: 'userlineid' });
+    db.Usershistory.belongsTo(db.foodnutrition, { foreignKey: 'idfood' });
+} catch (error) {
+  console.log("error from database");
+}
 }
 
 module.exports = {
