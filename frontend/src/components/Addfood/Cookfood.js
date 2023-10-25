@@ -152,7 +152,7 @@ const Cookfood = ({ className }) => {
             <input
               type="number"
               placeholder="Type here"
-              class="input input-bordered input-primary w-full max-w-xs"
+              className="input input-bordered input-primary w-full max-w-xs"
               value={carbo}
               onChange={handleCarboChange}
             />

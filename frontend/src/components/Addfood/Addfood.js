@@ -17,7 +17,7 @@ const Addfood = ({ className }) => {
 <div  className="cc">
   
 
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center mt-24">
   <div className="card w-96 bg-base-100 shadow-xl mx-4">
     <figure className="px-10 pt-10">
       <img src="../img/cooking.jpg" alt="Cooking" className="rounded-xl" />
