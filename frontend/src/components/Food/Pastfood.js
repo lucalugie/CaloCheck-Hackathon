@@ -23,7 +23,6 @@ const Pastfood = ({ className }) => {
     <div className="Text">
       <h1>
         <b>{name}</b>
-        {carb}
       </h1>
     </div>
     <div className="Nutritions text-accent">
