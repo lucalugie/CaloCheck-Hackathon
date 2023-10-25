@@ -10,7 +10,7 @@ function MyNutrition({ className, nutritionData }) {
 
   return (
     <div className={className}>
-      <div className="nutritionWrap bg-primary flex flex-col">
+      <div className="nutritionWrap bg-primary flex flex-col pt-5">
         
 
         <div className="nutrition">
