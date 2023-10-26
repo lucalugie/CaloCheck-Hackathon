@@ -1,4 +1,4 @@
-const Foodnutrition = require('../models/Foodnutrition');
+const Foodnutrition = require('../../model/foodnutrition');
 
 async function sendFoodnu(req, res) {
     const foods = await Foodnutrition.findAll();
