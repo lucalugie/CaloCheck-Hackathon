@@ -42,6 +42,7 @@ try {
   db.User = sequelize.import('./model/users');
   db.foodnutrition = sequelize.import('../model/foodnutrition');
   db.Usershistory = sequelize.import('../model/Usershistory');
+  db.UsersNutrition = sequelize.import('../model/UsersNutrition');
   db.Usershistory.hasMany(
     db.User,
     {
@@ -55,6 +56,9 @@ try {
     );
     db.Usershistory.belongsTo(db.User, { foreignKey: 'userlineid' });
     db.Usershistory.belongsTo(db.foodnutrition, { foreignKey: 'idfood' });
+
+    db.UsersNutrition.hasMany(db.User,{foreignKey:{name:'userlineid',fild:'userlineId'}});
+    db.UsersNutrition.belongsTo(db.User, { foreignKey: 'userlineid' });
 } catch (error) {
   console.log("error from database");
 }
@@ -63,5 +67,5 @@ try {
 module.exports = {
     sequelize,
     connect,
-    sync
+    sync,
 }

@@ -47,11 +47,13 @@ function Home({ className }) {
       <MyNutrition nutritionData={nutritionDemoData} />
       <MyInfo infoData={infoDemoData} />
       <ButtonContainer>
+      <div className="button">
         <Link to="/myfood">
           <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
             <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
           </button>
         </Link>
+        </div>
       </ButtonContainer>
     </div>
   );
@@ -64,4 +66,8 @@ const ButtonContainer = styled.div`
   margin-bottom: 3rem;
 `;
 
-export default styled(Home)``;
+export default styled(Home)`
+.button {
+    position: fixed;
+    bottom: 60px;
+  }`;
