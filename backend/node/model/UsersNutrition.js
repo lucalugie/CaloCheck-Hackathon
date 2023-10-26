@@ -56,6 +56,10 @@ const UsersNutrition = sequelize.define("usersnutritions", {
   ach_carb: {
     type: DataTypes.DOUBLE,
   },
+  ach_cal: {
+    type: DataTypes.INTEGER
+  }
+ 
 });
 
 module.exports = UsersNutrition;
