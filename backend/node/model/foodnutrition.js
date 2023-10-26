@@ -42,9 +42,6 @@ const Foodnutrition = sequelize.define('foodnutritions', {
   per_carb: {
     type: DataTypes.INTEGER
   },
-  fat: {
-    type: DataTypes.STRING
-  },
   per_fat: {
     type: DataTypes.INTEGER
   },
@@ -60,14 +57,8 @@ const Foodnutrition = sequelize.define('foodnutritions', {
   per_veg: {
     type: DataTypes.INTEGER
   },
-  sugar: {
-    type: DataTypes.STRING
-  },
   per_sugar: {
     type: DataTypes.INTEGER
-  },
-  salt: {
-    type: DataTypes.STRING
   },
   per_salt: {
     type: DataTypes.INTEGER
