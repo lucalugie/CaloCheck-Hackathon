@@ -6,6 +6,8 @@ const lineRouter = require('./routes/Line/line.routes');
 const usersRounter = require('./routes/Users/users.routes');
 const {connect, sync} = require('./config/database');
 
+
+
 // const routes = require('./Routes');
 const morgan = require('morgan');
 
@@ -34,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', lineRouter);
 app.use('/users', usersRounter);
+
 //create server
 app.listen(3000, () => {
     console.log('Listening on port 3000');
