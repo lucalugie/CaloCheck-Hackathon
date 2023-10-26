@@ -109,7 +109,7 @@ const Cookfood = ({ className }) => {
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">จำนวน</span>
-              <span className="label-text-alt">ช้อนโต๊ะ</span>
+              <span className="label-text-alt">ทัพพี</span>
             </label>
             <input
               type="text"
@@ -168,7 +168,7 @@ const Cookfood = ({ className }) => {
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">จำนวน</span>
-              <span className="label-text-alt">ช้อนโต๊ะ</span>
+              <span className="label-text-alt">ทัพพี</span>
             </label>
             <input
               type="text"
@@ -204,7 +204,7 @@ const Cookfood = ({ className }) => {
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text1">น้ำตาล</span>
-              <span className="label-text-alt">ช้อนชา</span>
+              <span className="label-text-alt">ช้อนโต๊ะ</span>
             </label>
             <input
               type="text"
