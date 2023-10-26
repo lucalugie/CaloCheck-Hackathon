@@ -60,7 +60,12 @@ const Buyfood = ({ className }) => {
               className="input input-bordered w-full max-w-xs"
               value={calories}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setCalories(newValue);
               }}
             />
@@ -114,7 +119,12 @@ const Buyfood = ({ className }) => {
               class="input input-bordered input-primary w-full max-w-xs"
               value={carbo}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setCarbo(newValue);
               }}
             />
@@ -148,7 +158,12 @@ const Buyfood = ({ className }) => {
               className="input input-bordered input-secondary w-full max-w-xs"
               value={protein}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setProtein(newValue);
               }}
             />
@@ -173,7 +188,12 @@ const Buyfood = ({ className }) => {
               className="input input-bordered input-success w-full max-w-xs"
               value={vegetable}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setVegetable(newValue);
               }}
             />

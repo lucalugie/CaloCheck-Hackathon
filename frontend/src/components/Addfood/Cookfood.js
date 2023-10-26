@@ -63,7 +63,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered w-full max-w-xs"
               value={calories}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setCalories(newValue);
               }}
             />
@@ -117,7 +122,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-primary w-full max-w-xs"
               value={carbo}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setCarbo(newValue);
               }}
             />
@@ -151,7 +161,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-secondary w-full max-w-xs"
               value={protein}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setProtein(newValue);
               }}
             />
@@ -176,7 +191,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-success w-full max-w-xs"
               value={vegetable}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setVegetable(newValue);
               }}
             />
@@ -194,7 +214,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-warning w-full max-w-xs"
               value={fat}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setFat(newValue);
               }}
             />
@@ -212,7 +237,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-error w-full max-w-xs"
               value={sugar}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setSugar(newValue);
               }}
             />
@@ -230,7 +260,12 @@ const Cookfood = ({ className }) => {
               className="input input-bordered input-info w-full max-w-xs"
               value={salt}
               onChange={(e) => {
-                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                let newValue = e.target.value;
+
+                if (newValue.split(".").length > 2) {
+                  newValue = newValue.substring(0, newValue.lastIndexOf("."));
+                }
+                newValue = newValue.replace(/[^0-9.]/g, "");
                 setSalt(newValue);
               }}
             />

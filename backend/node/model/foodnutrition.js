@@ -34,34 +34,34 @@ const Foodnutrition = sequelize.define('foodnutritions', {
     type: DataTypes.INTEGER
   },
   cal: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   carb: {
     type: DataTypes.STRING
   },
   per_carb: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   per_fat: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   protein: {
     type: DataTypes.STRING
   },
   per_protein: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   veg: {
     type: DataTypes.STRING
   },
   per_veg: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   per_sugar: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   per_salt: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   }
  
 });
