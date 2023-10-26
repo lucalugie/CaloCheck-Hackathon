@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+
+
 function Home({ className }) {
   const infoDemoData = {
     name: "Premey",
@@ -36,6 +38,9 @@ function Home({ className }) {
     ach_veg: 4,
     ach_carb: 195,
   };
+
+
+
 
   return (
     <div className={className}>

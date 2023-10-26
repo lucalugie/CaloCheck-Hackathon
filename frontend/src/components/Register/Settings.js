@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 
+
 function Settings({ className }) {
+
+
+
   const [formData, setFormData] = useState({
     age: "",
     height: "",

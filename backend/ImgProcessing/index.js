@@ -1,10 +1,16 @@
 const express = require('express');
 const multer = require("multer");
 const utils = require('./utils/utils');
-
+const cors = require('cors');
 const app = express();
 const upload = multer();
 
+
+const corsOptions = {
+    origin: 'http://localhost:3001',
+    credentials : true
+  }
+  app.use(cors(corsOptions));
 
 app.post('/detect', upload.single('image_file'), async function (req, res) {
     if(!req.file) {
@@ -14,6 +20,6 @@ app.post('/detect', upload.single('image_file'), async function (req, res) {
     res.json(boxes);
 });
 
-app.listen(3000, () => {
-    console.log('Server is listening on port 3000')
+app.listen(3002, () => {
+    console.log('Server is listening on port 3002')
 });

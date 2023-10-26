@@ -1,11 +1,14 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import API from "../../constant/API";
 import { useDispatch, useSelector } from "react-redux";
-import {setUser} from "../../store/userSlice";
+import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi} from "../../store/userSlice";
 export default function LineFunction() {
 const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();
+const navigate = useNavigate();
+const user = useSelector((state) => state.user);
+
   useEffect(() => {
     const code = queryParameters.get("code")
     if(code){
@@ -20,10 +23,18 @@ const dispatch = useDispatch();
         })
       }).then(res => res.json())
       .then(data => {
-    dispatch(setUser(data));
+        if(data.type === "register"){
+          const {member} = data;
+          dispatch(setType(data.type));
+          dispatch(setLineID(member.userlineId));
+          dispatch(setDisplayName(member.displayName));
+          dispatch(setPictureUrl(member.pictureUrl));
+        }
       })
     }
 
   },[])
+
+return {user, navigate}
 
 }

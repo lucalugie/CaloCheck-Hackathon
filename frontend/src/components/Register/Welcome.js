@@ -1,6 +1,10 @@
 import styled from "styled-components";
+import React from 'react';
+import LoginFunction from '../Login/LoginFunction';
+const { REACT_APP_CLIENT_ID, REACT_APP_REDIRECT_URI } = process.env;
 
 function Welcome({ className }) {
+  const {randomState} = LoginFunction();
   return (
     <div className={className}>
       <div className="wrap flex flex-col justify-center items-center h-screen">
@@ -8,7 +12,7 @@ function Welcome({ className }) {
           <img src="../logo/logo.png" alt="caloCheck" />
           <h1 className="font-bold text-2xl text-center">your guide to food balance+</h1>
         </div>
-        <button className="btn btn-active btn-primary m-4 w-1/2 max-w-xs">login with Line</button>
+        <a className="btn btn-active btn-primary m-4 w-1/2 max-w-xs"  href={`https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${REACT_APP_REDIRECT_URI}&state=${randomState}&scope=profile%20openid`}>login with Line</a>
         {/* <button className="btn btn-outline btn-primary w-1/2 max-w-xs mb-28">Primary</button> */}
       </div>
 

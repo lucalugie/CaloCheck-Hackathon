@@ -14,6 +14,26 @@ const Users = sequelize.define("users",
   pictureUrl: {
     type: DataTypes.TEXT,
     allowNull:true
+  },
+  gender:{
+    type: DataTypes.STRING,
+    allowNull:true
+  },
+  weight:{
+    type: DataTypes.STRING,
+    allowNull:true
+  },
+  height:{
+    type: DataTypes.STRING,
+    allowNull:true
+  },
+  cal:{
+    type: DataTypes.INTEGER,
+    allowNull:true
+  },
+  bmi:{
+    type: DataTypes.STRING,
+    allowNull:true
   }
 
 },

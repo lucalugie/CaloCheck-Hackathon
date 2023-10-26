@@ -1,6 +1,5 @@
-import Login from "./components/Login/Login";
-import Line from "./Page/Line/line";
-import { Routes, Route } from "react-router-dom";
+
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
 import Welcome from "./components/Register/Welcome";
@@ -16,18 +15,44 @@ import Addfood from "./components/Addfood/Addfood";
 import Cookfood from "./components/Addfood/Cookfood";
 import Buyfood from "./components/Addfood/Buyfood";
 import Datastatus from "./components/DataStatus/Datastatus";
-import Register from "./components/Register/Register";
 import ConfirmAI from "./components/Scan/ConfirmAI";
 import IG from "./components/Scan/IG";
 
+//Pim added
+import Line from "./Page/Line/line";
+
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {setType, setLineID, setDisplayName, setPictureUrl} from "./store/userSlice";
 function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    
+      method:"POST",
+      credentials: 'include',
+      headers:{
+          "Content-Type": "application/json",
+      },
+      })
+      .then(res => res.json())
+      .then(data => {
+          if(data.type === "login"){
+            dispatch(setType(data.type))
+          }else if(data.type === "register"){
+            dispatch(setType(data.type))
+            navigate("/line");
+          }
+      })
+  },[])
+
   return (
     <>
       <Navbar />
       <Container>
         <Routes>
+          <Route path="/line" element={<Line />}></Route>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/register" element={<Register />}></Route>
           <Route path="/welcome" element={<Welcome />}></Route>
           <Route path="/ai-scan" element={<AI />}></Route>
           <Route path="/ig-scan" element={<IG />}></Route>

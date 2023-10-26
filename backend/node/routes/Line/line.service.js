@@ -9,15 +9,16 @@ dotenv.config();
 async function login(req, res) {
     try {
         const {code} = req.body
-        const token = await axios.post(API.token, {
-            grant_type: "authorization_code",
-            code: code,
-            redirect_uri: process.env.REDIRECT_URI,
-            client_id: process.env.CLIENT_ID,
-            client_secret: process.env.CLIENT_SECRET
+        const token = await axios.post(API.token,{
+            'grant_type': 'authorization_code',
+            'code': code,
+            'client_id': process.env.CLIENT_ID,
+            'client_secret': process.env.CLIENT_SECRET,
+            'redirect_uri': process.env.REDIRECT_URI
         }, 
         {headers: {'content-type': 'application/x-www-form-urlencoded'}})
-        
+
+
         const profile = await axios.get(API.profile, {
             headers: {
                 Authorization: `Bearer ${token.data.access_token}`
@@ -33,8 +34,7 @@ async function login(req, res) {
                 },
             }
         )
-       
-        //,{ algorithm: 'HS256' } ,{expiresIn: "1h"}
+  
 
         console.log("userId",userId)
          jwt.sign({ userId }, process.env.PRIVATE_KEY,{ algorithm: 'HS256', expiresIn: "5 Days" }, async (err, tokenid)  => {
@@ -46,23 +46,31 @@ async function login(req, res) {
         const user = await Users.create({
             displayName: profile.data.displayName,
             pictureUrl: profile.data.pictureUrl,
-            userlineId: profile.data.userId
+            userlineId: profile.data.userId,
         })
+        console.log("user",user)
         res.cookie('token', tokenid,{
             httpOnly: true,
             secure: true,
             sameSite: 'lax',
             expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
-          }).status(200).json(user);
+          }).status(200).json({type: "register", member: user});
+        }else if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+              }).status(200).json({type: "login", member});
         }else{
             res.cookie('token', tokenid,{
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
                 expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
-              }).status(200).json(member);
+            }).status(200).json({type: "register", member});
         }
-        console.log("encoded(Time) ",tokenid)
+
 
 
     });

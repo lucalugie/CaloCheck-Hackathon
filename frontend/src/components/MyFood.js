@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+
+
 const MyFood = ({ className }) => {
   const [tableData, setTableData] = useState([
     {
@@ -44,6 +46,10 @@ const MyFood = ({ className }) => {
     },
   ]);
 
+
+
+
+
   return (
     <div className={className}>
       <div className="Myfood--box">
@@ -57,7 +63,7 @@ const MyFood = ({ className }) => {
               placeholder="Search..."
               className="input input-bordered w-full max-w-xs"
             />
-            <button className="btn btn-accent ml-2">
+            <button className="btn btn-accent ml-2" >
               <FontAwesomeIcon icon={faBarcode} className="input-icon" />
             </button>
           </div>
