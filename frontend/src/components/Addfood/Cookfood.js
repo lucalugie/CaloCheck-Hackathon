@@ -7,64 +7,20 @@ import { Link } from "react-router-dom";
 const Cookfood = ({ className }) => {
   // กำหนดค่าเริ่มต้นของ namefood เป็น ""
   const [namefood, setNamefood] = useState("");
-  const [calories, setCalories] = useState('');
-  const [num, setNum] = useState('');
-  const [carbo, setCarbo] = useState('');
-  const [protein, setProtein] = useState('');
-  const [vegetable, setVegetable] = useState('');
-  const [fat, setFat] = useState('');
-  const [sugar, setSugar] = useState('');
-  const [salt, setSalt] = useState('');
+  const [calories, setCalories] = useState("");
+  const [num, setNum] = useState("");
+  const [carbo, setCarbo] = useState("");
+  const [protein, setProtein] = useState("");
+  const [vegetable, setVegetable] = useState("");
+  const [fat, setFat] = useState("");
+  const [sugar, setSugar] = useState("");
+  const [salt, setSalt] = useState("");
 
   // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
   const handleNamefoodChange = (event) => {
     setNamefood(event.target.value);
   };
-  const handleCaloriesChange = (e) => {
-    const input = e.target.value;
 
-
-    if (/^\d*$/.test(input)) {
-      setCalories(input);
-    }};
-  const handleNumChange = (e) => {
-    const input = e.target.value;
-
-    if (/^\d*$/.test(input)) {
-      setNum(input);
-    }};
-  const handleCarboChange = (e) => {
-    const input = e.target.value;
-
-    if (/^\d*$/.test(input)) {
-      setCarbo(input);
-    }};
-  const handleProteinChange = (e) => {
-    const input = e.target.value;
-
-    if (/^\d*$/.test(input)) {
-      setProtein(input);
-    }};
-  const handleVegetableChange = (e) => {
-    const input = e.target.value;
-    if (/^\d*$/.test(input)) {
-      setVegetable(input);
-    }};
-  const handleFatChange = (e) => {
-    const input = e.target.value;
-    if (/^\d*$/.test(input)) {
-      setFat(input);
-    }};
-  const handleSugarChange = (e) => {
-    const input = e.target.value;
-    if (/^\d*$/.test(input)) {
-      setSugar(input);
-    }};
-  const handleSaltChange = (e) => {
-    const input = e.target.value;
-    if (/^\d*$/.test(input)) {
-      setSalt(input);
-    }};
 
   return (
     <div className={className}>
@@ -102,11 +58,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">Kcal</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
               value={calories}
-              onChange={handleCaloriesChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setCalories(newValue);
+              }}
             />
           </div>
         </div>
@@ -118,11 +77,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">จาน</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
               value={num}
-              onChange={handleNumChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setNum(newValue);
+              }}
             />
           </div>
         </div>
@@ -150,11 +112,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนโต๊ะ</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-primary w-full max-w-xs"
               value={carbo}
-              onChange={handleCarboChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setCarbo(newValue);
+              }}
             />
           </div>
         </div>
@@ -181,11 +146,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนโต๊ะ</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-secondary w-full max-w-xs"
               value={protein}
-              onChange={handleProteinChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setProtein(newValue);
+              }}
             />
           </div>
         </div>
@@ -203,11 +171,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนโต๊ะ</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-success w-full max-w-xs"
               value={vegetable}
-              onChange={handleVegetableChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setVegetable(newValue);
+              }}
             />
           </div>
         </div>
@@ -218,11 +189,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนโต๊ะ</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-warning w-full max-w-xs"
               value={fat}
-              onChange={handleFatChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setFat(newValue);
+              }}
             />
           </div>
         </div>
@@ -233,11 +207,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนชา</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-error w-full max-w-xs"
               value={sugar}
-              onChange={handleSugarChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setSugar(newValue);
+              }}
             />
           </div>
         </div>
@@ -248,11 +225,14 @@ const Cookfood = ({ className }) => {
               <span className="label-text-alt">ช้อนชา</span>
             </label>
             <input
-              type="number"
+              type="text"
               placeholder="Type here"
               className="input input-bordered input-info w-full max-w-xs"
               value={salt}
-              onChange={handleSaltChange}
+              onChange={(e) => {
+                const newValue = e.target.value.replace(/[^0-9]/g, "");
+                setSalt(newValue);
+              }}
             />
           </div>
         </div>
