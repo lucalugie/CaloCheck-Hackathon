@@ -7,6 +7,8 @@ userRouter.post('/',async (req, res) => {
    return await service.getMember(req, res);
 });
 
-
+userRouter.put('/PersonalInformations',async (req, res) => {
+   return await service.addInfo(req, res);
+});
 
 module.exports = userRouter;

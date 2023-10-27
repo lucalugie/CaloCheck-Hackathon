@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState,useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+
+
+import ConfirmAI from "./ConfirmAI";
+import { setName,setUrl,setLoading } from "../../store/aiPageSlice";
+import { useDispatch } from "react-redux";
 function AI({ className }) {
+  const inputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [showSelectedImage, setShowSelectedImage] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(inputRef.current.files);
+  },[inputRef]);
 
   const handleImageSelection = (image) => {
     if (selectedImage === image) {
@@ -42,6 +54,39 @@ function AI({ className }) {
     console.log("show not");
   };
 
+  //pimadded
+  const AIchecked =  () => {
+    // console.log("use AI checked",selectedImage);
+    dispatch(setLoading(true));
+      var formdata = new FormData();
+      formdata.append("image_file", inputRef.current.files[0]);
+      var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+      };
+      fetch(`${process.env.REACT_APP_SCAN_PHOTO}/detect`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          if(result.length>0){
+            dispatch(setName(result[0][4]));
+            dispatch(setUrl(selectedImage));
+            dispatch(setLoading(false));
+          }
+         else {
+        
+          dispatch(setName("ข้อมูลอาหารชนิดนี้ยังไม่มีในระบบ"));
+          dispatch(setUrl(""));
+          dispatch(setLoading(false));
+          }
+      
+          
+        })
+
+        
+  }
+  
+
   return (
     <div className={className}>
       <div className="wrap w-full h-1/2 mt-14">
@@ -56,6 +101,7 @@ function AI({ className }) {
 
         <div className="flex justify-center items-center">
           <input
+           ref={inputRef}
             type="file"
             accept="image/*"
             style={{ display: "none" }}
@@ -64,7 +110,8 @@ function AI({ className }) {
           />
           <label
             htmlFor="file-input"
-            className={`grid-gallery h-64 max-w-sm flex-grow justify-center card bg-secondary rounded-box place-items-center m-4 cursor-pointer duration-100 ${
+            className={`grid-gallery h-64 max-w-sm flex-grow justify-center card bg-secondary rounded-box place-items-center m-4 cursor-pointer duration-100 
+            ${
               selectedImage === "gallery" ? "selected" : ""
             }`}
             onClick={() => {
@@ -92,7 +139,8 @@ function AI({ className }) {
 
           <label
             htmlFor="camera-input"
-            className={`grid-camera h-64 max-w-sm flex-grow justify-center card bg-accent rounded-box place-items-center m-4 cursor-pointer duration-100 ${
+            className={`grid-camera h-64 max-w-sm flex-grow justify-center card bg-accent rounded-box place-items-center m-4 cursor-pointer duration-100 
+            ${
               selectedImage === "camera" ? "selected" : ""
             }`}
             onClick={() => {
@@ -137,11 +185,12 @@ function AI({ className }) {
 
         {/* bottom */}
         {selectedImage ? (
-          <Link to="/ai-scan/confirm">
+          <Link to="/ai-scan/confirm" element={<ConfirmAI ></ConfirmAI>}>
             <div className="flex row justify-center items-center">
-              <button className="btn btn-primary w-1/3 max-w-xs">Start</button>
+              <button className="btn btn-primary w-1/3 max-w-xs" onClick={() => AIchecked()}>Start</button>
             </div>
           </Link>
+
         ) : (
           <div className="flex row justify-center items-center">
             <button className="btn btn-primary w-1/3 max-w-xs" disabled>

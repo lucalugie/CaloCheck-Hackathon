@@ -98,7 +98,6 @@ async function sendMessageBreakfast() {
 }
   
 async function sendMessageLunch() {
-    console.log("send message Breakfast")
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
@@ -135,7 +134,6 @@ async function sendMessageLunch() {
 }
 
 async function sendMessageDinner() {
-    console.log("send message Breakfast")
     const users = await Usershistory.findAll({
         where: {
             createdAt: {

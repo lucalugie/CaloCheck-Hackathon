@@ -5,7 +5,6 @@ import {BrowserRouter,Routes,Route} from "react-router-dom";
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {setUser} from "./store/userSlice";
 function App() {
 
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
           console.log("cookie success",data)
-          dispatch(setUser(data));
+          
       
       })
   },[])

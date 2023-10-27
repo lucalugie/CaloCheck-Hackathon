@@ -3,7 +3,10 @@ import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
 
+
 function Register() {
+
+
   const [userData, setUserData] = useState({
     gender: "",
     age: "",
@@ -17,18 +20,20 @@ function Register() {
   const handleGenderSubmit = (gender) => {
     setUserData({ ...userData, gender });
     setCurrentStep("Bmi");
+
   };
 
   const handleBmiSubmit = (age, weight, height) => {
     const bmi = calculateBMI(weight, height);
     setUserData({ ...userData, age, weight, height, bmi });
     setCurrentStep("Complete");
-    // submit the data to the database.
+    addProsonalInfo();
   };
 
   const handleEditStep = (step) => {
     setCurrentStep(step);
     console.log(currentStep);
+
   };
 
   function calculateBMI(weight, height) {
@@ -41,6 +46,29 @@ function Register() {
   useEffect(() => {
     console.log("Updated userData:", userData);
   }, [userData]);
+
+  const addProsonalInfo = () => {
+    fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
+      method: "PUT", // เปลี่ยน method เป็น PUT
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        gender:userData.gender,
+        age:userData.age,
+        weight:userData.weight,
+        height:userData.height,
+        bmi:userData.bmi
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+    })
+  }
+
+
 
   return (
     <>
@@ -64,6 +92,7 @@ function Register() {
           userData.height &&
           userData.bmi && <Complete />}
       </div>
+
     </>
   );
 }
