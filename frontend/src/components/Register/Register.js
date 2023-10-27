@@ -26,15 +26,15 @@ function Register() {
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
-    console.log("Before findDefaultInfo:", userData.cal);
-    findDefaultInfo(userData.gender, ageAsNumber);
+    // console.log("Before findDefaultInfo:", userData.cal);
+    // findDefaultInfo(userData.gender, ageAsNumber);
     setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
-      cal: kcal_total,
+      // cal: kcal_total,
     });
     setCurrentStep("Complete");
     addProsonalInfo();
@@ -71,7 +71,7 @@ function Register() {
         weight: userData.weight,
         height: userData.height,
         bmi: userData.bmi,
-        cal: userData.cal,
+        // cal: userData.cal,
       }),
     })
       .then((res) => res.json())
@@ -101,7 +101,7 @@ function Register() {
           userData.weight &&
           userData.height &&
           userData.bmi &&
-          userData.cal && <Complete />}
+         <Complete />}
       </div>
     </>
   );
