@@ -14,7 +14,7 @@ const morgan = require("morgan");
 const corsOptions = {
   origin: "http://localhost:3001",
   credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  
 };
 
 // Connect to the database

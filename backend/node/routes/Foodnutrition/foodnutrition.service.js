@@ -44,8 +44,7 @@ async function searchmenu(req, res) {
       }
     });
     if (food) {
-      res.status(200).json(food); 
-      
+      res.status(200).json(food);
     } else {
       res.status(404).json({ message: "food not found" });
     }
