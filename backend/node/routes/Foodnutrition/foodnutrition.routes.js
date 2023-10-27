@@ -13,6 +13,10 @@ router.get('/:idfood', async (req, res) => {
   router.post('/', async (req, res) => {
      return service.createFoodnu(req, res)
    });
+
+router.get('/search', (req, res) => {
+    return service.searchmenu(req, res);
+});
   
   module.exports = router;
   
