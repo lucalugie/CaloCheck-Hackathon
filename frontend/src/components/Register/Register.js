@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
+const { findDefaultInfo } = require('../../Convert/defaltFunction');
 
 function Register() {
   const [userData, setUserData] = useState({
@@ -77,6 +78,32 @@ function Register() {
         console.log(data);
       });
   };
+
+  async function registerUser(userData) {
+    try {
+      const { age, gender } = userData;
+      findDefaultInfo(gender, age);
+  
+      const userNutritionData = {
+        userlineId: userData.userlineId, 
+        kcal_total,
+        gramsVeg,
+        gramsSodium,
+        gramsCarb,
+        gramsSugar,
+        gramsFat,
+        gramsProtein,
+      };
+  
+      // Save the user's nutritional information in the database
+      // You should implement the logic to save this data in your database
+      // For example, using a Sequelize model if you are using a SQL database
+      // Or using an equivalent method if you are using a NoSQL database
+      // Continue with the rest of the registration process
+    } catch (error) {
+      console.error('User registration failed:', error);
+    }
+  }
 
   return (
     <>
