@@ -3,16 +3,13 @@ import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
 
-
 function Register() {
-
-
   const [userData, setUserData] = useState({
     gender: "",
-    age: "",
-    weight: "",
-    height: "",
-    bmi: "",
+    age: 0,
+    weight: 0,
+    height: 0,
+    bmi: 0,
   });
 
   const [currentStep, setCurrentStep] = useState("Gender");
@@ -20,20 +17,28 @@ function Register() {
   const handleGenderSubmit = (gender) => {
     setUserData({ ...userData, gender });
     setCurrentStep("Bmi");
-
   };
 
   const handleBmiSubmit = (age, weight, height) => {
-    const bmi = calculateBMI(weight, height);
-    setUserData({ ...userData, age, weight, height, bmi });
+    const ageAsNumber = parseInt(age, 10);
+    const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
+    const weightAsNumber = parseInt(weight, 10);
+    const heightAsNumber = parseInt(height, 10);
+    setUserData({
+      ...userData,
+      age: ageAsNumber,
+      weight: weightAsNumber,
+      height: heightAsNumber,
+      bmi: bmiAsNumber,
+    });
     setCurrentStep("Complete");
-    addProsonalInfo();
+    putTodb();
+
   };
 
   const handleEditStep = (step) => {
     setCurrentStep(step);
     console.log(currentStep);
-
   };
 
   function calculateBMI(weight, height) {
@@ -43,8 +48,13 @@ function Register() {
     return parseFloat(BMI).toFixed(2);
   }
 
+  function putTodb(){
+    addProsonalInfo();
+  }
+
   useEffect(() => {
     console.log("Updated userData:", userData);
+    putTodb();
   }, [userData]);
 
   const addProsonalInfo = () => {
@@ -55,20 +65,18 @@ function Register() {
       },
       credentials: "include",
       body: JSON.stringify({
-        gender:userData.gender,
-        age:userData.age,
-        weight:userData.weight,
-        height:userData.height,
-        bmi:userData.bmi
-      })
+        gender: userData.gender,
+        age: userData.age,
+        weight: userData.weight,
+        height: userData.height,
+        bmi: userData.bmi,
+      }),
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-  }
-
-
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   return (
     <>
@@ -92,7 +100,6 @@ function Register() {
           userData.height &&
           userData.bmi && <Complete />}
       </div>
-
     </>
   );
 }

@@ -53,6 +53,27 @@ catch (error) {
 }
 }
 
+async function searchmenu(req, res) {
+try{
+const nameToSearch = req.query.name;
+  const food = await Foodnutrition.findAll({
+    where: {
+      name: {
+        [Op.like]: `%${nameToSearch}%`
+      }
+    }
+  });
+  if (food) {
+    res.status(200).json(food); 
+  } else {
+    res.status(404).json({ message: "food not found" });
+  }
+}
+catch (error) {
+  console.error(error);
+}
+}
+
 module.exports = {
     sendFoodnu,
     findFoodnu,

@@ -7,7 +7,7 @@ export default function LineFunction() {
 const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();
 const navigate = useNavigate();
-const user = useSelector((state) => state.user);
+const user = useSelector((state) => state.search);
 
   useEffect(() => {
     const code = queryParameters.get("code")

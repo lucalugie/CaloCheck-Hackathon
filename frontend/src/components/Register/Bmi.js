@@ -4,24 +4,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
-  const [age, setAge] = useState(dataage || "");
-  const [height, setHeight] = useState(dataheight || "");
-  const [weight, setWeight] = useState(dataweight || "");
+  const [age, setAge] = useState(dataage || 0);
+  const [height, setHeight] = useState(dataheight || '');
+  const [weight, setWeight] = useState(dataweight || '');
   const [error, setError] = useState("");
 
   const isButtonDisabled = !age || !height || !weight;
 
-  const handleNextClick = () => {
+  const handleNextClick = (newage, newweight, newheight) => {
     if (isButtonDisabled) {
       setError("Please fill in all fields.");
     } else {
       setError("");
-      handleSubmit();
+      handleSubmit(newage, newweight, newheight);
     }
   };
 
-  const handleSubmit = () => {
-    onSubmit(age, weight, height);
+  const handleSubmit = (newage, newweight, newheight) => {
+    onSubmit(newage, newweight, newheight);
   };
 
   return (
@@ -65,7 +65,7 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
           <div className="box flex flex-row justify-center items-center ">
             <div className="pr-4 font-bold text-xl text-center">ส่วนสูง</div>
             <input
-              type="text"
+              type="number"
               placeholder="0"
               value={height}
               onChange={(e) => {
@@ -81,7 +81,7 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
           <div className="box flex flex-row justify-center items-center">
             <div className="pr-4 font-bold text-xl text-center">น้ำหนัก</div>
             <input
-              type="text"
+              type="number"
               placeholder="0"
               value={weight}
               onChange={(e) => {
@@ -102,7 +102,7 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
               isButtonDisabled ? "disabled" : ""
             }`}
             disabled={isButtonDisabled}
-            onClick={handleNextClick}
+            onClick={() => handleNextClick(age, weight, height)}
           >
             complete
           </button>
