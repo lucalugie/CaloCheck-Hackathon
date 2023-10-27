@@ -13,7 +13,7 @@ const { connect, sync } = require("./config/database");
 const morgan = require("morgan");
 
 const corsOptions = {
-  origin: "http://localhost:3001",
+  origin: ['http://localhost:3001','http://192.168.0.50:3000'],
   credentials: true,
 };
 

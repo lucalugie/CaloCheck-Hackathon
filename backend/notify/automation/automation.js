@@ -34,7 +34,7 @@ async function Message() {
 
     setInterval(() => {
         const currentTime = new Date();
-        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 19.00 น.ของทุกวัน
+        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 12.00 น.ของทุกวัน
             sendMessageLunch();
         }
       },24 * 60 * 60 * 1000);

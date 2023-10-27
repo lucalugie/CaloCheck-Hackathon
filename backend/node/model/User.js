@@ -28,9 +28,6 @@ const Users = sequelize.define(
     bmi: {
       type: DataTypes.INTEGER,
     },
-    cal: {
-      type: DataTypes.INTEGER,
-    },
     age: {
        type: DataTypes.INTEGER,
     }
