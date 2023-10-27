@@ -2,7 +2,7 @@ import { useState , Fragment} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
-import SearchList from "@Component/Calendar/SearchList";
+import SearchList from "./SearchList";
 const useViewModel = () =>{
     
         const [studentCheckedList,setStudentCheckedList] = useState([]);
@@ -61,57 +61,12 @@ const useViewModel = () =>{
                     </div>
                 );
 
-            }else if(day === 25){
-                calendarDays.push(
-                    <div onClick={() => console.log("special ",day, month, year)} key={day} className="btn btn-ghost h-28 text-warning">
-                        {day}
-                        <div className="hidden lg:block badge badge-warning">
-                            เรียน
-                        </div>
-                    </div>
-                );
             }else{
                 calendarDays.push(
                 <Fragment key={day}>
-                    <div onClick={()=>document.getElementById(`${day}${month}${year}`).showModal()}  className="btn btn-ghost h-28">
+                    <div onClick={()=>console.log("normal ",day, month, year)} className="btn btn-ghost h-28">
                         {day}
                     </div>
-                    <dialog id={`${day}${month}${year}`} className="modal">
-                        <div className="modal-box">
-                            <form method="dialog">
-                            <button onClick={() => setStudentCheckedList([])}className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                            </form>
-                            <h3 className="font-bold text-lg">{day}/{month}/{year}</h3>
-                            <div className="py-4">
-                                <form className="form-control gap-2" onSubmit={(e) => handleSubmit(e)}>
-                                    <label className="input-group">
-                                        <span className="basis-1/4">เหตุการณ์</span>
-                                        <input name="event" required autoComplete="off" type="text" placeholder="ชื่อเหตุการณ์" className="input input-bordered flex-1" />
-                                    </label>
-                                    <label className="input-group">
-                                        <span className="basis-1/4">ช่องทาง</span>
-                                        <input name="link" required autoComplete="off" type="text" placeholder="เช่น zoom" className="input input-bordered flex-1" />
-                                    </label>
-                                    <label className="input-group">
-                                        <span className="basis-1/4 flex justify-center items-center"><FontAwesomeIcon icon={faSearch} /></span>
-                                        <input name="username" autoComplete="off" type="text" placeholder="ชื่อนักเรียน" className="input input-bordered flex-1" />
-                                    </label>
-                                    <div className="form-control">
-                                        {/* Checked List */}
-                                        {studentCheckedList.map(e=>{
-                                            return <SearchList username={e} setStudentCheckedList={setStudentCheckedList} checked={true} studentCheckedList={studentCheckedList} key={e} />
-                                        })}
-
-                                        {/* Search List */}
-                                        {nameList.filter(e=>!studentCheckedList.includes(e)).map(e=>{
-                                            return <SearchList username={e} setStudentCheckedList={setStudentCheckedList} checked={false} studentCheckedList={studentCheckedList} key={e} />
-                                        })}
-                                    </div>
-                                    <input type="submit" className="btn btn-primary" value={"บันทึก"}/>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
                 </Fragment>
                 );
             }
