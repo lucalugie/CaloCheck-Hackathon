@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PieAll from "./Pieall";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
-
+import Calendar from "../Calendar/Calendar";
 
 const Datastatus = ({ className }) => {
   const [tableData, setTableData] = useState([
@@ -13,6 +13,8 @@ const Datastatus = ({ className }) => {
   ]);
 
   return (
+    <>
+    <Calendar/>
     <div className={className}>
       <div className="data">
         <div className="form-control w-full max-w-xs">
@@ -55,7 +57,7 @@ const Datastatus = ({ className }) => {
         </div>
       </div>
     </div>
-  
+    </>
 );};
 export default styled(Datastatus)`
 .data {
