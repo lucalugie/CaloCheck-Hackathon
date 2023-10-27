@@ -27,6 +27,9 @@ const Foodnutrition = sequelize.define('foodnutritions', {
     type: DataTypes.INTEGER,
     primaryKey: true
   },
+  sku: {
+    type: DataTypes.STRING
+  },
   name: {
     type: DataTypes.STRING
   },
