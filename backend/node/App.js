@@ -12,7 +12,7 @@ const { connect, sync } = require("./config/database");
 const morgan = require("morgan");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:3001",
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
@@ -38,6 +38,6 @@ app.use("/users", usersRounter);
 app.use("/foodnutrition", foodnutritionRounter);
 app.use("/usersnutrition", usersNutritionRounter);
 //create server
-app.listen(8000, () => {
-  console.log('Listening on port 8000');
+app.listen(3000, () => {
+  console.log('Listening on port 3000');
 });
