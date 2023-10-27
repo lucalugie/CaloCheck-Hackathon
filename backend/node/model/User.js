@@ -20,17 +20,20 @@ const Users = sequelize.define(
       type: DataTypes.STRING,
     },
     weight: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     height: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     bmi: {
-      type: DataTypes.STRING,
+      type: DataTypes.DOUBLE,
     },
     cal: {
       type: DataTypes.INTEGER,
     },
+    age: {
+       type: DataTypes.INTEGER,
+    }
   },
   {
     updatedAt: false,

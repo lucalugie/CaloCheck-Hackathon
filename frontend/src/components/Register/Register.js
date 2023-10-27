@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
-
+import { findDefaultInfo, kcal_total } from "../../Convert/defaltFunction";
 
 function Register() {
-
-
   const [userData, setUserData] = useState({
     gender: "",
-    age: "",
-    weight: "",
-    height: "",
-    bmi: "",
+    age: 0,
+    weight: 0,
+    height: 0,
+    bmi: 0,
+    cal: 0,
   });
 
   const [currentStep, setCurrentStep] = useState("Gender");
@@ -20,12 +19,23 @@ function Register() {
   const handleGenderSubmit = (gender) => {
     setUserData({ ...userData, gender });
     setCurrentStep("Bmi");
-
   };
 
   const handleBmiSubmit = (age, weight, height) => {
-    const bmi = calculateBMI(weight, height);
-    setUserData({ ...userData, age, weight, height, bmi });
+    const ageAsNumber = parseInt(age, 10);
+    const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
+    const weightAsNumber = parseInt(weight, 10);
+    const heightAsNumber = parseInt(height, 10);
+    console.log("Before findDefaultInfo:", userData.cal);
+    findDefaultInfo(userData.gender, ageAsNumber);
+    setUserData({
+      ...userData,
+      age: ageAsNumber,
+      weight: weightAsNumber,
+      height: heightAsNumber,
+      bmi: bmiAsNumber,
+      cal: kcal_total,
+    });
     setCurrentStep("Complete");
     addProsonalInfo();
   };
@@ -33,7 +43,6 @@ function Register() {
   const handleEditStep = (step) => {
     setCurrentStep(step);
     console.log(currentStep);
-
   };
 
   function calculateBMI(weight, height) {
@@ -45,9 +54,11 @@ function Register() {
 
   useEffect(() => {
     console.log("Updated userData:", userData);
+    addProsonalInfo();
   }, [userData]);
 
   const addProsonalInfo = () => {
+    console.log("Sending data to the server:", userData);
     fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
       method: "PUT", // เปลี่ยน method เป็น PUT
       headers: {
@@ -55,20 +66,19 @@ function Register() {
       },
       credentials: "include",
       body: JSON.stringify({
-        gender:userData.gender,
-        age:userData.age,
-        weight:userData.weight,
-        height:userData.height,
-        bmi:userData.bmi
-      })
+        gender: userData.gender,
+        age: userData.age,
+        weight: userData.weight,
+        height: userData.height,
+        bmi: userData.bmi,
+        cal: userData.cal,
+      }),
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-  }
-
-
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
   return (
     <>
@@ -90,9 +100,9 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi && <Complete />}
+          userData.bmi &&
+          userData.cal && <Complete />}
       </div>
-
     </>
   );
 }

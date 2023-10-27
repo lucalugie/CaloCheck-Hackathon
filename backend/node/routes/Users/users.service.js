@@ -25,7 +25,7 @@ async function getMember(req, res) {
                     },
                 }
                  );
-                if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null){
+                if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null && member.age != null){
                     return res.status(200).json({type: "login", member});
                 }else{
                     return res.status(200).json({type: "register", member});
@@ -52,7 +52,7 @@ async function getMember(req, res) {
 
 async function addInfo(req, res) { 
     try{
-        const {gender,weight,height,bmi} = req.body;
+        const {gender,weight,height,bmi,age,cal} = req.body;
         jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
         if(decoded){
             console.log("decoded", decoded.userId)
@@ -69,6 +69,8 @@ async function addInfo(req, res) {
             member.weight = weight;
             member.height = height;
             member.bmi = bmi;
+            member.age = age;
+            member.cal = cal;
             await member.save();
             return res.status(200).json({type: "login", member});
         }

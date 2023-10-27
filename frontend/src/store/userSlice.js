@@ -6,10 +6,11 @@ const initState ={
     displayName: "",
     pictureUrl: "",
     gender: "",
-    weight: "",
-    height: "",
-    cal: "",
-    bmi: "",
+    weight: 0,
+    height: 0,
+    cal: 0,
+    bmi: 0,
+    age: 0,
 }
 
 export const userSlice = createSlice({
@@ -42,6 +43,9 @@ export const userSlice = createSlice({
         },
         setBmi: (state, action) => {
             state.bmi = action.payload
+        },
+        setAge: (state, action) => {
+            state.age = action.payload
         }
     }
 }
@@ -49,5 +53,5 @@ export const userSlice = createSlice({
 
 )
 
-export const {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi} = userSlice.actions
+export const {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi, setAge} = userSlice.actions
 export default userSlice.reducer
