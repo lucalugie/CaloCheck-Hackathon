@@ -25,7 +25,7 @@ async function getMember(req, res) {
                     },
                 }
                  );
-                if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null && member.age != null){
+                if(member && member.gender != null && member.weight != null && member.height != null && member.bmi != null && member.age != null){
                     return res.status(200).json({type: "login", member});
                 }else{
                     return res.status(200).json({type: "register", member});
