@@ -1,23 +1,3 @@
-// const { DataTypes } = require("sequelize");
-// const {sequelize} = require("../config/database");
-
-// const foodnutrition = sequelize.define("foodnutritions", 
-// {
-//     idfood: {
-//     type: DataTypes.INTEGER,
-//     primaryKey: true
-//   },
-//   name: {
-//     type: DataTypes.STRING,
-//   }
-
-// },
-// {
-//   updatedAt: false
-// });
-
-// module.exports = foodnutrition;
-
 const { DataTypes } = require('sequelize');
 
 const { sequelize } = require('../config/database');
@@ -27,50 +7,44 @@ const Foodnutrition = sequelize.define('foodnutritions', {
     type: DataTypes.INTEGER,
     primaryKey: true
   },
+  sku: {
+    type: DataTypes.STRING
+  },
   name: {
     type: DataTypes.STRING
   },
   per_items: {
     type: DataTypes.INTEGER
   },
-  cal: {
-    type: DataTypes.INTEGER
+  kcal: {
+    type: DataTypes.DOUBLE
   },
   carb: {
     type: DataTypes.STRING
   },
   per_carb: {
-    type: DataTypes.INTEGER
-  },
-  fat: {
-    type: DataTypes.STRING
+    type: DataTypes.DOUBLE
   },
   per_fat: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   protein: {
     type: DataTypes.STRING
   },
   per_protein: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   },
   veg: {
     type: DataTypes.STRING
   },
   per_veg: {
-    type: DataTypes.INTEGER
-  },
-  sugar: {
-    type: DataTypes.STRING
+    type: DataTypes.DOUBLE
   },
   per_sugar: {
-    type: DataTypes.INTEGER
-  },
-  salt: {
-    type: DataTypes.STRING
+    type: DataTypes.DOUBLE
   },
   per_salt: {
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   }
  
 });
