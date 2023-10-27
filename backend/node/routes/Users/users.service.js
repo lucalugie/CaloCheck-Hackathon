@@ -52,7 +52,7 @@ async function getMember(req, res) {
 
 async function addInfo(req, res) { 
     try{
-        const {gender,weight,height,bmi,age} = req.body;
+        const {gender,weight,height,bmi,age,cal} = req.body;
         jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
         if(decoded){
             console.log("decoded", decoded.userId)
@@ -70,6 +70,7 @@ async function addInfo(req, res) {
             member.height = height;
             member.bmi = bmi;
             member.age = age;
+            member.cal = cal;
             await member.save();
             return res.status(200).json({type: "login", member});
         }

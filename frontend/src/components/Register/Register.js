@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
-const { findDefaultInfo } = require('../../Convert/defaltFunction');
+import { findDefaultInfo, kcal_total } from "../../Convert/defaltFunction";
 
 function Register() {
   const [userData, setUserData] = useState({
@@ -11,6 +11,7 @@ function Register() {
     weight: 0,
     height: 0,
     bmi: 0,
+    cal: 0,
   });
 
   const [currentStep, setCurrentStep] = useState("Gender");
@@ -25,16 +26,18 @@ function Register() {
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
+    console.log("Before findDefaultInfo:", userData.cal);
+    findDefaultInfo(userData.gender, ageAsNumber);
     setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
+      cal: kcal_total,
     });
     setCurrentStep("Complete");
-    putTodb();
-
+    addProsonalInfo();
   };
 
   const handleEditStep = (step) => {
@@ -49,16 +52,13 @@ function Register() {
     return parseFloat(BMI).toFixed(2);
   }
 
-  function putTodb(){
-    addProsonalInfo();
-  }
-
   useEffect(() => {
     console.log("Updated userData:", userData);
-    putTodb();
+    addProsonalInfo();
   }, [userData]);
 
   const addProsonalInfo = () => {
+    console.log("Sending data to the server:", userData);
     fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
       method: "PUT", // เปลี่ยน method เป็น PUT
       headers: {
@@ -71,6 +71,7 @@ function Register() {
         weight: userData.weight,
         height: userData.height,
         bmi: userData.bmi,
+        cal: userData.cal,
       }),
     })
       .then((res) => res.json())
@@ -78,32 +79,6 @@ function Register() {
         console.log(data);
       });
   };
-
-  async function registerUser(userData) {
-    try {
-      const { age, gender } = userData;
-      findDefaultInfo(gender, age);
-  
-      const userNutritionData = {
-        userlineId: userData.userlineId, 
-        kcal_total,
-        gramsVeg,
-        gramsSodium,
-        gramsCarb,
-        gramsSugar,
-        gramsFat,
-        gramsProtein,
-      };
-  
-      // Save the user's nutritional information in the database
-      // You should implement the logic to save this data in your database
-      // For example, using a Sequelize model if you are using a SQL database
-      // Or using an equivalent method if you are using a NoSQL database
-      // Continue with the rest of the registration process
-    } catch (error) {
-      console.error('User registration failed:', error);
-    }
-  }
 
   return (
     <>
@@ -125,7 +100,8 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi && <Complete />}
+          userData.bmi &&
+          userData.cal && <Complete />}
       </div>
     </>
   );

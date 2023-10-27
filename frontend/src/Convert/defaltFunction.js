@@ -89,15 +89,15 @@ function findGramsCarb(kcal_total) {
   return parseFloat(gCarb);
 }
 function findGramsSugar(kcal_total) {
-  const gSugar = kcal_total(0.05) / 4;
+  const gSugar = (kcal_total * 0.05) / 4;
   return gSugar;
 }
 function findGramsProtein(kcal_total) {
-  const gProtein = kcal_total(0.1) / 4;
+  const gProtein = (kcal_total * 0.1) / 4;
   return gProtein;
 }
 function findGramsFat(kcal_total) {
-  const gFat = kcal_total(0.3) / 9;
+  const gFat = (kcal_total * 0.3) / 9;
   return gFat;
 }
 
@@ -114,5 +114,5 @@ export {
   gramsSugar,
   gramsFat,
   gramsProtein,
-  findDefaultInfo
+  findDefaultInfo,
 };
