@@ -5,17 +5,16 @@ import { faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Searchmenu from "./Search/search";
 import { useSelector, useDispatch } from "react-redux";
- 
+
 const MyFood = ({ className }) => {
   const searchmenu = useSelector((state) => state.search.tableData);
   const [tableData, setTableData] = useState([]);
 
-  console.log("tadatable",tableData);
+  console.log("tadatable", tableData);
 
   useEffect(() => {
     setTableData(searchmenu);
   }, [searchmenu]);
-
 
   return (
     <div className={className}>
@@ -23,38 +22,42 @@ const MyFood = ({ className }) => {
         <h1>
           <b>MyFood</b>
         </h1>
-      <Searchmenu/>
+        <Searchmenu />
       </div>
+
       <div className="Myfood--list">
-        {tableData.map((item) => (
-          <Link className="m-4"
-            to={`/myfood/Pastfood/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
-          >
-            <div
-              key={item.id}
-              tabIndex={0}
-              className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2"
-              style={{ minWidth: "16rem" }}
+        <div className="Mybox--list">
+          {tableData.map((item) => (
+            <Link
+              className="m-4"
+              to={`/myfood/Pastfood/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
             >
-              <div className="collapse-title text-xl font-medium">
-                {item.name}{" "}
+              <div
+                key={item.id}
+                tabIndex={0}
+                className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2 max-w-md "
+              >
+                <div className="collapse-title text-xl font-medium">
+                  {item.name}{" "}
+                </div>
+                <div className="collapse-content">
+                  <p>
+                    {item.amount} - {item.kcal} Kcal
+                  </p>
+                </div>
               </div>
-              <div className="collapse-content">
-                <p>
-                  {item.amount} - {item.kcal} Kcal
-                </p>
-              </div>
-            </div>
-          </Link>
-        ))}
-        <div className="button">
-          <div className="flex-grow"></div>
-          <Link to="/myfood/Addfood">
-            <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
-              <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
-            </button>
-          </Link>
-        </div>
+            </Link>
+          ))}
+          </div>
+          <div className="button">
+            <div className="flex-grow"></div>
+            <Link to="/myfood/Addfood">
+              <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
+                <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
+              </button>
+            </Link>
+          </div>
+        
       </div>
     </div>
   );
@@ -86,11 +89,13 @@ export default styled(MyFood)`
     justify-content: center;
   }
   .Myfood--list {
-    margin: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .Mybox--list {
+    margin: 1rem;
   }
   .collapse {
     border: 1px solid #ef9fbc;
