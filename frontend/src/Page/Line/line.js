@@ -1,16 +1,19 @@
  import LineFunction from "./lineFunction";
- import {  useSelector } from "react-redux";
-
+ import Register from "../../components/Register/Register";
+ import Home from "../../components/Home/Home";
  function Line() {
-
-    const LineCode = LineFunction();
-    const users = useSelector((state) => state.user.user);
+    const {user, navigate} = LineFunction();
     return (
         <>
-            
-            <p>{LineCode}</p>
-            <p>{users.displayName}</p>
-             
+             {user.type === "register" ?
+             <>
+                <Register/>
+             </>
+             :
+             <>
+                <Home/>
+             </>
+             }
         </>
     )
  }

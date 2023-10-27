@@ -1,24 +1,40 @@
 const { DataTypes } = require("sequelize");
-const {sequelize} = require("../config/database");
+const { sequelize } = require("../config/database");
 
-const Users = sequelize.define("users", 
-{
+const Users = sequelize.define(
+  "users",
+  {
     userlineId: {
-    type: DataTypes.STRING,
-    primaryKey: true
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    displayName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    pictureUrl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    gender: {
+      type: DataTypes.STRING,
+    },
+    weight: {
+      type: DataTypes.STRING,
+    },
+    height: {
+      type: DataTypes.STRING,
+    },
+    bmi: {
+      type: DataTypes.STRING,
+    },
+    cal: {
+      type: DataTypes.INTEGER,
+    },
   },
-  displayName: {
-    type: DataTypes.STRING,
-    allowNull:true
-  },
-  pictureUrl: {
-    type: DataTypes.TEXT,
-    allowNull:true
+  {
+    updatedAt: false,
   }
-
-},
-{
-  updatedAt: false
-});
+);
 
 module.exports = Users;

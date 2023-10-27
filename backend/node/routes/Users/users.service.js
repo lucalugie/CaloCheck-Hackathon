@@ -7,7 +7,7 @@ dotenv.config();
 
 
 async function getMember(req, res) {
-    console.log("cookie",req.cookies)
+
     try {
         if(!req.cookies.token){
             console.log("no token")
@@ -25,8 +25,11 @@ async function getMember(req, res) {
                     },
                 }
                  );
-      
-            return res.status(200).json(member);
+                if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null){
+                    return res.status(200).json({type: "login", member});
+                }else{
+                    return res.status(200).json({type: "register", member});
+                }
            }
             else{
                 console.log("no member")
@@ -47,6 +50,41 @@ async function getMember(req, res) {
     
 }
 
+async function addInfo(req, res) { 
+    try{
+        const {gender,weight,height,bmi} = req.body;
+        jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
+        if(decoded){
+            console.log("decoded", decoded.userId)
+        const member = await Users.findOne(
+            {
+                where: {
+                    userlineId: decoded.userId,
+                },
+            }
+        )
+        
+        if(member){
+            member.gender = gender;
+            member.weight = weight;
+            member.height = height;
+            member.bmi = bmi;
+            await member.save();
+            return res.status(200).json({type: "login", member});
+        }
+        else{
+            return res.status(200).json({type: "register", member});
+        }
+        }
+    })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+} 
+
 module.exports = {
     getMember,
+    addInfo
 }
