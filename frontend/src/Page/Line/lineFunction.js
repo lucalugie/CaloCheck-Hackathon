@@ -7,7 +7,7 @@ export default function LineFunction() {
 const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();
 const navigate = useNavigate();
-const user = useSelector((state) => state.search);
+const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const code = queryParameters.get("code")
@@ -30,6 +30,8 @@ const user = useSelector((state) => state.search);
           dispatch(setDisplayName(member.displayName));
           dispatch(setPictureUrl(member.pictureUrl));
         }
+
+
       })
     }
 
