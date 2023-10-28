@@ -1,118 +1,269 @@
 const UsersNutrition = require("../../model/UsersNutrition");
+const Users = require("../../model/User");
+const { Op } = require("sequelize");
+const jwt = require("jsonwebtoken");
 
+//get all by usersid
 async function getUsersNu(req, res) {
-  const nutritions = await UsersNutrition.findAll();
-  res.send(nutritions);
+  try {
+    if (!req.cookies.token) {
+      console.log("No token");
+      return res.status(400).json({
+        status: "Failed",
+        message: "No data",
+      });
+    }
+
+    jwt.verify(
+      req.cookies.token,
+      process.env.PRIVATE_KEY,
+      async (err, decoded) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(401)
+            .json({ status: "Failed", message: "Unauthorized" });
+        }
+
+        console.log("decoded from userNutrition", decoded.userId);
+
+        const userlineid = decoded.userId;
+
+        // Get all usernutrition records for the same user
+        const usernutritions = await UsersNutrition.findAll({
+          where: {
+            userlineid: userlineid,
+          },
+        });
+
+        return res.status(200).json(usernutritions);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
+  }
 }
 
+//get by date
+async function getUsersNuBydate(req, res) {
+  try {
+    if (!req.cookies.token) {
+      console.log("No token");
+      return res.status(400).json({
+        status: "Failed",
+        message: "No data",
+      });
+    }
+
+    jwt.verify(
+      req.cookies.token,
+      process.env.PRIVATE_KEY,
+      async (err, decoded) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(401)
+            .json({ status: "Failed", message: "Unauthorized" });
+        }
+
+        console.log("decoded from userNutrition", decoded.userId);
+
+        const userlineid = decoded.userId;
+        const { date } = req.query;
+
+        
+        // get by electdate  **มั่วเด้อสู่เขา ฉันหาโค้ดที่จะดึงบ่าเจอ
+        const selectdate = new Date(date).setHours(0, 0, 0, 0);
+        const endOfDay = new Date(date).setHours(23, 59, 59, 999);
+
+        const usernutritions = await UsersNutrition.findOne({
+          where: {
+            userlineid: userlineid,
+            createdAt: {
+              [Op.gte]: selectdate,
+              [Op.lt]: endOfDay,
+            },
+          },
+        });
+
+        return res.status(200).json(usernutritions);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
+  }
+}
+
+//post
 async function postUsersNu(req, res) {
-  const {
-    goals,
-    achieve,
-    goals_protein,
-    goals_fat,
-    goals_salt,
-    goals_sugar,
-    goals_veg,
-    goals_carb,
-    ach_protein,
-    ach_fat,
-    ach_salt,
-    ach_sugar,
-    ach_veg,
-    ach_carb,
-    ach_cal,
-    userlineid,
-  } = req.body;
+  try {
+    if (!req.cookies.token) {
+      console.log("No token");
+      return res.status(400).json({
+        status: "Failed",
+        message: "No data",
+      });
+    }
 
-  const nutrition = await UsersNutrition.create({
-    goals,
-    achieve,
-    goals_protein,
-    goals_fat,
-    goals_salt,
-    goals_sugar,
-    goals_veg,
-    goals_carb,
-    ach_protein,
-    ach_fat,
-    ach_salt,
-    ach_sugar,
-    ach_veg,
-    ach_carb,
-    ach_cal,
-    userlineid,
-  });
+    jwt.verify(
+      req.cookies.token,
+      process.env.PRIVATE_KEY,
+      async (err, decoded) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(401)
+            .json({ status: "Failed", message: "Unauthorized" });
+        }
 
-  res.json(nutrition);
+        console.log("decoded from userNutritions", decoded.userId);
+
+        const userlineid = decoded.userId;
+
+        const {
+          ach_kcal,
+          ach_g,
+          ach_protein,
+          ach_fat,
+          ach_salt,
+          ach_sugar,
+          ach_veg,
+          ach_carb,
+        } = req.body;
+
+        const nutrition = await UsersNutrition.create({
+          userlineid,
+          ach_kcal,
+          ach_g,
+          ach_protein,
+          ach_fat,
+          ach_salt,
+          ach_sugar,
+          ach_veg,
+          ach_carb,
+        });
+
+        return res.status(201).json(nutrition);
+      }
+    );
+  } catch (error) {
+    console.error("Error in postUsersNu:", error);
+    console.error(error);
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
+  }
 }
 
+//update by date
 async function putUsersNu(req, res) {
-  const {
-    goals,
-    achieve,
-    goals_protein,
-    goals_fat,
-    goals_salt,
-    goals_sugar,
-    goals_veg,
-    goals_carb,
-    ach_protein,
-    ach_fat,
-    ach_salt,
-    ach_sugar,
-    ach_veg,
-    ach_carb,
-    ach_cal,
-    userlineid,
-  } = req.body;
+  try {
+    if (!req.cookies.token) {
+      console.log("No token");
+      return res.status(400).json({
+        status: "Failed",
+        message: "No data",
+      });
+    }
 
-  const nutrition = await UsersNutrition.findOne({
-    where: {
-      id: req.params.id,
-    },
-  });
+    jwt.verify(
+      req.cookies.token,
+      process.env.PRIVATE_KEY,
+      async (err, decoded) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(401)
+            .json({ status: "Failed", message: "Unauthorized" });
+        }
 
-  nutrition.goals = goals;
-  nutrition.achieve = achieve;
-  nutrition.goals_protein = goals_protein;
-  nutrition.goals_fat = goals_fat;
-  nutrition.goals_salt = goals_salt;
-  nutrition.goals_sugar = goals_sugar;
-  nutrition.goals_veg = goals_veg;
-  nutrition.goals_carb = goals_carb;
-  nutrition.ach_protein = ach_protein;
-  nutrition.ach_fat = ach_fat;
-  nutrition.ach_salt = ach_salt;
-  nutrition.ach_sugar = ach_sugar;
-  nutrition.ach_veg = ach_veg;
-  nutrition.ach_carb = ach_carb;
-  nutrition.ach_cal = ach_cal;
-  nutrition.userlineid = userlineid;
+        console.log("decoded from userNutrition", decoded.userId);
 
-  await nutrition.save();
-  res.json(nutrition);
+        const member = await Users.findOne({
+          where: {
+            userlineId: decoded.userId,
+          },
+        });
+
+        if (!member) {
+          return res
+            .status(404)
+            .json({ status: "Failed", message: "User not found" });
+        }
+        const userlineid = decoded.userId;
+        const {
+          ach_kcal,
+          ach_g,
+          ach_protein,
+          ach_fat,
+          ach_salt,
+          ach_sugar,
+          ach_veg,
+          ach_carb,
+        } = req.body;
+
+        //the current day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Start of the day
+        const endOfDay = new Date(today);
+        endOfDay.setHours(23, 59, 59, 999); // End of the day
+
+        const nutrition = await UsersNutrition.findOne({
+          where: {
+            userlineid: userlineid,
+            createdAt: {
+              [Op.gte]: today,
+              [Op.lte]: endOfDay,
+            },
+          },
+        });
+        if (nutrition) {
+          nutrition.userlineid = userlineid;
+          nutrition.ach_kcal = ach_kcal;
+          nutrition.ach_g = ach_g;
+          nutrition.ach_protein = ach_protein;
+          nutrition.ach_fat = ach_fat;
+          nutrition.ach_salt = ach_salt;
+          nutrition.ach_sugar = ach_sugar;
+          nutrition.ach_veg = ach_veg;
+          nutrition.ach_carb = ach_carb;
+          await nutrition.save();
+          return res.status(201).json(nutrition);
+        } else {
+          return res.status(404).json({
+            status: "Failed",
+            message: "Nutrition record not found for the specified date",
+          });
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
+  }
 }
 
 module.exports = {
   getUsersNu,
+  getUsersNuBydate,
   postUsersNu,
   putUsersNu,
 };
 
-//   goals,
-//   achieve,
-//   goals_protein,
-//   goals_fat,
-//   goals_salt,
-//   goals_sugar,
-//   goals_veg,
-//   goals_carb,
-//   ach_protein,
-//   ach_fat,
-//   ach_salt,
-//   ach_sugar,
-//   ach_veg,
-//   ach_carb,
-//   ach_cal,
-//   userlineid
+// userlineid
+// ach_kcal
+// ach_g:
+// ach_protein
+// ach_fat
+// ach_salt
+// ach_sugar
+// ach_veg
+// ach_carb

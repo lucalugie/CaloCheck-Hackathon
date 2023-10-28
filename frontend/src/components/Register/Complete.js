@@ -1,13 +1,104 @@
 import styled from "styled-components";
-
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import {
+  kcal_total,
+  grams_total,
+  g_gramsVeg,
+  g_gramsSodium,
+  g_gramsCarb,
+  g_gramsSugar,
+  g_gramsFat,
+  g_gramsProtein,
+  findDefaultInfo,
+} from "../../Convert/defaltFunction";
 
-function Complete({ className }) {
+function Complete({ className, data }) {
+  const [userGoals, setUserGoals] = useState({
+    goals_kcal: 0,
+    goals_g: 0,
+    goals_protein: 0,
+    goals_fat: 0,
+    goals_salt: 0,
+    goals_sugar: 0,
+    goals_veg: 0,
+    goals_carb: 0,
+  });
+
+  console.log("userGoals", userGoals);
+
+  useEffect(() => {
+    console.log("useEffect is running");
+    setAlldefaultValue(data);
+    
+  }, [data]);
+
+  function setAlldefaultValue(data){
+    findDefaultInfo(data.gender, data.age);
+    const updatedUserGoals = {
+      goals_kcal: kcal_total,
+      goals_g: grams_total,
+      goals_protein: g_gramsProtein,
+      goals_fat: g_gramsFat,
+      goals_salt: g_gramsSodium,
+      goals_sugar: g_gramsSugar,
+      goals_veg: g_gramsVeg,
+      goals_carb: g_gramsCarb,
+    };
+    setUserGoals(updatedUserGoals);
+    pushtobdGoals(updatedUserGoals);
+  }
+
+  const pushtobdGoals = (updatedUserGoals) => {
+    console.log("Sending data to the server:", updatedUserGoals);
+    axios
+      .put(
+        `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
+        updatedUserGoals, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  // const addUsersGoalsInfo = () => {
+  //   fetch(`${process.env.REACT_APP_BASE_URL}/usersgoals`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     credentials: "include",
+  //     body: JSON.stringify({
+  //       goals_kcal: userGoals.goals_kcal,
+  //       goals_g: userGoals.goals_g,
+  //       goals_protein: userGoals.goals_protein,
+  //       goals_fat: userGoals.goals_fat,
+  //       goals_salt: userGoals.goals_salt,
+  //       goals_sugar: guserGoals.g_gramsSugar,
+  //       goals_veg: userGoals.goals_veg,
+  //       goals_carb: userGoals.goals_carb,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // };
+
   return (
     <div className={className}>
-
       <div className="wrap w-full h-1/2">
         <div className="title flex flex-col justify-center items-center text-center">
           <FontAwesomeIcon
@@ -35,13 +126,13 @@ function Complete({ className }) {
 }
 
 export default styled(Complete)`
-.wrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;

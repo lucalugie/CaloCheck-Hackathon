@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
-import { findDefaultInfo, kcal_total } from "../../Convert/defaltFunction";
+import axios from "axios";
 
 function Register() {
   const [userData, setUserData] = useState({
@@ -11,7 +11,17 @@ function Register() {
     weight: 0,
     height: 0,
     bmi: 0,
-    cal: 0,
+  });
+
+  const [userGoals, setUserGoals] = useState({
+    goals_kcal: 0,
+    goals_g: 0,
+    goals_protein: 0,
+    goals_fat: 0,
+    goals_salt: 0,
+    goals_sugar: 0,
+    goals_veg: 0,
+    goals_carb: 0,
   });
 
   const [currentStep, setCurrentStep] = useState("Gender");
@@ -26,18 +36,16 @@ function Register() {
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
-    // console.log("Before findDefaultInfo:", userData.cal);
-    // findDefaultInfo(userData.gender, ageAsNumber);
     setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
-      // cal: kcal_total,
     });
     setCurrentStep("Complete");
     addProsonalInfo();
+    createdefaultValuedb();
   };
 
   const handleEditStep = (step) => {
@@ -71,12 +79,32 @@ function Register() {
         weight: userData.weight,
         height: userData.height,
         bmi: userData.bmi,
-        // cal: userData.cal,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+      });
+  };
+
+  const createdefaultValuedb = () => {
+    console.log("Sending defaultValuedb:", userGoals);
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/usersgoals/goalsdefault`,
+        userGoals, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -101,7 +129,7 @@ function Register() {
           userData.weight &&
           userData.height &&
           userData.bmi &&
-         <Complete />}
+         <Complete data={userData}/>}
       </div>
     </>
   );
