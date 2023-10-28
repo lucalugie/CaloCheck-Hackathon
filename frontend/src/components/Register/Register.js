@@ -3,8 +3,10 @@ import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 function Register() {
+  const user = useSelector((state) => state.user);
   const [userData, setUserData] = useState({
     gender: "",
     age: 0,

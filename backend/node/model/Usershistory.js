@@ -6,19 +6,18 @@ const Usershistory = sequelize.define("usershistorys",
 {
     id: {
     type: DataTypes.INTEGER,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true,
   },
   userlineid: {
     type: DataTypes.STRING,
   },
   idfood: {
     type: DataTypes.INTEGER,
+    allowNull: true
   },
 
 
-},
-{
-  updatedAt: false
 });
 
 
