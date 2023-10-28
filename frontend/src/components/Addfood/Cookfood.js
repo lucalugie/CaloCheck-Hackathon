@@ -3,24 +3,100 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { addFood } from "../FoodController/foodController";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Cookfood = ({ className }) => {
+
+  const navigate = useNavigate();
   // กำหนดค่าเริ่มต้นของ namefood เป็น ""
-  const [namefood, setNamefood] = useState("");
-  const [calories, setCalories] = useState("");
-  const [num, setNum] = useState("");
-  const [carbo, setCarbo] = useState("");
+  const [name, setName] = useState("");
+  const [per_items, setPer_items] = useState("");
+  const [kcal, setKcal] = useState("");
+  const [carb, setCarb] = useState("");
+  const [per_carb, setPer_carb] = useState("");
+  const [per_fat, setPer_fat] = useState("");
   const [protein, setProtein] = useState("");
-  const [vegetable, setVegetable] = useState("");
-  const [fat, setFat] = useState("");
-  const [sugar, setSugar] = useState("");
-  const [salt, setSalt] = useState("");
+  const [per_protein, setPer_protein] = useState("");
+  const [veg, setVeg] = useState("");
+  const [per_veg, setPer_veg] = useState("");
+  const [per_sugar, setPer_sugar] = useState("");
+  const [per_salt, setPer_salt] = useState("");
 
-  // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
-  const handleNamefoodChange = (event) => {
-    setNamefood(event.target.value);
-  };
+  
+  async function add_food(theData) {
+ 
+    try {
+      const addedFood = await addFood('Foodnutrition', theData);
+      console.log('Food added:', addedFood);
+    } catch (error) {
+      console.error('Failed to add food:', error);
+    }
+  }
 
+  function backToMyfood() {
+    navigate('/myfood');
+  }
+
+
+  function checkaddcookfood(){
+    Swal.fire({
+        title: 'เพิ่มอาหาร?',
+        text: "เราเพิ่มข้อมูลในประวัติของคุณ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยันการเพิ่มข้อมูล',
+        cancelButtonText: 'ยกเลิก'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const newFood = {
+                name,
+                per_items,
+                kcal,
+                carb,
+                per_carb,
+                per_fat,
+                protein,
+                per_protein,
+                veg,
+                per_veg,
+                per_sugar,
+                per_salt
+              };
+          
+              if (
+                  !name ||
+                  !per_items ||
+                  !kcal ||
+                  carb === '' ||
+                  !per_carb ||
+                  !per_fat ||
+                  protein === '' ||
+                  !per_protein ||
+                  veg === '' ||
+                  !per_veg ||
+                  !per_sugar ||
+                  !per_salt
+                ) {
+         
+                  return(Swal.fire({
+                      title: 'Error!',
+                      text: 'กรุณาใส่ข้อมูลให้ครบ',
+                      icon: 'error',
+                      confirmButtonText: 'รับทราบ'
+                    })); 
+                }
+                add_food(newFood)
+            backToMyfood();
+          Swal.fire(
+            'เพิ่มเรียบร้อยแล้ว'
+          )
+        }
+      })
+  }
 
   return (
     <div className={className}>
@@ -45,8 +121,8 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
-              value={namefood} // ใช้ค่าจาก namefood เป็นค่าเริ่มต้นของ input
-              onChange={handleNamefoodChange} // เรียกใช้ฟังก์ชัน handleNamefoodChange เมื่อมีการเปลี่ยนแปลงใน input
+              value={name} 
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>
@@ -61,7 +137,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
-              value={calories}
+              value={kcal}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -69,7 +145,7 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setCalories(newValue);
+                setKcal(newValue);
               }}
             />
           </div>
@@ -85,10 +161,10 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
-              value={num}
+              value={per_items}
               onChange={(e) => {
                 const newValue = e.target.value.replace(/[^0-9]/g, "");
-                setNum(newValue);
+                setPer_items(newValue);
               }}
             />
           </div>
@@ -99,17 +175,17 @@ const Cookfood = ({ className }) => {
           </h1>
         </div>
         <div className="Data">
-          <select className="select select-primary w-full max-w-xs">
-            <option disabled selected>
+          <select className="select select-primary w-full max-w-xs"value={carb} onChange={(e) => setCarb(e.target.value)}>
+            <option value="" disabled selected>
               คาร์โบไฮเดรต
             </option>
-            <option>ข้าว</option>
-            <option>ขนมปัง</option>
-            <option>ขนมจีน</option>
-            <option>เส้นใหญ่</option>
-            <option>เส้นเล็ก</option>
-            <option>เส้นบะหมี่</option>
-            <option>เส้นพาสต้า</option>
+            <option value="ข้าว">ข้าว</option>
+            <option value="ขนมปัง">ขนมปัง</option>
+            <option value="ขนมจีน">ขนมจีน</option>
+            <option value="เส้นใหญ่">เส้นใหญ่</option>
+            <option value="เส้นเล็ก">เส้นเล็ก</option>
+            <option value="เส้นบะหมี่">เส้นบะหมี่</option>
+            <option value="เส้นพาสต้า">เส้นพาสต้า</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -120,7 +196,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-primary w-full max-w-xs"
-              value={carbo}
+              value={per_carb}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -128,27 +204,27 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setCarbo(newValue);
+                setPer_carb(newValue);
               }}
             />
           </div>
         </div>
         <div className="Data">
-          <select className="select select-secondary w-full max-w-xs">
-            <option disabled selected>
+          <select className="select select-secondary w-full max-w-xs"value={protein} onChange={(e) => setProtein(e.target.value)}>
+            <option value="" disabled selected>
               โปรตีน
             </option>
-            <option>ไข่ไก่</option>
-            <option>ไข่เป็ด</option>
-            <option>ไก่</option>
-            <option>หมู</option>
-            <option>เนื้อ</option>
-            <option>เป็ด</option>
-            <option>กุ้ง</option>
-            <option>หอย</option>
-            <option>ปู</option>
-            <option>ปลา</option>
-            <option>ปลาหมึก</option>
+            <option value="ไข่ไก่">ไข่ไก่</option>
+            <option value="ไข่เป็ด">ไข่เป็ด</option>
+            <option value="ไก่">ไก่</option>
+            <option value="หมู">หมู</option>
+            <option value="เนื้อ">เนื้อ</option>
+            <option value="เป็ด">เป็ด</option>
+            <option value="กุ้ง">กุ้ง</option>
+            <option value="หอย">หอย</option>
+            <option value="ปู">ปู</option>
+            <option value="ปลา">ปลา</option>
+            <option value="ปลาหมึก">ปลาหมึก</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -159,7 +235,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-secondary w-full max-w-xs"
-              value={protein}
+              value={per_protein}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -167,18 +243,18 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setProtein(newValue);
+                setPer_protein(newValue);
               }}
             />
           </div>
         </div>
         <div className="Data">
-          <select className="select select-success w-full max-w-xs">
-            <option disabled selected>
+          <select className="select select-success w-full max-w-xs" value={veg} onChange={(e) => setVeg(e.target.value)}>
+            <option value="" disabled selected>
               ผัก
             </option>
-            <option>สด</option>
-            <option>สุก</option>
+            <option value="สด">สด</option>
+            <option value="สุก">สุก</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -189,7 +265,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-success w-full max-w-xs"
-              value={vegetable}
+              value={per_veg}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -197,7 +273,7 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setVegetable(newValue);
+                setPer_veg(newValue);
               }}
             />
           </div>
@@ -212,7 +288,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-warning w-full max-w-xs"
-              value={fat}
+              value={per_fat}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -220,7 +296,7 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setFat(newValue);
+                setPer_fat(newValue);
               }}
             />
           </div>
@@ -235,7 +311,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-error w-full max-w-xs"
-              value={sugar}
+              value={per_sugar}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -243,7 +319,7 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setSugar(newValue);
+                setPer_sugar(newValue);
               }}
             />
           </div>
@@ -258,7 +334,7 @@ const Cookfood = ({ className }) => {
               type="text"
               placeholder="Type here"
               className="input input-bordered input-info w-full max-w-xs"
-              value={salt}
+              value={per_salt}
               onChange={(e) => {
                 let newValue = e.target.value;
 
@@ -266,16 +342,14 @@ const Cookfood = ({ className }) => {
                   newValue = newValue.substring(0, newValue.lastIndexOf("."));
                 }
                 newValue = newValue.replace(/[^0-9.]/g, "");
-                setSalt(newValue);
+                setPer_salt(newValue);
               }}
             />
           </div>
         </div>
       </div>
       <div className="confirm">
-        <Link to="/myfood">
-          <button className="btn btn-success">Confirm</button>
-        </Link>
+          <button className="btn btn-success" onClick={checkaddcookfood}>Confirm</button>
       </div>
     </div>
   );
