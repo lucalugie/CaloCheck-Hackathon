@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarcode, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {  faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Searchmenu from "./Search/search";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const MyFood = ({ className }) => {
   const searchmenu = useSelector((state) => state.search.tableData);
@@ -42,7 +42,7 @@ const MyFood = ({ className }) => {
                 </div>
                 <div className="collapse-content">
                   <p>
-                    {item.amount} - {item.kcal} Kcal
+                    {item.per_items} จาน - {item.kcal} Kcal
                   </p>
                 </div>
               </div>

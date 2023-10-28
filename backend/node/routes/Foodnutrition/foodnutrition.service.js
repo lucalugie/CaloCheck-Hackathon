@@ -38,11 +38,11 @@ async function findFoodnu (req, res){
 }
 
 async function createFoodnu (req, res){
-    const { name, per_items, cal, carb, per_carb, per_fat, protein, per_protein, veg, per_veg, per_sugar,per_salt } = req.body;
+    const { name, per_items, kcal, carb, per_carb, per_fat, protein, per_protein, veg, per_veg, per_sugar,per_salt } = req.body;
     const food = await Foodnutrition.create({ 
       name,
       per_items,
-      cal,
+      kcal,
       carb,
       per_carb,
       per_fat,
