@@ -8,6 +8,7 @@ const usersRounter = require("./routes/Users/users.routes");
 const usersNutritionRounter = require("./routes/UsersNutrition/UsersNutrition.routes");
 const usersGoalsRounter = require("./routes/UsersGoals/UsersGoals.routes");
 const { connect, sync } = require("./config/database");
+const scheduleNutrition = require('./routes/UsersNutrition/scheduleNutrition');
 
 // const routes = require('./Routes');
 const morgan = require("morgan");
@@ -38,6 +39,8 @@ app.use("/users", usersRounter);
 app.use("/foodnutrition", foodnutritionRounter);
 app.use("/usersnutrition", usersNutritionRounter);
 app.use("/usersgoals", usersGoalsRounter);
+scheduleNutrition();
+
 //create server
 app.listen(3000, () => {
   console.log("Listening on port 3000");
