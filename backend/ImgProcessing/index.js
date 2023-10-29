@@ -7,7 +7,7 @@ const upload = multer();
 
 
 const corsOptions = {
-    origin: ['http://localhost:3001','http://192.168.0.50:3000'],
+    origin: ['http://localhost:3001','https://calocheck.yungying.com/'],
     credentials : true
   }
   app.use(cors(corsOptions));
