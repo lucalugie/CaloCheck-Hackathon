@@ -17,31 +17,23 @@ import {
 } from "../../Convert/defaltFunction";
 
 function Complete({ className, data }) {
-  const [userGoals, setUserGoals] = useState({
-    goals_kcal: 0,
-    goals_g: 0,
-    goals_protein: 0,
-    goals_fat: 0,
-    goals_salt: 0,
-    goals_sugar: 0,
-    goals_veg: 0,
-    goals_carb: 0,
-  });
-
-  console.log("userGoals", userGoals);
+  // const [userGoals, setUserGoals] = useState({
+  //   goals_kcal: 0,
+  //   goals_g: 0,
+  //   goals_protein: 0,
+  //   goals_fat: 0,
+  //   goals_salt: 0,
+  //   goals_sugar: 0,
+  //   goals_veg: 0,
+  //   goals_carb: 0,
+  // });
 
   useEffect(() => {
     console.log("setAlldefaultValue");
     setAlldefaultValue(data);
   }, [data]);
 
-  useEffect(() => {
-    console.log("createdefaultNutrition");
-    createdefaultNutrition();
-  }, []);
-
-
-  function setAlldefaultValue(data){
+  function setAlldefaultValue(data) {
     findDefaultInfo(data.gender, data.age);
     const updatedUserGoals = {
       goals_kcal: kcal_total,
@@ -53,58 +45,28 @@ function Complete({ className, data }) {
       goals_veg: g_gramsVeg,
       goals_carb: g_gramsCarb,
     };
-    setUserGoals(updatedUserGoals);
-    pushtobdGoals(updatedUserGoals);
-  }
-
-  const pushtobdGoals = (updatedUserGoals) => {
-    console.log("Sending data to the server:", updatedUserGoals);
-    axios
-      .put(
-        `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
-        updatedUserGoals, 
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  const createdefaultNutrition = () => {
-    axios
-    .post(
-      `${process.env.REACT_APP_BASE_URL}/usersnutrition`,
-      {
-        ach_kcal: 0,
-        ach_g: 0,
-        ach_protein: 0,
-        ach_fat: 0,
-        ach_salt: 0,
-        ach_sugar: 0,
-        ach_veg: 0,
-        ach_carb: 0,
-      }, 
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    )
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    // setUserGoals(updatedUserGoals);
+    const pushtobdGoals = () => {
+      console.log("Sending data to the server:", updatedUserGoals);
+      axios
+        .put(
+          `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
+          updatedUserGoals,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    pushtobdGoals();
   }
 
   return (
