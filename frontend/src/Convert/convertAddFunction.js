@@ -56,6 +56,7 @@ function gramsProteinToCal(type, grams) {
     case "redpork":
     case "sadine":
     case "meatballs":
+    case "meat":
       kcal = grams * 28;
       break;
     case "wegg":
@@ -66,7 +67,6 @@ function gramsProteinToCal(type, grams) {
     case "sausage":
     case "bacon":
     case "psausage":
-    case "tsausage":
       kcal = grams * 50;
       break;
     default:
@@ -76,19 +76,19 @@ function gramsProteinToCal(type, grams) {
 }
 
 function gramsSugarToCal(grams) {
-  const kcal = 0;
-  kcal = grams(16);
+  let kcal = 0;
+  kcal = grams * 16;
   return kcal;
 }
 
 function gramsFatToCal(grams) {
-  const kcal = 0;
-  kcal = grams(45);
+  let kcal = 0;
+  kcal = grams * 45;
   return kcal;
 }
 
 function findGramsCarbFromAdd(type, amount) {
-  const grams = 0;
+  let grams = 0;
   switch (type) {
     case "whiterice":
     case "eggNoodles":
@@ -158,20 +158,38 @@ function findGramsVegFromAdd(type, amount) {
   return grams;
 }
 
-function findKcalDailyTotal(
-  kcal_Carb,
-  kcal_Sugar,
-  kcal_Fat,
-  kcal_Pro,
-  kcal_Veg,
-  kcal_Salt
-) {
-  const kcal_daily_total =
-    kcal_Carb + kcal_Sugar + kcal_Fat + kcal_Pro + kcal_Veg + kcal_Salt;
+function findKcalDailyTotal(kcal_Carb, kcal_Sugar, kcal_Fat, kcal_Pro) {
+  let kcal_daily_total = kcal_Carb + kcal_Sugar + kcal_Fat + kcal_Pro;
+  return kcal_daily_total;
+}
+
+function findKcalDailyShop(kcal_Carb, kcal_Pro) {
+  let kcal_daily_total = kcal_Carb + kcal_Pro;
   return kcal_daily_total;
 }
 
 function findGramsTotal(gCarb, gSugar, gFat, gPro, gVeg, gSalt) {
-  const g_daily_total = gCarb + gSugar + gFat + gPro + gVeg + gSalt;
+  let g_daily_total = gCarb + gSugar + gFat + gPro + gVeg + gSalt;
   return g_daily_total;
 }
+function findGramsTotalShop(gCarb, gPro, gVeg) {
+  let g_daily_total = gCarb + gPro + gVeg;
+  return g_daily_total;
+}
+
+export {
+  gramsCarbToCal,
+  gramsProteinToCal,
+  gramsFatToCal,
+  gramsSugarToCal,
+  findGramsCarbFromAdd,
+  findGramsFatFromAdd,
+  findGramsProteinFromAdd,
+  findGramsSaltFromAdd,
+  findGramsSugarFromAdd,
+  findGramsVegFromAdd,
+  findKcalDailyTotal,
+  findGramsTotal,
+  findGramsTotalShop,
+  findKcalDailyShop
+};

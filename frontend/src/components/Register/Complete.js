@@ -31,10 +31,15 @@ function Complete({ className, data }) {
   console.log("userGoals", userGoals);
 
   useEffect(() => {
-    console.log("useEffect is running");
+    console.log("setAlldefaultValue");
     setAlldefaultValue(data);
-    
   }, [data]);
+
+  useEffect(() => {
+    console.log("createdefaultNutrition");
+    createdefaultNutrition();
+  }, []);
+
 
   function setAlldefaultValue(data){
     findDefaultInfo(data.gender, data.age);
@@ -73,29 +78,34 @@ function Complete({ className, data }) {
       });
   }
 
-  // const addUsersGoalsInfo = () => {
-  //   fetch(`${process.env.REACT_APP_BASE_URL}/usersgoals`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     credentials: "include",
-  //     body: JSON.stringify({
-  //       goals_kcal: userGoals.goals_kcal,
-  //       goals_g: userGoals.goals_g,
-  //       goals_protein: userGoals.goals_protein,
-  //       goals_fat: userGoals.goals_fat,
-  //       goals_salt: userGoals.goals_salt,
-  //       goals_sugar: guserGoals.g_gramsSugar,
-  //       goals_veg: userGoals.goals_veg,
-  //       goals_carb: userGoals.goals_carb,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  // };
+  const createdefaultNutrition = () => {
+    axios
+    .post(
+      `${process.env.REACT_APP_BASE_URL}/usersnutrition`,
+      {
+        ach_kcal: 0,
+        ach_g: 0,
+        ach_protein: 0,
+        ach_fat: 0,
+        ach_salt: 0,
+        ach_sugar: 0,
+        ach_veg: 0,
+        ach_carb: 0,
+      }, 
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
   return (
     <div className={className}>

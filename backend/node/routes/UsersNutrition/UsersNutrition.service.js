@@ -74,7 +74,6 @@ async function getUsersNuBydate(req, res) {
         const userlineid = decoded.userId;
         const { date } = req.query;
 
-        
         // get by electdate  **มั่วเด้อสู่เขา ฉันหาโค้ดที่จะดึงบ่าเจอ
         const selectdate = new Date(date).setHours(0, 0, 0, 0);
         const endOfDay = new Date(date).setHours(23, 59, 59, 999);
@@ -85,6 +84,58 @@ async function getUsersNuBydate(req, res) {
             createdAt: {
               [Op.gte]: selectdate,
               [Op.lt]: endOfDay,
+            },
+          },
+        });
+
+        return res.status(200).json(usernutritions);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
+  }
+}
+
+//get by today date
+async function getUsersNuByTodaydate(req, res) {
+  try {
+    if (!req.cookies.token) {
+      console.log("No token");
+      return res.status(400).json({
+        status: "Failed",
+        message: "No data",
+      });
+    }
+
+    jwt.verify(
+      req.cookies.token,
+      process.env.PRIVATE_KEY,
+      async (err, decoded) => {
+        if (err) {
+          console.error(err);
+          return res
+            .status(401)
+            .json({ status: "Failed", message: "Unauthorized" });
+        }
+
+        console.log("decoded from userNutrition", decoded.userId);
+
+        const userlineid = decoded.userId;
+        //date from today
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const todayEnd = new Date();
+        todayEnd.setHours(23, 59, 59, 999);
+
+        const usernutritions = await UsersNutrition.findOne({
+          where: {
+            userlineid: userlineid,
+            createdAt: {
+              [Op.gte]: todayStart,
+              [Op.lte]: todayEnd,
             },
           },
         });
@@ -254,6 +305,7 @@ async function putUsersNu(req, res) {
 module.exports = {
   getUsersNu,
   getUsersNuBydate,
+  getUsersNuByTodaydate,
   postUsersNu,
   putUsersNu,
 };

@@ -10,6 +10,10 @@ router.get("/bydate", async (req, res) => {
   return await service.getUsersNuBydate(req, res);
 });
 
+router.get("/bytodaydate", async (req, res) => {
+  return await service.getUsersNuByTodaydate(req, res);
+});
+
 router.post("/", async (req, res) => {
   return await service.postUsersNu(req, res);
 });

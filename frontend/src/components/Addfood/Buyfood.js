@@ -1,14 +1,23 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { addFood } from "../FoodController/foodController";
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import {
+  getUsersNutritons,
+  updateUsersNutritons,
+} from "../FoodController/updateNutritionController";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  findGramsCarbFromAdd,
+  findGramsProteinFromAdd,
+  findGramsVegFromAdd,
+  findGramsTotalShop,
+} from "../../Convert/convertAddFunction";
 
 const Buyfood = ({ className }) => {
-
   const navigate = useNavigate();
   // กำหนดค่าเริ่มต้นของ namefood เป็น ""
   const [name, setName] = useState("");
@@ -21,74 +30,167 @@ const Buyfood = ({ className }) => {
   const [veg, setVeg] = useState("");
   const [per_veg, setPer_veg] = useState("");
 
-  // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
-  
-  async function add_food(theData) {
- 
+  ///luca function to update usersNutrition db
+  const [nutrition, setNutrition] = useState({
+    ach_kcal: 0,
+    ach_g: 0,
+    ach_protein: 0,
+    ach_fat: 0,
+    ach_salt: 0,
+    ach_sugar: 0,
+    ach_veg: 0,
+    ach_carb: 0,
+  });
+
+  const [updateNutrition, setUpdateNutrition] = useState({
+    ach_kcal: 0,
+    ach_g: 0,
+    ach_protein: 0,
+    ach_veg: 0,
+    ach_carb: 0,
+  });
+
+  function handleConvert() {
+    console.log("handleConvert called");
+    // find grams
+    const gCarb = findGramsCarbFromAdd(carb, per_carb) * per_items;
+    const gVeg = findGramsVegFromAdd(veg, per_veg) * per_items;
+    const gPro = findGramsProteinFromAdd(per_protein) * per_items;
+
+    //find kcal
+    // const kcal_carb = gramsCarbToCal(carb, gCarb);
+    // const kcal_pro = gramsProteinToCal(protein, gPro);
+
+    // console.log("kcal_carb", kcal_carb);
+    // console.log("kcal_pro", kcal_pro);
+
+    //daily total
+    // const kcaltotal_ = findKcalDailyShop(kcal_carb, kcal_pro);
+    const gtotal_ = findGramsTotalShop(gCarb, gPro, gVeg);
+
+    // console.log("kcaltotal_", kcaltotal_);
+    console.log("gtotal_", gtotal_);
+    // const KcalToString = kcaltotal_.toString();
+    // setKcal(KcalToString);
+    // console.log("setKcal", kcal);
+
+    const kaclToNumber = Number(kcal) * per_items;
+
+    setUpdateNutrition((prevNu) => ({
+      ...prevNu,
+      ach_kcal: kaclToNumber,
+      ach_g: gtotal_,
+      ach_protein: gPro,
+      ach_veg: gVeg,
+      ach_carb: gCarb,
+    }));
+
+    console.log("kcaltotal_", kaclToNumber);
+    console.log("per_items", per_items);
+    console.log("updateNutrition.", updateNutrition);
+  }
+
+  function updateStateNutrition() {
+    setNutrition((prevNu) => ({
+      ...prevNu,
+      ach_kcal: prevNu.ach_kcal + updateNutrition.ach_kcal,
+      ach_g: prevNu.ach_g + updateNutrition.ach_g,
+      ach_protein: prevNu.ach_protein + updateNutrition.ach_protein,
+      ach_veg: prevNu.ach_veg + updateNutrition.ach_veg,
+      ach_carb: prevNu.ach_carb + updateNutrition.ach_carb,
+    }));
+    console.log("nutritionaftersetstate", nutrition);
+  }
+
+  useEffect(() => {
+    handleConvert();
+  }, [kcal, carb, per_carb, protein, per_protein, veg, per_veg, per_items]);
+
+  useEffect(() => {
+    getUsersNutritons(setNutrition);
+  }, []);
+
+  useEffect(() => {
+    console.log("Nutrition has changed:", nutrition);
+    putToNutritionDB(nutrition);
+  }, [nutrition]);
+
+  async function putToNutritionDB(theData) {
     try {
-      const addedFood = await addFood('Foodnutrition', theData);
-      console.log('Food added:', addedFood);
+      console.log(theData);
+      const nutrition_update = await updateUsersNutritons(theData);
+      console.log("Success user nutrition update:", nutrition_update);
     } catch (error) {
-      console.error('Failed to add food:', error);
+      console.error("Failed to update", error);
     }
   }
-  
-  function backToMyfood() {
-    navigate('/myfood');
+  ///luca function to update userNutrion db
+
+  // เมื่อมีการเปลี่ยนแปลงใน input รับค่าและอัปเดต namefood
+
+  async function add_food(theData) {
+    try {
+      const addedFood = await addFood("Foodnutrition", theData);
+      console.log("Food added:", addedFood);
+    } catch (error) {
+      console.error("Failed to add food:", error);
+    }
   }
 
+  function backToMyfood() {
+    navigate("/myfood");
+  }
 
-  function checkaddbuyfood(){
+  function checkaddbuyfood() {
     Swal.fire({
-        title: 'เพิ่มอาหาร?',
-        text: "เราเพิ่มข้อมูลในประวัติของคุณ",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'ยืนยันการเพิ่มข้อมูล',
-        cancelButtonText: 'ยกเลิก'
-      }).then((result) => {
-        if (result.isConfirmed) {
-            const newFood = {
-                name,
-                per_items,
-                kcal,
-                carb,
-                per_carb,
-                protein,
-                per_protein,
-                veg,
-                per_veg
-              };
-          
-              if (
-                  !name ||
-                  !per_items ||
-                  !kcal ||
-                  carb === '' ||
-                  !per_carb ||
-                  protein === '' ||
-                  !per_protein ||
-                  veg === '' ||
-                  !per_veg 
-                  
-                ) {
-         
-                  return(Swal.fire({
-                      title: 'Error!',
-                      text: 'กรุณาใส่ข้อมูลให้ครบ',
-                      icon: 'error',
-                      confirmButtonText: 'รับทราบ'
-                    })); 
-                }
-                add_food(newFood)
-            backToMyfood();
-          Swal.fire(
-            'เพิ่มเรียบร้อยแล้ว'
-          )
+      title: "เพิ่มอาหาร?",
+      text: "เราเพิ่มข้อมูลในประวัติของคุณ",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยันการเพิ่มข้อมูล",
+      cancelButtonText: "ยกเลิก",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newFood = {
+          name,
+          per_items,
+          kcal,
+          carb,
+          per_carb,
+          protein,
+          per_protein,
+          veg,
+          per_veg,
+        };
+        updateStateNutrition();
+
+        if (
+          !name ||
+          !per_items ||
+          !kcal ||
+          carb === "" ||
+          !per_carb ||
+          protein === "" ||
+          !per_protein ||
+          veg === "" ||
+          !per_veg
+        ) {
+          return Swal.fire({
+            title: "Error!",
+            text: "กรุณาใส่ข้อมูลให้ครบ",
+            icon: "error",
+            confirmButtonText: "รับทราบ",
+          });
         }
-      })
+        add_food(newFood).then(() => {
+          Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
+            backToMyfood();
+          });
+        });
+      }
+    });
   }
   return (
     <div className={className}>
@@ -168,22 +270,31 @@ const Buyfood = ({ className }) => {
           </h1>
         </div>
         <div className="Data">
-          <select className="select select-primary w-full max-w-xs" value={carb} onChange={(e) => setCarb(e.target.value)}>
+          <select
+            className="select select-primary w-full max-w-xs"
+            value={carb}
+            onChange={(e) => setCarb(e.target.value)}
+          >
             <option value="" disabled selected>
               คาร์โบไฮเดรต
             </option>
-            <option  value="ข้าว">ข้าว</option>
-            <option value="ขนมปัง">ขนมปัง</option>
-            <option value="ขนมจีน">ขนมจีน</option>
-            <option value="เส้นใหญ่">เส้นใหญ่</option>
-            <option value="เส้นเล็ก">เส้นเล็ก</option>
-            <option value="เส้นบะหมี่">เส้นบะหมี่</option>
-            <option value="เส้นพาสต้า">เส้นพาสต้า</option>
+            <option value="whiterice">ข้าวสวย</option>
+            <option value="stickyrice">ข้าวเหนียว</option>
+            <option value="brownrice">ข้าวกล้อง</option>
+            <option value="eggNoodles">เส้นบะหมี่เหลือง</option>
+            <option value="chineseNoodles">ขนมจีน</option>
+            <option value="widericeNoodles">เส้นใหญ่</option>
+            <option value="riceNoodles">เส้นเล็ก</option>
+            <option value="vermicelli">เส้นหมี่</option>
+            <option value="glassNoodles">วุ้นเส้น</option>
+            <option value="yam">มันเทศ</option>
+            <option value="taro">เผือก</option>
+            <option value="pasta">เส้นพาสต้า</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">จำนวน</span>
-              <span className="label-text-alt">ช้อนโต๊ะ</span>
+              <span className="label-text-alt">ทัพพี</span>
             </label>
             <input
               type="text"
@@ -203,21 +314,28 @@ const Buyfood = ({ className }) => {
           </div>
         </div>
         <div className="Data">
-          <select className="select select-secondary w-full max-w-xs" value={protein} onChange={(e) => setProtein(e.target.value)}>
-            <option  value="" disabled selected>
+          <select
+            className="select select-secondary w-full max-w-xs"
+            value={protein}
+            onChange={(e) => setProtein(e.target.value)}
+          >
+            <option value="" disabled selected>
               โปรตีน
             </option>
-            <option value="ไข่ไก่">ไข่ไก่</option>
-            <option value="ไข่เป็ด">ไข่เป็ด</option>
-            <option value="ไก่">ไก่</option>
-            <option value="หมู">หมู</option>
-            <option value="เนื้อ">เนื้อ</option>
-            <option value="เป็ด">เป็ด</option>
-            <option value="กุ้ง">กุ้ง</option>
-            <option value="หอย">หอย</option>
-            <option value="ปู">ปู</option>
-            <option value="ปลา">ปลา</option>
-            <option value="ปลาหมึก">ปลาหมึก</option>
+            <option value="wegg">ไข่ไก่</option>
+            <option value="sadine">ซาดีน</option>
+            <option value="cbreast">อกไก่</option>
+            <option value="redpork">หมู</option>
+            <option value="meat">เนื้อ</option>
+            <option value="sausage">ไส้กรอก</option>
+            <option value="bacon">เบค่อน</option>
+            <option value="psausage">หมูยอ</option>
+            <option value="tofu">เต้าหู้แข็ง/อ่อน</option>
+            <option value="shrimp">กุ้ง</option>
+            <option value="soymilk">นมถั่วเหลือง</option>
+            <option value="mackerel">ปลาทู</option>
+            <option value="fish">ปลา</option>
+            <option value="meatballs">ลูกชิ้นหมู/ไก่</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -242,12 +360,16 @@ const Buyfood = ({ className }) => {
           </div>
         </div>
         <div className="Data">
-          <select className="select select-success w-full max-w-xs" value={veg} onChange={(e) => setVeg(e.target.value)}>
-            <option  value="" disabled selected>
+          <select
+            className="select select-success w-full max-w-xs"
+            value={veg}
+            onChange={(e) => setVeg(e.target.value)}
+          >
+            <option value="" disabled selected>
               ผัก
             </option>
-            <option  value="สด">สด</option>
-            <option value="สุก">สุก</option>
+            <option value="rawveg">ผักสด</option>
+            <option value="cookveg">ผักสุก</option>
           </select>
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -274,7 +396,9 @@ const Buyfood = ({ className }) => {
       </div>
 
       <div className="confirm">
-          <button className="btn btn-success" onClick={checkaddbuyfood}>Confirm</button>
+        <button className="btn btn-success" onClick={checkaddbuyfood}>
+          Confirm
+        </button>
       </div>
     </div>
   );
