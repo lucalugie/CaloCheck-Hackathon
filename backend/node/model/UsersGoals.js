@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/database");
 
-const UsersNutrition = sequelize.define("usersnutritions", {
+const UsersGoals = sequelize.define("usersGoals", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -9,31 +9,32 @@ const UsersNutrition = sequelize.define("usersnutritions", {
   },
   userlineid: {
     type: DataTypes.STRING,
+    unique: true,
   },
-  ach_kcal: {
+  goals_kcal: {
+    type: DataTypes.INTEGER,
+  },
+  goals_g: {
     type: DataTypes.DOUBLE,
   },
-  ach_g: {
-      type: DataTypes.DOUBLE,
-    },
-  ach_protein: {
+  goals_protein: {
     type: DataTypes.DOUBLE,
   },
-  ach_fat: {
+  goals_fat: {
     type: DataTypes.DOUBLE,
   },
-  ach_salt: {
+  goals_salt: {
     type: DataTypes.DOUBLE,
   },
-  ach_sugar: {
+  goals_sugar: {
     type: DataTypes.DOUBLE,
   },
-  ach_veg: {
+  goals_veg: {
     type: DataTypes.DOUBLE,
   },
-  ach_carb: {
+  goals_carb: {
     type: DataTypes.DOUBLE,
   },
 });
 
-module.exports = UsersNutrition;
+module.exports = UsersGoals;

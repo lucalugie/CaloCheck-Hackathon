@@ -4,6 +4,9 @@ import Gender from "./Gender";
 import Bmi from "./Bmi";
 import { findDefaultInfo, kcal_total } from "../../Convert/defaltFunction";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function Register() {
   const user = useSelector((state) => state.user);
@@ -13,8 +16,18 @@ function Register() {
     weight: 0,
     height: 0,
     bmi: 0,
-    cal: 0,
   });
+  const [userGoals, setUserGoals] = useState({
+    goals_kcal: 0,
+    goals_g: 0,
+    goals_protein: 0,
+    goals_fat: 0,
+    goals_salt: 0,
+    goals_sugar: 0,
+    goals_veg: 0,
+    goals_carb: 0,
+  });
+
 
   const [currentStep, setCurrentStep] = useState("Gender");
 
@@ -28,18 +41,17 @@ function Register() {
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
-    // console.log("Before findDefaultInfo:", userData.cal);
-    // findDefaultInfo(userData.gender, ageAsNumber);
     setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
-      // cal: kcal_total,
     });
-    setCurrentStep("Complete");
     addProsonalInfo();
+    createdefaultNutrition();
+    createdefaultValuedb();
+    
   };
 
   const handleEditStep = (step) => {
@@ -59,6 +71,12 @@ function Register() {
     addProsonalInfo();
   }, [userData]);
 
+  // useEffect(() => {
+  //   console.log("setAlldefaultValue");
+  //   setAlldefaultValue(userData);
+  
+  // }, [userData]);
+
   const addProsonalInfo = () => {
     console.log("Sending data to the server:", userData);
     fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
@@ -73,7 +91,6 @@ function Register() {
         weight: userData.weight,
         height: userData.height,
         bmi: userData.bmi,
-        // cal: userData.cal,
       }),
     })
       .then((res) => res.json())
@@ -81,6 +98,96 @@ function Register() {
         console.log(data);
       });
   };
+
+  const createdefaultValuedb = () => {
+    console.log("Sending defaultValuedb:");
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/usersgoals/goalsdefault`,
+        userGoals,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setCurrentStep("Complete");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const createdefaultNutrition = () => {
+    console.log("createdefaultNutrition");
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/usersnutrition`,
+        {
+          ach_kcal: 0,
+          ach_g: 0,
+          ach_protein: 0,
+          ach_fat: 0,
+          ach_salt: 0,
+          ach_sugar: 0,
+          ach_veg: 0,
+          ach_carb: 0,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+
+  // function setAlldefaultValue(){
+  //   findDefaultInfo(userData.gender, userData.age);
+  //   const updatedUserGoals = {
+  //     goals_kcal: kcal_total,
+  //     goals_g: grams_total,
+  //     goals_protein: g_gramsProtein,
+  //     goals_fat: g_gramsFat,
+  //     goals_salt: g_gramsSodium,
+  //     goals_sugar: g_gramsSugar,
+  //     goals_veg: g_gramsVeg,
+  //     goals_carb: g_gramsCarb,
+  //   };
+  //   setUserGoals(updatedUserGoals);
+  //   pushtobdGoals(updatedUserGoals);
+  // }
+
+  // const pushtobdGoals = (updatedUserGoals) => {
+  //   console.log("Sending data to the server:", updatedUserGoals);
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_BASE_URL}/usersgoals/goalsdefault`,
+  //       updatedUserGoals, 
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   return (
     <>
@@ -102,8 +209,7 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi &&
-         <Complete />}
+          userData.bmi && <Complete data={userData} />}
       </div>
     </>
   );

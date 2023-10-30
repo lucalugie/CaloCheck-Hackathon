@@ -11,4 +11,8 @@ userRouter.put('/PersonalInformations',async (req, res) => {
    return await service.addInfo(req, res);
 });
 
+userRouter.get('/PersonalInformations',async (req, res) => {
+   return await service.getInfo(req, res);
+});
+
 module.exports = userRouter;

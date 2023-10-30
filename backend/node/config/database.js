@@ -36,6 +36,7 @@ async function relation() {
     db.foodnutrition = sequelize.import("../model/foodnutrition");
     db.Usershistory = sequelize.import("../model/Usershistory");
     db.UsersNutrition = sequelize.import("../model/UsersNutrition");
+    db.UsersGoals = sequelize.import("../model/UsersGoals");
     db.Usershistory.hasMany(
       db.User,
       {
@@ -49,10 +50,10 @@ async function relation() {
     db.Usershistory.belongsTo(db.User, { foreignKey: "userlineid" });
     db.Usershistory.belongsTo(db.foodnutrition, { foreignKey: "idfood" });
 
-    db.UsersNutrition.hasMany(db.User, {
-      foreignKey: { name: "userlineid", fild: "userlineid" },
-    });
-    db.UsersNutrition.belongsTo(db.User, { foreignKey: "userlineid", targetKey: 'userlineid',});
+    db.UsersNutrition.hasMany(db.User, { foreignKey: "userlineid" });
+    db.UsersNutrition.belongsTo(db.User, { foreignKey: "userlineid" });
+
+    db.UsersGoals.belongsTo(db.User, { foreignKey: "userlineid" });
   } catch (error) {
     console.log("error from database");
   }
