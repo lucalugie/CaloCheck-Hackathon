@@ -19,5 +19,13 @@ router.get('/:idfood', async (req, res) => {
 
 
   
+
+router.get('/foods', (req, res) => {
+  return service.getByIDFood(req, res);
+});
+
+router.get('/barcode', (req, res) => {
+  return service.getFoodBysku(req, res);
+});
   module.exports = router;
   

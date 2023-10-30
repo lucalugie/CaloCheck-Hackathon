@@ -1,4 +1,5 @@
 const Usershistory = require('../../model/Usershistory');
+const Foodnutrition = require('../../model/foodnutrition');
 const {Op} = require('sequelize');
 
 const dotenv = require('dotenv');
@@ -33,10 +34,11 @@ async function getFoodByDate(req, res) {
         console.log(dateParam)
         const food = await Usershistory.findAll({
           where: {
+            userlineId: userId,
             createdAt: {
               [Op.and]: [{ [Op.gte]: dateParam + " 00:00:00" }, { [Op.lte]: dateParam  + " 23:59:59" }],
             },
-          },
+          }
         });
         console.log("food",food);
         if (food.length > 0) {
