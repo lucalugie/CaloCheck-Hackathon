@@ -1,9 +1,30 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-const profilepath =
-  "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
+import React, {useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../Convert/userController";
+// const profilepath =
+//   "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
 
 function Navbar() {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const fetchUserDataAndDispatch = async () => {
+    console.log("UserDataFetch");
+    try {
+      await fetchUserData(dispatch);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const [userImage, setUserImage] = useState("https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg");
+  useEffect(() => {
+    fetchUserDataAndDispatch();
+    setUserImage(user.pictureUrl);
+  }, [user]);
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -53,7 +74,7 @@ function Navbar() {
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={profilepath} />
+                <img src={userImage} />
               </div>
             </label>
             <ul

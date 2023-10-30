@@ -1,6 +1,68 @@
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import React, {useEffect, useState} from "react";
 
-function MyNutrition({ className, nutritionData, goalsData }) {
+function MyNutrition({ className }) {
+  const goals = useSelector((state) => state.goals);
+  const nutri = useSelector((state) => state.nutrition);
+
+  const [goalsData, setGoalsData] = useState({
+    goals_kcal: 0,
+    goals_g: 0,
+    goals_protein: 0,
+    goals_fat: 0,
+    goals_salt: 0,
+    goals_sugar: 0,
+    goals_veg: 0,
+    goals_carb: 0,
+  });
+
+  const [nutritionData, setNutritionData] = useState({
+    ach_kcal: 0,
+    ach_g: 0,
+    ach_protein: 0,
+    ach_fat: 0,
+    ach_salt: 0,
+    ach_sugar: 0,
+    ach_veg: 0,
+    ach_carb: 0,
+  });
+
+  useEffect(() => {
+    setGoalsData({
+      goals_kcal: goals.goals_kcal,
+      goals_g: goals.goals_g,
+      goals_protein: goals.goals_protein,
+      goals_fat: goals.goals_fat,
+      goals_salt: goals.goals_salt,
+      goals_sugar: goals.goals_sugar,
+      goals_veg: goals.goals_veg,
+      goals_carb: goals.goals_carb,
+    });
+  }, [goals]);
+
+  useEffect(() => {
+    setNutritionData({
+      ach_kcal: nutri.ach_kcal,
+      ach_g: nutri.ach_g,
+      ach_protein: nutri.ach_protein,
+      ach_fat: nutri.ach_fat,
+      ach_salt: nutri.ach_salt,
+      ach_sugar: nutri.ach_sugar,
+      ach_veg: nutri.ach_veg,
+      ach_carb: nutri.ach_carb,
+    });
+  }, [nutri]);
+
+
+
+
+
+
+
+
+
+
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
     return Math.round(percentage);
@@ -8,7 +70,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
 
   function findGoalKcalleft(achieve, goals) {
     const kcal_lef = goals - achieve;
-    return kcal_lef;
+    return Math.round(kcal_lef);
   }
 
   const leftPercent= findPercentage(nutritionData.ach_g, goalsData.goals_g);
@@ -29,7 +91,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_protein}/{goalsData.goals_protein}
+                {Math.round(nutritionData.ach_protein)}/{Math.round(goalsData.goals_protein)}
               </p>
             </div>
             <div className="progress-item">
@@ -43,7 +105,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_fat}/{goalsData.goals_fat}
+                {Math.round(nutritionData.ach_fat)}/{Math.round(goalsData.goals_fat)}
               </p>
             </div>
             <div className="progress-item">
@@ -57,7 +119,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-              {nutritionData.ach_salt}/{goalsData.goals_salt}
+              {Math.round(nutritionData.ach_salt)}/{Math.round(goalsData.goals_salt)}
               </p>
             </div>
           </div>
@@ -88,7 +150,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_veg}/{goalsData.goals_veg}
+                {Math.round(nutritionData.ach_veg)}/{Math.round(goalsData.goals_veg)}
               </p>
             </div>
             <div className="progress-item">
@@ -102,7 +164,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_carb}/{goalsData.goals_carb}
+                {Math.round(nutritionData.ach_carb)}/{Math.round(goalsData.goals_carb)}
               </p>
             </div>
             <div className="progress-item">
@@ -116,7 +178,7 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_sugar}/{goalsData.goals_sugar}
+                {Math.round(nutritionData.ach_sugar)}/{Math.round(goalsData.goals_sugar)}
               </p>
             </div>
           </div>
