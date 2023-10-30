@@ -35,6 +35,17 @@ async function MessageAutoMonth() {
     
     
     var currentDate = new Date();  //วันที่สมัครบัญชีของเเต่ละคน
+    // const users = await Usershistory.findAll({
+    //     where: {
+    //         createdAt: {
+    //             [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 9, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 12, 0, 0))  }],
+    //             // >
+    //         },
+    //     },
+    // });
+
+    console.log("วันที่สมัครบัญชีของเเต่ละคน"+totalDaysInThreeMonths)
+
     // เพิ่ม 3 เดือน
     var threeMonthsLater = new Date(currentDate.getTime());
     threeMonthsLater.setMonth(currentDate.getMonth() + 3);  

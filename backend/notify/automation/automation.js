@@ -67,7 +67,8 @@ async function sendMessageBreakfast() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 9, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 12, 0, 0))  }],
+                // >
             },
         },
     });
@@ -101,7 +102,8 @@ async function sendMessageLunch() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 12, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 13, 0, 0))  }],
+                // >
             },
         },
     });
@@ -137,7 +139,7 @@ async function sendMessageDinner() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.gt]: new Date(new Date().setHours(0, 20, 0, 0)), // >
             },
         },
     });
