@@ -1,10 +1,12 @@
 import useViewModel from './useViewModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCaretRight, faCaretLeft} from '@fortawesome/free-solid-svg-icons';
+import Datastatus from '../DataStatus/Datastatus';
 const Calendar = () => {
-    const {month, year, calendarDays,setMonth,setYear} = useViewModel();
+    const {month, day,year, calendarDays,setMonth,setYear} = useViewModel();
 
     return (
+        <>
         <div className="container mx-auto p-4">
             <div className="flex flex-row justify-center items-center mb-4 gap-5"> {/* Center header */}
                 <FontAwesomeIcon onClick={() => setMonth(Number(month)-1)} icon={faCaretLeft} className='text-primary btn btn-ghost'/>
@@ -39,6 +41,9 @@ const Calendar = () => {
                 {calendarDays}
             </div>
         </div>
+        <Datastatus day={day} month={month} year={year}/>
+        </>
+       
     );
 }
 
