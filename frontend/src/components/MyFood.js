@@ -4,24 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Searchmenu from "./Search/search";
-import { useSelector, useDispatch } from "react-redux";
-import TodayFood from "./Food/TodayFood";
+import { useSelector } from "react-redux";
+
 const MyFood = ({ className }) => {
   const searchmenu = useSelector((state) => state.search.tableData);
   const [tableData, setTableData] = useState([]);
+
+  console.log("tadatable", tableData);
+
   useEffect(() => {
     setTableData(searchmenu);
   }, [searchmenu]);
 
-  const {status} = useSelector((state) => state.barcode);
-
   return (
-    <>
-    { status ?
-    <>
-    <TodayFood/>
-    </>
-    :
     <div className={className}>
       <div className="Myfood--box">
         <h1>
@@ -65,8 +60,6 @@ const MyFood = ({ className }) => {
         
       </div>
     </div>
-}
-</>
   );
 };
 

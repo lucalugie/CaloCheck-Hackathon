@@ -15,7 +15,7 @@ const scheduleNutrition = require('./routes/UsersNutrition/scheduleNutrition');
 const morgan = require("morgan");
 
 const corsOptions = {
-  origin: ['http://localhost:3001', 'https://calocheck.yungying.com/'],
+  origin: "http://localhost:3001",
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
