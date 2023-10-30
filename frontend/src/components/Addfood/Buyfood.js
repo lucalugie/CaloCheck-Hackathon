@@ -164,8 +164,7 @@ const Buyfood = ({ className }) => {
           veg,
           per_veg,
         };
-        updateStateNutrition();
-
+        
         if (
           !name ||
           !per_items ||
@@ -184,6 +183,7 @@ const Buyfood = ({ className }) => {
             confirmButtonText: "รับทราบ",
           });
         }
+        updateStateNutrition();
         add_food(newFood).then(() => {
           Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
             backToMyfood();
