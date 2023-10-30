@@ -28,7 +28,7 @@ async function getUsersGo(req, res) {
 
         console.log("decoded from usergoals", decoded.userId);
 
-        const member = await Users.findOne({
+        const member = await UsersGoals.findOne({
           where: {
             userlineId: decoded.userId,
           },
