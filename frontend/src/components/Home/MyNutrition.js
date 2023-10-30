@@ -1,21 +1,18 @@
 import styled from "styled-components";
 
-function MyNutrition({ className, nutritionData, goalsData }) {
+function MyNutrition({ className, nutritionData }) {
+
+
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
     return Math.round(percentage);
   }
 
-  function findGoalKcalleft(achieve, goals) {
-    const kcal_lef = goals - achieve;
-    return kcal_lef;
-  }
-
-  const leftPercent= findPercentage(nutritionData.ach_g, goalsData.goals_g);
-
   return (
     <div className={className}>
       <div className="nutritionWrap bg-primary flex flex-col pt-5">
+        
+
         <div className="nutrition">
           <div className="progressWrapper left">
             <div className="progress-item">
@@ -24,12 +21,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-60"
                 value={findPercentage(
                   nutritionData.ach_protein,
-                  goalsData.goals_protein
+                  nutritionData.goals_protein
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_protein}/{goalsData.goals_protein}
+                {nutritionData.ach_protein}/{nutritionData.goals_protein}
               </p>
             </div>
             <div className="progress-item">
@@ -38,12 +35,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-56"
                 value={findPercentage(
                   nutritionData.ach_fat,
-                  goalsData.goals_fat
+                  nutritionData.goals_fat
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_fat}/{goalsData.goals_fat}
+                {nutritionData.ach_fat}/{nutritionData.goals_fat}
               </p>
             </div>
             <div className="progress-item">
@@ -52,12 +49,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-56"
                 value={findPercentage(
                   nutritionData.ach_salt,
-                  goalsData.goals_salt
+                  nutritionData.goals_salt
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-              {nutritionData.ach_salt}/{goalsData.goals_salt}
+                {nutritionData.ach_salt}/{nutritionData.goals_salt}
               </p>
             </div>
           </div>
@@ -66,11 +63,11 @@ function MyNutrition({ className, nutritionData, goalsData }) {
             <div
               className="radial-progress bg-secondary text-primary-content border-4"
               style={{
-                "--value": `${leftPercent}`,
+                "--value": 70,
               }}
             >
               <div className="details">
-                <p>{findGoalKcalleft(nutritionData.ach_kcal, goalsData.goals_kcal)}</p>
+                <p>{nutritionData.left}</p>
                 <p>ที่เหลืออยู่</p>
               </div>
             </div>
@@ -83,12 +80,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-56"
                 value={findPercentage(
                   nutritionData.ach_veg,
-                  goalsData.goals_veg
+                  nutritionData.goals_veg
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_veg}/{goalsData.goals_veg}
+                {nutritionData.ach_veg}/{nutritionData.goals_veg}
               </p>
             </div>
             <div className="progress-item">
@@ -97,12 +94,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-56"
                 value={findPercentage(
                   nutritionData.ach_carb,
-                  goalsData.goals_carb
+                  nutritionData.goals_carb
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_carb}/{goalsData.goals_carb}
+                {nutritionData.ach_carb}/{nutritionData.goals_carb}
               </p>
             </div>
             <div className="progress-item">
@@ -111,12 +108,12 @@ function MyNutrition({ className, nutritionData, goalsData }) {
                 className="progress progress-secondary w-56"
                 value={findPercentage(
                   nutritionData.ach_sugar,
-                  goalsData.goals_sugar
+                  nutritionData.goals_sugar
                 )}
                 max="100"
               ></progress>
               <p className="progress-number">
-                {nutritionData.ach_sugar}/{goalsData.goals_sugar}
+                {nutritionData.ach_sugar}/{nutritionData.goals_sugar}
               </p>
             </div>
           </div>

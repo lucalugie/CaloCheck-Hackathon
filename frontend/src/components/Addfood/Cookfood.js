@@ -207,6 +207,7 @@ const Cookfood = ({ className }) => {
           per_sugar,
           per_salt,
         };
+        updateStateNutrition();
 
         if (
           !name ||
@@ -229,7 +230,7 @@ const Cookfood = ({ className }) => {
             confirmButtonText: "รับทราบ",
           });
         }
-        updateStateNutrition();
+
         add_food(newFood).then(() => {
           Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
             backToMyfood();
