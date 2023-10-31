@@ -55,14 +55,6 @@ function MyNutrition({ className }) {
   }, [nutri]);
 
 
-
-
-
-
-
-
-
-
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
     return Math.round(percentage);
@@ -133,7 +125,8 @@ function MyNutrition({ className }) {
             >
               <div className="details">
                 <p>{findGoalKcalleft(nutritionData.ach_kcal, goalsData.goals_kcal)}</p>
-                <p>ที่เหลืออยู่</p>
+                <p>kcal</p>
+                <p className="pt-1">ที่เหลืออยู่</p>
               </div>
             </div>
           </div>

@@ -50,6 +50,8 @@ const Buyfood = ({ className }) => {
     ach_carb: 0,
   });
 
+  const [done, setDone] = useState(false);
+
   function handleConvert() {
     console.log("handleConvert called");
     // find grams
@@ -99,6 +101,9 @@ const Buyfood = ({ className }) => {
       ach_veg: prevNu.ach_veg + updateNutrition.ach_veg,
       ach_carb: prevNu.ach_carb + updateNutrition.ach_carb,
     }));
+    if (nutrition){
+      setDone(true);
+    }
     console.log("nutritionaftersetstate", nutrition);
   }
 
@@ -112,7 +117,10 @@ const Buyfood = ({ className }) => {
 
   useEffect(() => {
     console.log("Nutrition has changed:", nutrition);
-    putToNutritionDB(nutrition);
+    if ( done === true){
+      putToNutritionDB(nutrition);
+      setDone(false);
+    }
   }, [nutrition]);
 
   async function putToNutritionDB(theData) {
@@ -374,7 +382,7 @@ const Buyfood = ({ className }) => {
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">จำนวน</span>
-              <span className="label-text-alt">ช้อนโต๊ะ</span>
+              <span className="label-text-alt">ทัพพี</span>
             </label>
             <input
               type="text"

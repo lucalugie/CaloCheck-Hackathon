@@ -63,6 +63,7 @@ const Cookfood = ({ className }) => {
     ach_veg: 0,
     ach_carb: 0,
   });
+  const [done, setDone] = useState(false);
 
   function handleConvert() {
     console.log("handleConvert called");
@@ -129,6 +130,9 @@ const Cookfood = ({ className }) => {
       ach_veg: prevNu.ach_veg + updateNutrition.ach_veg,
       ach_carb: prevNu.ach_carb + updateNutrition.ach_carb,
     }));
+    if (nutrition){
+      setDone(true);
+    }
     console.log("nutritionaftersetstate", nutrition);
   }
 
@@ -154,7 +158,11 @@ const Cookfood = ({ className }) => {
 
   useEffect(() => {
     console.log("Nutrition has changed:", nutrition);
-    putToNutritionDB(nutrition);
+
+    if (done === true) {
+      putToNutritionDB(nutrition);
+      setDone(false);
+    }
   }, [nutrition]);
 
   async function putToNutritionDB(theData) {
