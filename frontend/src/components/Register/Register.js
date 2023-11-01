@@ -46,7 +46,6 @@ function Register() {
       height: heightAsNumber,
       bmi: bmiAsNumber,
     });
-    addProsonalInfo();
     createdefaultNutrition();
     createdefaultValuedb();
     
