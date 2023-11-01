@@ -4,8 +4,7 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
 import SearchList from "./SearchList";
 const useViewModel = () =>{
-
-        const [select,setSelect] = useState({day:0,month:0,year:0});
+    
         const [studentCheckedList,setStudentCheckedList] = useState([]);
         const handleSubmit = (e) =>{
             e.preventDefault();
@@ -15,12 +14,12 @@ const useViewModel = () =>{
             setStudentCheckedList([]);
         }
 
-
+        const [nameList,setNameList] = useState(["yung","preme","whoru","peter","mark"]);
         // Create a date object for the current month
         const currentMonth = new Date();
         const [month,setMonth] = useState(currentMonth.getMonth()+1);
         const [year,setYear] = useState(currentMonth.getFullYear());
-        const [day,setDay] = useState(0);
+
         if(month === 13){
             setMonth(1);
             setYear(year+1);
@@ -54,7 +53,7 @@ const useViewModel = () =>{
             const day = currentDate.getDate();
             if(day === currentMonth.getDate() && month ===  currentMonth.getMonth()+1 && year === currentMonth.getFullYear()){
                 calendarDays.push(
-                    <div key={day}  onClick={()=>click(day)} className="btn btn-ghost h-28 text-info">
+                    <div key={day} className="btn btn-ghost h-28 text-info">
                         {day}
                         <div className="hidden lg:block badge badge-info">
                             วันนี้
@@ -62,17 +61,10 @@ const useViewModel = () =>{
                     </div>
                 );
 
-            }else if(select.day === day && select.month === month && select.year === year){
-                calendarDays.push(
-                    <div key={day} className="btn btn-ghost h-28 text-warning">
-                        {day}
-                    </div>
-                );
             }else{
-        
                 calendarDays.push(
                 <Fragment key={day}>
-                    <div onClick={()=>click(day)} className=" btn btn-ghost h-28">
+                    <div onClick={()=>console.log("normal ",day, month, year)} className="btn btn-ghost h-28">
                         {day}
                     </div>
                 </Fragment>
@@ -99,14 +91,7 @@ const useViewModel = () =>{
                 case 11: monthName = "ธันวาคม"; break;
                 default: break;
             }
-
-            const click =(day)=>{
-                setSelect({day:day,month:month,year:year});
-                console.log("normal ",day, month, year)
-                setDay(day);
-            }
-
-        return {monthName, day,month, year, calendarDays, setMonth,setYear};
+        return {monthName, month, year, calendarDays, setMonth, setNameList,setYear};
 }
 
 export default useViewModel

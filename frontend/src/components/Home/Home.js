@@ -1,60 +1,73 @@
 import MyInfo from "./MyInfo";
 import MyNutrition from "./MyNutrition";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchUserData,
+  fetchUserGoals,
+  fetchUserNutrition,
+} from "../../Convert/userController";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { setType } from "../../store/userSlice";
 
 function Home({ className }) {
-
-  const infoDemoData = {
-    name: "Premey",
-    age: 27,
-    gender: "female",
-    height: 160,
-    weight: 75,
-    bmi: 29.3,
-    image:
-      "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg",
-  };
-
-  const nutritionDemoData = {
-    goals: 392,
-    achieve: 275,
-    left: 117,
-    exceed: 0,
-    goals_protein: 70,
-    goals_fat: 44,
-    goals_salt: 23,
-    goals_sugar: 25,
-    goals_veg: 5,
-    goals_carb: 225,
-    ach_protein: 0,
-    ach_fat: 5,
-    ach_salt: 10,
-    ach_sugar: 23,
-    ach_veg: 4,
-    ach_carb: 195,
-  };
-
   const user = useSelector((state) => state.user);
+  const goals = useSelector((state) => state.goals);
+  const nutri = useSelector((state) => state.nutrition);
+  const dispatch = useDispatch();
 
+  const fetchUserDataAndDispatch = async () => {
+    console.log("UserDataFetch");
+    try {
+      await fetchUserData(dispatch);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const fetchUserGoalsAndDispatch = async () => {
+    console.log("UserGoalFetch");
+    try {
+      await fetchUserNutrition(dispatch);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const fetchUserNutritionAndDispatch = async () => {
+    console.log("UserNutrition");
+    try {
+      await fetchUserGoals(dispatch);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDataAndDispatch();
+  }, [user]);
+
+  useEffect(() => {
+    fetchUserGoalsAndDispatch();
+  }, [goals]);
+
+  useEffect(() => {
+    fetchUserNutritionAndDispatch();
+  }, [nutri]);
 
   return (
     <div className={className}>
-      <MyNutrition nutritionData={nutritionDemoData} />
-      <MyInfo infoData={infoDemoData} />
+      <MyNutrition />
+      <MyInfo />
       <ButtonContainer>
-      <div className="button">
-        <Link to="/myfood">
-          <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
-            <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
-          </button>
-        </Link>
+        <div className="button">
+          <Link to="/myfood">
+            <button className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center">
+              <FontAwesomeIcon icon={faPlus} className="font-bold text-3xl" />
+            </button>
+          </Link>
         </div>
       </ButtonContainer>
     </div>
@@ -69,7 +82,8 @@ const ButtonContainer = styled.div`
 `;
 
 export default styled(Home)`
-.button {
+  .button {
     position: fixed;
     bottom: 60px;
-  }`;
+  }
+`;

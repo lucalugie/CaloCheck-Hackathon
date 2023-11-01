@@ -1,6 +1,32 @@
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
-function Myinfo({ className, infoData }) {
+function Myinfo({ className }) {
+  const user = useSelector((state) => state.user);
+
+  const [infoData, setInfoData] = useState({
+    name: "",
+    age: 0,
+    gender: "",
+    height: 0,
+    weight: 0,
+    bmi: 0,
+    image: "",
+  });
+
+  useEffect(() => {
+    setInfoData({
+      name: user.displayName,
+      age: user.age,
+      gender: user.gender,
+      height: user.height,
+      weight: user.weight,
+      bmi: user.bmi,
+      image: user.pictureUrl,
+    });
+  }, [user]);
+
   return (
     <div className={className}>
       <div className="myinfocard">
@@ -34,7 +60,9 @@ function Myinfo({ className, infoData }) {
                   </div>
                   <div className="h-20 flex flex-col items-center">
                     <div className="box pt-4">
-                      <p className="attribute font-bold capitalize">{infoData.gender}</p>
+                      <p className="attribute font-bold capitalize">
+                        {infoData.gender}
+                      </p>
                       <p className="attribute-details">Gender</p>
                     </div>
                   </div>
