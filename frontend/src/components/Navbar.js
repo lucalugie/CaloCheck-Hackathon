@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Cookie } from "@mui/icons-material";
-const profilepath =
-  "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../Convert/userController";
 // const profilepath =
 //   "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
-
 
 
 function Navbar() {

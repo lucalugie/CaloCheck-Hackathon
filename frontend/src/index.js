@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import AppPim from "./AppPim";
+
 import { Provider } from "react-redux";
 import store from "./store/store";
 import App from "./App";
@@ -12,7 +12,6 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        {/* <AppPim /> */}
         <App />
       </Provider>
     </BrowserRouter>

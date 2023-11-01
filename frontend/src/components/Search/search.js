@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarcode } from "@fortawesome/free-solid-svg-icons";
+import Barcode from "../Barcode/barcode";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,13 +20,11 @@ function Searchmenu() {
             .then(response => response.json())
             .then(result => {
                 dispatch(setTableData(result));
-                console.log(result)
             })
             .catch(error => console.log('error', error));
     }, [prefix]);
   
     const handlePrefixChange = (event) => {
-        console.log(event.target.value);
         setPrefix(event.target.value);
     };
 
@@ -42,9 +39,7 @@ function Searchmenu() {
               value={prefix}
               onChange={handlePrefixChange}
             />
-            <button className="btn btn-accent ml-2" >
-              <FontAwesomeIcon icon={faBarcode} className="input-icon" />
-            </button>
+            <Barcode />
           </div>
         </div>
         </>
@@ -70,4 +65,3 @@ export default styled(Searchmenu)`
   }
 
 `;
-
