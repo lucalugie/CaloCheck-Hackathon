@@ -59,20 +59,17 @@ function App() {
           <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/myfood" element={<MyFood />}></Route>
+          {/* lugie modify**** */}
           <Route
-            path="/myfood/Pastfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb"
+            path="/myfood/Pastfood/:idfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb"
             element={<Pastfood />}
           ></Route>
           <Route path="/myfood/Addfood" element={<Addfood />}></Route>
-
           <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
           <Route path="/myfood/Addfood/Buyfood" element={<Buyfood />}></Route>
           <Route path="/datastatus" element={<Datastatus />}></Route>
-
           <Route path="/today" element={<TodayFood />}></Route>
-
-          {/* <Route path="/" element={<Login />} />
-          <Route path="/line" element={<Line />} /> */}
+  
         </Routes>
       </Container>
       <Footer />

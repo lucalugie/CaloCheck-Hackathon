@@ -16,6 +16,8 @@ import {
   findGramsVegFromAdd,
   findGramsTotalShop,
 } from "../../Convert/convertAddFunction";
+//lugie modify****
+import { postUsersHistory } from "../FoodController/historyController";
 
 const Buyfood = ({ className }) => {
   const navigate = useNavigate();
@@ -140,10 +142,31 @@ const Buyfood = ({ className }) => {
     try {
       const addedFood = await addFood("Foodnutrition", theData);
       console.log("Food added:", addedFood);
+
+      //lugie modify****
+      const addedFoodId = addedFood.idfood;
+      const history = {
+        idfood: addedFoodId,
+      };
+      console.log("Added Food ID:", addedFoodId);
+      console.log("history:", history);
+      postHistory(history);
     } catch (error) {
       console.error("Failed to add food:", error);
     }
   }
+
+  //lugie modify****
+  async function postHistory(idfood) {
+    console.log("postHistory called:", idfood);
+    try {
+      const history = await postUsersHistory(idfood);
+      console.log("history added:", history);
+    } catch (error) {
+      console.error("Failed to add history:", error);
+    }
+  }
+
 
   function backToMyfood() {
     navigate("/myfood");

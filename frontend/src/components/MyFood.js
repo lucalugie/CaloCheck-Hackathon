@@ -28,12 +28,13 @@ const MyFood = ({ className }) => {
       <div className="Myfood--list">
         <div className="Mybox--list">
           {tableData.map((item) => (
+             //lugie modify****
             <Link
               className="m-4"
-              to={`/myfood/Pastfood/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
+              to={`/myfood/Pastfood/${item.idfood}/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
             >
               <div
-                key={item.id}
+                key={item.idfood}
                 tabIndex={0}
                 className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2 max-w-md "
               >
