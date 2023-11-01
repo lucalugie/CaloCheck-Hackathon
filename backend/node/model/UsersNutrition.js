@@ -14,12 +14,6 @@ const UsersNutrition = sequelize.define("usersnutritions", {
   achieve: {
     type: DataTypes.DOUBLE,
   },
-  left: {
-    type: DataTypes.DOUBLE,
-  },
-  exceed: {
-    type: DataTypes.DOUBLE,
-  },
   goals_protein: {
     type: DataTypes.DOUBLE,
   },
@@ -57,9 +51,11 @@ const UsersNutrition = sequelize.define("usersnutritions", {
     type: DataTypes.DOUBLE,
   },
   ach_cal: {
-    type: DataTypes.INTEGER
-  }
- 
+    type: DataTypes.INTEGER,
+  },
+  userlineid: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = UsersNutrition;

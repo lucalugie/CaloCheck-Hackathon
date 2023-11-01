@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../../constant/API";
 import { useDispatch, useSelector } from "react-redux";
-import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi} from "../../store/userSlice";
+import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setBmi} from "../../store/userSlice";
 export default function LineFunction() {
 const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();

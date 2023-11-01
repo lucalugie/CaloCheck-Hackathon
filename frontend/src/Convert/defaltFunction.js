@@ -7,7 +7,6 @@ let gramsFat = 0;
 let gramsProtein = 0;
 
 function findDefaultInfo(gender, age) {
-  age = parseInt(age, 10);
   if (isNaN(age)) {
     console.error("Invalid age:", age);
     return;
@@ -84,23 +83,21 @@ function findDefaultInfo(gender, age) {
   }
 }
 
-/////////////////
-
 //findGramsfromtotal
 function findGramsCarb(kcal_total) {
   const gCarb = ((kcal_total * 0.55) / 4).toFixed(2);
   return parseFloat(gCarb);
 }
 function findGramsSugar(kcal_total) {
-  const gSugar = kcal_total(0.05) / 4;
+  const gSugar = (kcal_total * 0.05) / 4;
   return gSugar;
 }
 function findGramsProtein(kcal_total) {
-  const gProtein = kcal_total(0.1) / 4;
+  const gProtein = (kcal_total * 0.1) / 4;
   return gProtein;
 }
 function findGramsFat(kcal_total) {
-  const gFat = kcal_total(0.3) / 9;
+  const gFat = (kcal_total * 0.3) / 9;
   return gFat;
 }
 
@@ -109,96 +106,13 @@ function findGramsTotal(gCarb, gSugar, gFat, gPro, gVeg, gSalt) {
   return gTotal;
 }
 
-//
-function gramsCarbToCal(type, grams) {
-  const kcal = 0;
-  if (type === "whiterice") {
-    kcal = grams(80 / 60);
-  } else if (type === "stickyrice") {
-    kcal = grams(160 / 70);
-  } else if (type === "brownrice") {
-    kcal = grams(85 / 76);
-  } else if (type === "eggNoodles") {
-  } else if (type === "riceNoodles") {
-  } else if (type === "widericeNoodles") {
-  } else if (type === "vermicelli") {
-  } else if (type === "glassNoodles") {
-  } else if (type === "instantNoodles") {
-  } else if (type === "yam") {
-  } else if (type === "pasta") {
-  }
-
-  return kcal;
-}
-
-function gramsProteinToCal(type, grams) {
-    const kcal = 0;
-    if (type === "whiterice") {
-      kcal = grams(80 / 60);
-    } else if (type === "stickyrice") {
-   
-    } else if (type === "brownrice") {
-
-    } else if (type === "eggNoodles") {
-    } else if (type === "riceNoodles") {
-    } else if (type === "widericeNoodles") {
-    } else if (type === "vermicelli") {
-    } else if (type === "glassNoodles") {
-    } else if (type === "instantNoodles") {
-    } else if (type === "yam") {
-    } else if (type === "pasta") {
-    }
-  
-    return kcal;
-  }
-
-  function gramsSugarToCal(type, grams) {
-    const kcal = 0;
-    if (type === "whiterice") {
-      kcal = grams(80 / 60);
-    } else if (type === "stickyrice") {
-   
-    } else if (type === "brownrice") {
-
-    } else if (type === "eggNoodles") {
-    } else if (type === "riceNoodles") {
-    } else if (type === "widericeNoodles") {
-    } else if (type === "vermicelli") {
-    } else if (type === "glassNoodles") {
-    } else if (type === "instantNoodles") {
-    } else if (type === "yam") {
-    } else if (type === "pasta") {
-    }
-  
-    return kcal;
-  }
-
-  function gramsFatToCal(type, grams) {
-    const kcal = 0;
-    if (type === "whiterice") {
-      kcal = grams(80 / 60);
-    } else if (type === "stickyrice") {
-   
-    } else if (type === "brownrice") {
-
-    } else if (type === "eggNoodles") {
-    } else if (type === "riceNoodles") {
-    } else if (type === "widericeNoodles") {
-    } else if (type === "vermicelli") {
-    } else if (type === "glassNoodles") {
-    } else if (type === "instantNoodles") {
-    } else if (type === "yam") {
-    } else if (type === "pasta") {
-    }
-  
-    return kcal;
-  }
-
-  function findGramsCarbFromAdd (type, amount){
-    const grams =0;
-    if (type === "whiterice") {
-        grams = 60*amount;
-      }
-
-  }
-  
+export {
+  kcal_total,
+  gramsVeg,
+  gramsSodium,
+  gramsCarb,
+  gramsSugar,
+  gramsFat,
+  gramsProtein,
+  findDefaultInfo,
+};
