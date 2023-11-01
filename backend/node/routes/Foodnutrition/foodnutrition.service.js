@@ -57,6 +57,7 @@ async function createFoodnu (req, res){
 }
 
 
+//Pimadd
 async function getByIDFood(req, res) {
   try{
   const idfood = req.query.idfood;
@@ -76,7 +77,7 @@ async function getByIDFood(req, res) {
   }
   }
 
-  async function getFoodBysku(req, res) {
+  async function getFoodBysku(req, res) { 
     try{
     const sku = req.query.sku;
       const food = await Foodnutrition.findAll({
@@ -85,6 +86,7 @@ async function getByIDFood(req, res) {
         }
       });
       if (food) {
+
         res.status(200).json(food); 
       } else {
         res.status(404).json({ message: "food not found" });
@@ -94,6 +96,7 @@ async function getByIDFood(req, res) {
       console.error(error);
     }
     }
+
 
 
 module.exports = {
