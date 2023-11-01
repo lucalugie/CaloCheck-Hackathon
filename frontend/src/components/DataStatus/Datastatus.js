@@ -3,9 +3,53 @@ import styled from "styled-components";
 import PieAll from "./Pieall";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
-import Calendar from "../Calendar/Calendar";
+import { useEffect } from "react";
 
-const Datastatus = ({ className }) => {
+const Datastatus = ({ className,day,month,year }) => {
+  const [Data, setData] = useState([]);
+
+  useEffect(() => {
+    setData([]);
+    var requestOptions = {
+      credentials: 'include',
+    };
+    
+    fetch(`${process.env.REACT_APP_BASE_URL}/Calendars/foods?createdAt=${year}-${month}-${day}`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+          if(result.length > 0){
+            result.forEach(element => {
+              getFood(element.idfood)
+            });
+
+          }
+          else{
+            console.log("no data")
+          }
+          
+      })
+  }, [`${year}-${month}-${day}`]);
+
+
+  const getFood = (result) => {
+
+    fetch(`${process.env.REACT_APP_BASE_URL}/foodnutrition/foods/?idfood=${result}`, 
+    {
+      method: 'GET',
+      credentials: "include",      
+    }
+    )
+      .then(response => response.json())
+      .then(result => {
+        setData((prevData) => {
+          return [...prevData, ...result];
+        });
+      })
+    }
+  
+
+
+
   const [tableData, setTableData] = useState([
     { id: 1, name: 'ข้าวผัด', amount: '1 x 1 จาน', kcal: 495 },
     { id: 2, name: 'ข้าวกุ้งทอด', amount: '1 x 1 จาน', kcal: 610 },
@@ -14,7 +58,7 @@ const Datastatus = ({ className }) => {
 
   return (
     <>
-    <Calendar/>
+
     <div className={className}>
       <div className="data">
         <div className="form-control w-full max-w-xs">
@@ -27,28 +71,35 @@ const Datastatus = ({ className }) => {
                 <br />
               </h1>
             </div>
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>ชื่ออาหาร</th>
-                  <th>จำนวน</th>
-                  <th>Kcal</th>
-                </tr>
-              </thead>
-              <tbody>
+       
                 {/* row 1 */}
-                {tableData.map((data) => (
-                  <tr key={data.id}>
-                    <th>{data.id}</th>
-                    <td>{data.name}</td>
-                    <td>{data.amount}</td>
-                    <td>{data.kcal}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                {Data.length > 0 ? (
+                   Data.map((data) => (
+                    <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>ชื่ออาหาร</th>
+                        <th>จำนวน</th>
+                        <th>Kcal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <tr key={data.idfood}>
+                      <th>{data.idfood}</th>
+                      <td>{data.name}</td>
+                      <td>{data.per_items}</td>
+                      <td>{data.kcal}</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                  ))
+                )
+                :
+                <th style={{ textAlign: 'center' }}>ไม่มีรายการอาหารของวันนี้</th>
+               }
+    
             <br />
             <div>
               <PieAll/>
