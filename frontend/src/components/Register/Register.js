@@ -3,7 +3,6 @@ import Complete from "./Complete";
 import Gender from "./Gender";
 import Bmi from "./Bmi";
 import { findDefaultInfo, kcal_total } from "../../Convert/defaltFunction";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
