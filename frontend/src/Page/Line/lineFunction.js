@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import API from "../../constant/API";
 import { useDispatch, useSelector } from "react-redux";
 import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi} from "../../store/userSlice";
@@ -8,6 +8,7 @@ const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();
 const navigate = useNavigate();
 const user = useSelector((state) => state.user);
+
 
   useEffect(() => {
     const code = queryParameters.get("code")
@@ -36,7 +37,10 @@ const user = useSelector((state) => state.user);
       })
     }
 
+
   },[])
+
+
 
 return {user, navigate}
 

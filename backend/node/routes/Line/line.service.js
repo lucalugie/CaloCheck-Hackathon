@@ -26,7 +26,7 @@ async function login(req, res) {
         })
 
         const userId = profile.data.userId;
-
+        console.log("userId",userId)
         const member = await Users.findOne(
             {
                 where: {
@@ -35,55 +35,218 @@ async function login(req, res) {
             }
         )
   
-
-        console.log("userId",userId)
          jwt.sign({ userId }, process.env.PRIVATE_KEY,{ algorithm: 'HS256', expiresIn: "5 Days" }, async (err, tokenid)  => {
         if (err) {
-            console.error('Error signing JWT:', err);
+            console.error('Error signing JWT:');
             return res.status(500).send('Internal Server Error');
         }
+
         if(!member){
+            console.log("1")
         const user = await Users.create({
             displayName: profile.data.displayName,
             pictureUrl: profile.data.pictureUrl,
             userlineId: profile.data.userId,
         })
         console.log("user",user)
-        res.cookie('token', tokenid,{
-            httpOnly: true,
-            secure: true,
-            sameSite: 'lax',
-            expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
-          }).status(200).json({type: "register", member: user});
-        }else if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null && member.bmi != null){
+        if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+            }).status(200).json({type: "register", member: user});
+            }
+            res.status(200).json({type: "register", member: user});
+        }
+        else if(member)
+        {
+            if(member.gender != null && member.weight != null && member.height != null && member.age != null && member.weight > 0 && member.height > 0 && member.age > 0)
+        {
+            console.log("2")
+            if(req.cookies.token==null){
             res.cookie('token', tokenid,{
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
                 expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
               }).status(200).json({type: "login", member});
-        }else{
+            }
+            res.status(200).json({type: "login", member});
+        }
+            else if(member.gender == null || member.weight == null || member.height == null || member.age == null || member.weight == 0 || member.height == 0 || member.age == 0)
+        {
+            console.log("3")
+            if(req.cookies.token==null){
             res.cookie('token', tokenid,{
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
                 expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
             }).status(200).json({type: "register", member});
+            }
+            res.status(200).json({type: "register", member});
         }
 
+        else {
+            console.log("4")
+            if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+            }).status(200).json({type: "register", member});
+            }
+            res.status(200).json({type: "register", member});
+        }
+
+        }
+        
+
+        
 
 
-    });
+
+         });
         
         
     }
 
     catch (error) 
     {
-        console.log("error")
+        console.log("error try api ")
         res.status(500).json(error)
     }
 }
+
+
+async function checktoken(req, res) {
+    try {
+        if(req.cookies.token){
+            console.log("no token")
+            return res.status(400).json({
+              status: "havetoken",
+            });
+          }
+          else{
+            return res.status(200).json({status: "notoken"});
+          }
+    }
+    catch (error) 
+    {
+        console.log(error)
+        res.status(500).json(error)
+    }
+}
+
+async function loginagain(req, res) {
+    try {
+        //เอา userID ออกมา
+        const profile = await axios.get(API.profile, {
+            headers: {
+                Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+            }
+        })
+        //หาข้อมูลในตาราง ว่ามีuserID นี้หรือไม่
+        const userId = profile.data.userId;
+        console.log("userId",userId)
+        const member = await Users.findOne(
+            {
+                where: {
+                    userlineId: userId,
+                },
+            }
+        )
+         //แปลงuserID เป็นรหัสลับ
+         jwt.sign({ userId }, process.env.PRIVATE_KEY,{ algorithm: 'HS256', expiresIn: "5 Days" }, async (err, tokenid)  => {
+        if (err) {
+            console.error('Error signing JWT:');
+            return res.status(500).send('Internal Server Error');
+        }
+        //เช็คเงื่อนไขต่างๆ
+        if(!member){
+            console.log("1")
+        const user = await Users.create({
+            displayName: profile.data.displayName,
+            pictureUrl: profile.data.pictureUrl,
+            userlineId: profile.data.userId,
+        })
+        console.log("user",user)
+        if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+            }).status(200).json({type: "register", member: user});
+            }
+            res.status(200).json({type: "register", member: user});
+        }
+        else if(member)
+        {
+            if(member.gender != null && member.weight != null && member.height != null && member.age != null && member.weight > 0 && member.height > 0 && member.age > 0)
+        {
+            console.log("2")
+            if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+              }).status(200).json({type: "login", member});
+            }
+            res.status(200).json({type: "login", member});
+        }
+            else if(member.gender == null || member.weight == null || member.height == null || member.age == null || member.weight == 0 || member.height == 0 || member.age == 0)
+        {
+            console.log("3")
+            if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+            }).status(200).json({type: "register", member});
+            }
+            res.status(200).json({type: "register", member});
+        }
+
+        else {
+            console.log("4")
+            if(req.cookies.token==null){
+            res.cookie('token', tokenid,{
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+            }).status(200).json({type: "register", member});
+            }
+            res.status(200).json({type: "register", member});
+        }
+
+        }
+        
+
+        
+
+
+
+         });
+        
+        
+    }
+
+    catch (error) 
+    {
+        console.log("error try api ")
+        res.status(500).json(error)
+    }
+}
+
+
+
+
 
 
 async function sync() {
@@ -132,6 +295,8 @@ async function getMember(req, res) {
 
 module.exports = {
     login,
-    getMember
+    getMember,
+    loginagain,
+    checktoken
 
 }

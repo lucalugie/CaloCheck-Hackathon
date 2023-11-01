@@ -21,20 +21,19 @@ function Register() {
     setCurrentStep("Bmi");
   };
 
-  const handleBmiSubmit = (age, weight, height) => {
+  const handleBmiSubmit =  (age, weight, height) => {
     const ageAsNumber = parseInt(age, 10);
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
-    setUserData({
+      setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
     });
-    setCurrentStep("Complete");
-    putTodb();
+     setCurrentStep("Complete");
 
   };
 
@@ -50,18 +49,18 @@ function Register() {
     return parseFloat(BMI).toFixed(2);
   }
 
-  function putTodb(){
-    addProsonalInfo();
-  }
+ 
 
   useEffect(() => {
     console.log("Updated userData:", userData);
-    putTodb();
-  }, [userData]);
+    updateUserData();
+  }, [userData.age]);
 
-  const addProsonalInfo = () => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
-      method: "PUT", // เปลี่ยน method เป็น PUT
+
+  const updateUserData = () => {
+    const apiUrl = `${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`;
+    fetch(apiUrl, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -71,14 +70,27 @@ function Register() {
         age: userData.age,
         weight: userData.weight,
         height: userData.height,
-        bmi: userData.bmi,
+        bmi: userData.bmi
       }),
     })
-      .then((res) => res.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        console.log(data);
+        console.log("Update successful: ", data);
+      })
+      .catch((error) => {
+        console.error("Error updating user data: ", error);
       });
   };
+  
+  
+ 
+  
+  
 
   return (
     <>
