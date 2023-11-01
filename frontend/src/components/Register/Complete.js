@@ -4,7 +4,49 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-function Complete({ className }) {
+//Add
+import API from "../../constant/API";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setType, setAge, setGender, setWeight, setHeight, setBmi } from "../../store/userSlice";
+
+
+function Complete({ className, gender, age, weight, height, bmi }) {
+  const dispatch = useDispatch();
+  const updateUserData = () => {
+    fetch(API.updateUser, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        gender: gender,
+        age: age,
+        weight: weight,
+        height: height,
+        bmi: bmi
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(setBmi(data.member.bmi));
+        dispatch(setHeight(data.member.height));
+        dispatch(setWeight(data.member.weight));
+        dispatch(setGender(data.member.gender));
+        dispatch(setAge(data.member.age));
+      })
+      .catch((error) => {
+        console.error("Error updating user data");
+      });
+  };
+
+  useEffect(() => {
+   updateUserData(); 
+  },[])
+  
   return (
     <div className={className}>
 
@@ -24,7 +66,7 @@ function Complete({ className }) {
             เริ่มการบันทึกอาหารมื้อแรกของคุณได้เลย
           </h3>
         </div>
-        <Link to="/">
+        <Link onClick={() => dispatch(setType("login"))} to="/">
           <div className="flex row justify-center items-center m-4">
             <button className="btn btn-primary w-1/3">Home</button>
           </div>

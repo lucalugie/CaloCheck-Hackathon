@@ -7,15 +7,13 @@ dotenv.config();
 
 
 async function getMember(req, res) {
-
-    try {
-        if(!req.cookies.token){
-            console.log("no token")
-            return res.status(400).json({
-              status: 'Failed',
-              message: 'No data',
-            });
-          }
+    if(!req.cookies.token){
+        return res.status(400).json({
+          status: 'Failed',
+          message: 'No Token',
+        });
+      }
+    try {  
           jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
            if(decoded){
             const member = await Users.findOne(
@@ -25,21 +23,21 @@ async function getMember(req, res) {
                     },
                 }
                  );
-                 console.log(member)
-                if(member && member.gender != null && member.weight != null && member.height != null && member.cal != null &&  member.age != null){
-                    console.log("send type login")
+                if(member && member.gender != null && member.weight != null && member.height != null && member.bmi != null && member.age != null && member.weight > 0 && member.height > 0 && member.bmi > 0 && member.age > 0){
                     return res.status(200).json({type: "login", member});
                 }
-                else if(member && member.gender == null && member.weight == null && member.height == null && member.cal == null){
-                    console.log("send type register")
+                else if(member){
                     return res.status(200).json({type: "register", member});
+                }else{
+                    return res.status(400).json({
+                        status: 'Failed',
+                        message: 'No user',
+                      });
                 }
-           }
-            else{
-                console.log("no member")
+           }else{
                 return res.status(400).json({
                     status: 'Failed',
-                    message: 'No data',
+                    message: 'Cant Decode',
                   });
             }
            
@@ -55,37 +53,56 @@ async function getMember(req, res) {
 }
 
 async function addInfo(req, res) { 
-    try{
-        const {gender,weight,height,bmi,age} = req.body;
-        jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
-        if(decoded){
-            console.log("decoded", decoded.userId)
-        const member = await Users.findOne(
-            {
-                where: {
-                    userlineId: decoded.userId,
-                },
+    const {gender,weight,height,bmi,age} = req.body;
+    if(!gender || !weight || !height || !bmi || !age){
+        console.log("no data")
+        return res.status(400).json({
+          status: 'Failed',
+          message: 'No data',
+        });
+      }
+    if(!req.cookies.token){
+        console.log("no token")
+        return res.status(400).json({
+          status: 'Failed',
+          message: 'No data',
+        });
+      }
+    try{ 
+            
+            jwt.verify(req.cookies.token, process.env.PRIVATE_KEY, async (err, decoded)  => {
+            if(decoded){   
+            const member = await Users.findOne(
+                {
+                    where: {
+                        userlineId: decoded.userId,
+                    },
+                }
+            )
+
+            if(member){
+                const userUpdate = await member.update({
+                    gender: gender,
+                    weight: weight,
+                    height: height,
+                    bmi: bmi,
+                    age: age
+                },{})
+                const save = await userUpdate.save();
+                return res.status(200).json({type: "login", member: save});
             }
-        )
-        
-        if(member){
-            member.gender = gender;
-            member.weight = weight;
-            member.height = height;
-            member.bmi = bmi;
-            member.age = age;
-            await member.save();
-            return res.status(200).json({type: "login", member});
-        }
-        else{
-            return res.status(200).json({type: "register", member});
-        }
+
+                return res.status(200).json({type: "err", detail: "user not found"});
+        }else{
+            return res.status(400).json({
+                status: 'Failed',
+                message: 'No data',
+              });
         }
     })
     }
     catch (error) {
-        console.log(error)
-        res.status(500).json(error)
+        res.status(500).json("error")
     }
 } 
 

@@ -6,13 +6,15 @@ const Usershistory = require("../../node/model/Usershistory");
 dotenv.config();
 
 
-async function Message() {
+async function  Message() {
     try{
         const currentTime = new Date(); //เวลาปัจจุบัน
     
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 9 โมงเช้า)
         const notificationTimeBreakfast = new Date(); 
-        notificationTimeBreakfast.setHours(9, 0, 0, 0); //เวลาทานอาหารเช้า
+        notificationTimeBreakfast.setHours(12) //เวลาทานอาหารเช้า
+        notificationTimeBreakfast.setMinutes(0);
+
 
    
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 12.30 โมงเช้า)
@@ -23,62 +25,51 @@ async function Message() {
     const notificationTimeDinner = new Date(); 
     notificationTimeDinner.setHours(20, 0, 0, 0); //เวลาทานอาหารเช้า
 
-  
-    setInterval(() => {
-        const currentTime = new Date();
-        if (currentTime >= notificationTimeBreakfast) {  //เช็คทุก 9.00 น.ของทุกวัน
+   
+   
+
+
+    if(currentTime.getTime()==notificationTimeBreakfast.getTime()){
           sendMessageBreakfast();
-        }
-      },24 * 60 * 60 * 1000);
+    }
 
 
-    setInterval(() => {
-        const currentTime = new Date();
-        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 12.00 น.ของทุกวัน
-            sendMessageLunch();
-        }
-      },24 * 60 * 60 * 1000);
+    if(currentTime.getTime()>=notificationTimeBreakfast.getTime() && currentTime.getTime()<=notificationTimeLunch.getTime()){
+        sendMessageLunch();
+  }
+
+
+  if(currentTime.getTime()>notificationTimeDinner){
+    sendMessageDinner();
+}
  
-    
-      setInterval(() => {
-        const currentTime = new Date();
-
-        checkPrime(() => {const midnight = new Date();
-            midnight.setHours(0, 24, 0, 0);
-            if(currentTime >= midnight){
-                if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
-                    sendMessageDinner();
-                }    
-            }},1000);
-    
-      },24 * 60 * 60 * 1000);
-
-
-
-
 
     }
     catch(error){
-        console.log("error from automation") 
+        console.log("error from automation ",error) 
     }
 
-
-
+const test =new Date(new Date().setHours(7, 0, 0, 0))
+console.log("test "+test.toLocaleTimeString())
 
 }
 
 //send Message
 async function sendMessageBreakfast() {
+
+    //check time
+
     console.log("send message Breakfast")
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 9, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 12, 0, 0))  }],
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(7, 0, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(9, 0, 0, 0))  }],
                 // >
             },
         },
     });
     try {
+        if(!users){
         users.forEach(async (element) => {
             const code = element.userlineid
             const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
@@ -98,6 +89,29 @@ async function sendMessageBreakfast() {
           
         });
     }
+
+    if(users){
+        users.forEach(async (element) => {
+            const code = element.userlineid
+            const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
+                to: code,
+                messages: [
+                    {
+                        "type": "text",
+                        "text": "ทำได้ดีมาก"
+                    }
+                ]
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
+                }
+            })
+        
+          
+        });
+    }
+
+    }
     catch (error) {
         console.log("error")
     }
@@ -108,12 +122,14 @@ async function sendMessageLunch() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 12, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 13, 0, 0))  }],
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(13, 0, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(13,0, 0, 0))  }],
                 // >
             },
         },
     });
+
     try {
+        if(users){
         users.forEach(async (element) => {
             const code = element.userlineid
             const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
@@ -133,6 +149,7 @@ async function sendMessageLunch() {
           
         });
     }
+}
     catch (error) {
         console.log("error")
     }

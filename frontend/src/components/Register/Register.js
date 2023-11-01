@@ -34,12 +34,10 @@ function Register() {
       bmi: bmiAsNumber,
     });
      setCurrentStep("Complete");
-
   };
 
   const handleEditStep = (step) => {
     setCurrentStep(step);
-    console.log(currentStep);
   };
 
   function calculateBMI(weight, height) {
@@ -48,48 +46,6 @@ function Register() {
     const BMI = weight / ((height * height) / 10000);
     return parseFloat(BMI).toFixed(2);
   }
-
- 
-
-  useEffect(() => {
-    console.log("Updated userData:", userData);
-    updateUserData();
-  }, [userData.age]);
-
-
-  const updateUserData = () => {
-    const apiUrl = `${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`;
-    fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        gender: userData.gender,
-        age: userData.age,
-        weight: userData.weight,
-        height: userData.height,
-        bmi: userData.bmi
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Update successful: ", data);
-      })
-      .catch((error) => {
-        console.error("Error updating user data: ", error);
-      });
-  };
-  
-  
- 
-  
   
 
   return (
@@ -112,7 +68,7 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi && <Complete />}
+          userData.bmi && <Complete gender={userData.gender} age={userData.age} weight={userData.weight} height={userData.height} bmi={userData.bmi}/>}
       </div>
     </>
   );

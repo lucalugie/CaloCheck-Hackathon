@@ -19,5 +19,8 @@ lineRouter.post('/members',async (req, res) => {
    return await service.getMember(req, res);
 });
 
+lineRouter.delete('/',async (req, res) => {
+   return await service.clearCookie(req, res);
+});
 
 module.exports = lineRouter;

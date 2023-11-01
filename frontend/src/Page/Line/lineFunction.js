@@ -24,20 +24,23 @@ const user = useSelector((state) => state.user);
         })
       }).then(res => res.json())
       .then(data => {
-        console.log("type",data.type);
         if(data.type === "register"){
           const {member} = data;
           dispatch(setType(data.type));
           dispatch(setLineID(member.userlineId));
           dispatch(setDisplayName(member.displayName));
           dispatch(setPictureUrl(member.pictureUrl));
+        }else if(data.type === "login"){
+          const {member} = data;
+          dispatch(setType(data.type));
+          dispatch(setLineID(member.userlineId));
+          dispatch(setDisplayName(member.displayName));
+          dispatch(setPictureUrl(member.pictureUrl));
+        }else{
+          navigate("/");
         }
-
-
       })
     }
-
-
   },[])
 
 

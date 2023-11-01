@@ -4,6 +4,18 @@ import { Cookie } from "@mui/icons-material";
 const profilepath =
   "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
 
+  const cleartoken = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      const data = await res.json()
+      console.log(data)
+    } catch (error) {
+      console.log("Err")
+    }
+  };
 
 
 function Navbar() {
@@ -67,7 +79,7 @@ function Navbar() {
               <Link to="/settings">Settings</Link>
               </li>
               <li>
-              <Link to="/welcome" >Logout</Link>
+              <Link to="/welcome" onClick={() => cleartoken()} >Logout</Link>
               </li>
             </ul>
           </div>
