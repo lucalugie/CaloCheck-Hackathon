@@ -34,7 +34,7 @@ async function Message() {
 
     setInterval(() => {
         const currentTime = new Date();
-        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 19.00 น.ของทุกวัน
+        if (currentTime >= notificationTimeLunch) {      //เช็คทุก 12.00 น.ของทุกวัน
             sendMessageLunch();
         }
       },24 * 60 * 60 * 1000);
@@ -42,9 +42,15 @@ async function Message() {
     
       setInterval(() => {
         const currentTime = new Date();
-        if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
-            sendMessageDinner();
-        }
+
+        checkPrime(() => {const midnight = new Date();
+            midnight.setHours(0, 24, 0, 0);
+            if(currentTime >= midnight){
+                if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
+                    sendMessageDinner();
+                }    
+            }},1000);
+    
       },24 * 60 * 60 * 1000);
 
 
@@ -67,7 +73,8 @@ async function sendMessageBreakfast() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 9, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 12, 0, 0))  }],
+                // >
             },
         },
     });
@@ -101,7 +108,8 @@ async function sendMessageLunch() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.and]:  [{ [Op.gte]:new Date(new Date().setHours(0, 12, 0, 0)), }, { [Op.lte]:new Date(new Date().setHours(0, 13, 0, 0))  }],
+                // >
             },
         },
     });
@@ -137,7 +145,7 @@ async function sendMessageDinner() {
     const users = await Usershistory.findAll({
         where: {
             createdAt: {
-                [Op.gt]: new Date(new Date().setHours(1, 0, 0, 0)), // >
+                [Op.gt]: new Date(new Date().setHours(0, 20, 0, 0)), // >
             },
         },
     });

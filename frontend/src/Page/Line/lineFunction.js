@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import API from "../../constant/API";
 import { useDispatch, useSelector } from "react-redux";
 import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setBmi} from "../../store/userSlice";
@@ -8,6 +8,7 @@ const [queryParameters] = useSearchParams()
 const dispatch = useDispatch();
 const navigate = useNavigate();
 const user = useSelector((state) => state.user);
+
 
   useEffect(() => {
     const code = queryParameters.get("code")
@@ -23,6 +24,7 @@ const user = useSelector((state) => state.user);
         })
       }).then(res => res.json())
       .then(data => {
+        console.log("type",data.type);
         if(data.type === "register"){
           const {member} = data;
           dispatch(setType(data.type));
@@ -30,10 +32,15 @@ const user = useSelector((state) => state.user);
           dispatch(setDisplayName(member.displayName));
           dispatch(setPictureUrl(member.pictureUrl));
         }
+
+
       })
     }
 
+
   },[])
+
+
 
 return {user, navigate}
 

@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setType } from "../../store/userSlice";
 
 function Home({ className }) {
+
   const infoDemoData = {
     name: "Premey",
     age: 27,
@@ -39,7 +41,7 @@ function Home({ className }) {
     ach_carb: 195,
   };
 
-
+  const user = useSelector((state) => state.user);
 
 
   return (

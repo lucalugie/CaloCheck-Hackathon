@@ -2,9 +2,10 @@ import { useState , Fragment} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
-import SearchList from "@Component/Calendar/SearchList";
+import SearchList from "./SearchList";
 const useViewModel = () =>{
-    
+
+        const [select,setSelect] = useState({day:0,month:0,year:0});
         const [studentCheckedList,setStudentCheckedList] = useState([]);
         const handleSubmit = (e) =>{
             e.preventDefault();
@@ -14,12 +15,12 @@ const useViewModel = () =>{
             setStudentCheckedList([]);
         }
 
-        const [nameList,setNameList] = useState(["yung","preme","whoru","peter","mark"]);
+
         // Create a date object for the current month
         const currentMonth = new Date();
         const [month,setMonth] = useState(currentMonth.getMonth()+1);
         const [year,setYear] = useState(currentMonth.getFullYear());
-
+        const [day,setDay] = useState(0);
         if(month === 13){
             setMonth(1);
             setYear(year+1);
@@ -53,7 +54,7 @@ const useViewModel = () =>{
             const day = currentDate.getDate();
             if(day === currentMonth.getDate() && month ===  currentMonth.getMonth()+1 && year === currentMonth.getFullYear()){
                 calendarDays.push(
-                    <div key={day} className="btn btn-ghost h-28 text-info">
+                    <div key={day}  onClick={()=>click(day)} className="btn btn-ghost h-28 text-info">
                         {day}
                         <div className="hidden lg:block badge badge-info">
                             วันนี้
@@ -61,57 +62,19 @@ const useViewModel = () =>{
                     </div>
                 );
 
-            }else if(day === 25){
+            }else if(select.day === day && select.month === month && select.year === year){
                 calendarDays.push(
-                    <div onClick={() => console.log("special ",day, month, year)} key={day} className="btn btn-ghost h-28 text-warning">
+                    <div key={day} className="btn btn-ghost h-28 text-warning">
                         {day}
-                        <div className="hidden lg:block badge badge-warning">
-                            เรียน
-                        </div>
                     </div>
                 );
             }else{
+        
                 calendarDays.push(
                 <Fragment key={day}>
-                    <div onClick={()=>document.getElementById(`${day}${month}${year}`).showModal()}  className="btn btn-ghost h-28">
+                    <div onClick={()=>click(day)} className=" btn btn-ghost h-28">
                         {day}
                     </div>
-                    <dialog id={`${day}${month}${year}`} className="modal">
-                        <div className="modal-box">
-                            <form method="dialog">
-                            <button onClick={() => setStudentCheckedList([])}className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                            </form>
-                            <h3 className="font-bold text-lg">{day}/{month}/{year}</h3>
-                            <div className="py-4">
-                                <form className="form-control gap-2" onSubmit={(e) => handleSubmit(e)}>
-                                    <label className="input-group">
-                                        <span className="basis-1/4">เหตุการณ์</span>
-                                        <input name="event" required autoComplete="off" type="text" placeholder="ชื่อเหตุการณ์" className="input input-bordered flex-1" />
-                                    </label>
-                                    <label className="input-group">
-                                        <span className="basis-1/4">ช่องทาง</span>
-                                        <input name="link" required autoComplete="off" type="text" placeholder="เช่น zoom" className="input input-bordered flex-1" />
-                                    </label>
-                                    <label className="input-group">
-                                        <span className="basis-1/4 flex justify-center items-center"><FontAwesomeIcon icon={faSearch} /></span>
-                                        <input name="username" autoComplete="off" type="text" placeholder="ชื่อนักเรียน" className="input input-bordered flex-1" />
-                                    </label>
-                                    <div className="form-control">
-                                        {/* Checked List */}
-                                        {studentCheckedList.map(e=>{
-                                            return <SearchList username={e} setStudentCheckedList={setStudentCheckedList} checked={true} studentCheckedList={studentCheckedList} key={e} />
-                                        })}
-
-                                        {/* Search List */}
-                                        {nameList.filter(e=>!studentCheckedList.includes(e)).map(e=>{
-                                            return <SearchList username={e} setStudentCheckedList={setStudentCheckedList} checked={false} studentCheckedList={studentCheckedList} key={e} />
-                                        })}
-                                    </div>
-                                    <input type="submit" className="btn btn-primary" value={"บันทึก"}/>
-                                </form>
-                            </div>
-                        </div>
-                    </dialog>
                 </Fragment>
                 );
             }
@@ -136,7 +99,14 @@ const useViewModel = () =>{
                 case 11: monthName = "ธันวาคม"; break;
                 default: break;
             }
-        return {monthName, month, year, calendarDays, setMonth, setNameList,setYear};
+
+            const click =(day)=>{
+                setSelect({day:day,month:month,year:year});
+                console.log("normal ",day, month, year)
+                setDay(day);
+            }
+
+        return {monthName, day,month, year, calendarDays, setMonth,setYear};
 }
 
 export default useViewModel
