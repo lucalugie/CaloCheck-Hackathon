@@ -56,6 +56,7 @@ async function createFoodnu (req, res){
     res.json(food);
 }
 
+
 async function getByIDFood(req, res) {
   try{
   const idfood = req.query.idfood;
@@ -93,6 +94,7 @@ async function getByIDFood(req, res) {
       console.error(error);
     }
     }
+
 
 module.exports = {
     sendFoodnu,

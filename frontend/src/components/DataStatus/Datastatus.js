@@ -3,9 +3,7 @@ import styled from "styled-components";
 import PieAll from "./Pieall";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils } from '@fortawesome/free-solid-svg-icons';
-import Calendar from "../Calendar/Calendar";
 import { useEffect } from "react";
-
 
 const Datastatus = ({ className,day,month,year }) => {
   const [Data, setData] = useState([]);
@@ -46,9 +44,12 @@ const Datastatus = ({ className,day,month,year }) => {
         setData((prevData) => {
           return [...prevData, ...result];
         });
+        
       })
     }
   
+
+
 
   const [tableData, setTableData] = useState([
     { id: 1, name: 'ข้าวผัด', amount: '1 x 1 จาน', kcal: 495 },
