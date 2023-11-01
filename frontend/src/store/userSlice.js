@@ -49,5 +49,5 @@ export const userSlice = createSlice({
 
 )
 
-export const {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setBmi, setAge} = userSlice.actions
+export const {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi, setAge} = userSlice.actions
 export default userSlice.reducer

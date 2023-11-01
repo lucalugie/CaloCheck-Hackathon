@@ -34,27 +34,23 @@ function Register() {
     setCurrentStep("Bmi");
   };
 
-  const handleBmiSubmit = (age, weight, height) => {
+  const handleBmiSubmit =  (age, weight, height) => {
     const ageAsNumber = parseInt(age, 10);
     const bmiAsNumber = parseFloat(calculateBMI(weight, height), 10);
     const weightAsNumber = parseInt(weight, 10);
     const heightAsNumber = parseInt(height, 10);
-    setUserData({
+      setUserData({
       ...userData,
       age: ageAsNumber,
       weight: weightAsNumber,
       height: heightAsNumber,
       bmi: bmiAsNumber,
     });
-    addProsonalInfo();
-    createdefaultNutrition();
-    createdefaultValuedb();
-    
+     setCurrentStep("Complete");
   };
 
   const handleEditStep = (step) => {
     setCurrentStep(step);
-    console.log(currentStep);
   };
 
   function calculateBMI(weight, height) {
@@ -63,39 +59,7 @@ function Register() {
     const BMI = weight / ((height * height) / 10000);
     return parseFloat(BMI).toFixed(2);
   }
-
-  useEffect(() => {
-    console.log("Updated userData:", userData);
-    addProsonalInfo();
-  }, [userData]);
-
-  // useEffect(() => {
-  //   console.log("setAlldefaultValue");
-  //   setAlldefaultValue(userData);
   
-  // }, [userData]);
-
-  const addProsonalInfo = () => {
-    console.log("Sending data to the server:", userData);
-    fetch(`${process.env.REACT_APP_BASE_URL}/users/PersonalInformations`, {
-      method: "PUT", // เปลี่ยน method เป็น PUT
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        gender: userData.gender,
-        age: userData.age,
-        weight: userData.weight,
-        height: userData.height,
-        bmi: userData.bmi,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  };
 
   const createdefaultValuedb = () => {
     console.log("Sending defaultValuedb:");
@@ -207,7 +171,7 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi && <Complete data={userData} />}
+          userData.bmi && <Complete gender={userData.gender} age={userData.age} weight={userData.weight} height={userData.height} bmi={userData.bmi}/>}
       </div>
     </>
   );

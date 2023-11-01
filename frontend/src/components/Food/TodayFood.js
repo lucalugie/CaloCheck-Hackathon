@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
+import { useDispatch, useSelector } from "react-redux";
+import { setStatus } from "../../store/barcodeSlice";
+import { Table } from "@mui/material";
 
 const Todayfood = ({ className }) => {
   const [num, setNum] = useState(1);
+
+  const sku= useSelector((state) => state.barcode);
+  const dispatch = useDispatch();
 
   const handleNumChange = (event) => {
     setNum(Number(event.target.value)); 
   };
   const [k, setK] = useState(80);
   
+  const [found, setFound] = useState(false);
+  const [foodData, setFoodData] = useState([])
+
   const [tableData, setTableData] = useState([
     { id: 1, name: 'คาร์โบไฮเดรต', value: k, progressClass: 'accent' },
     { id: 2, name: 'น้ำตาล', value: 35, progressClass: 'secondary' },
@@ -23,9 +32,17 @@ const Todayfood = ({ className }) => {
     // ตัวอย่างการใช้ fetch เพื่อดึงค่าจาก API
     const fetchDataAndUpdateK = async () => {
       try {
-        const response = await fetch('your_api_endpoint_here');
+        const response = await fetch(`http://localhost:3000/foodnutrition/barcode/?sku=${sku.sku}`);
         const data = await response.json();
-        setK(data.k);
+        if(data){
+          setFoodData(data);
+          setFound(true)
+        }
+        else{
+          console.log("no data")
+          setFound(false)
+        }
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -33,16 +50,19 @@ const Todayfood = ({ className }) => {
 
     // เรียกใช้งาน fetchDataAndUpdateK เมื่อคอมโพเนนต์โหลดหรือตามเหตุการณ์ที่คุณต้องการ
     fetchDataAndUpdateK();
-  }, []); // อย่าลืมใส่อาเรย์ที่เป็นขึ้นตอนเป็นว่างเพื่อให้มันทำงานเมื่อคอมโพเนนต์โหลดครั้งแรกเท่านั้น
+  }, [sku.sku]);  // อย่าลืมใส่อาเรย์ที่เป็นขึ้นตอนเป็นว่างเพื่อให้มันทำงานเมื่อคอมโพเนนต์โหลดครั้งแรกเท่านั้น
 
   return (
+    <>
+    {
+      found ?
   <div className={className}>
 <div className="back">
-      <button class="btn btn-active btn-secondary">⬅back</button>
+<button class="btn btn-active btn-secondary" onClick={() =>dispatch(setStatus(false))}>⬅back</button>
     </div>
     <div className="Text">
       <h1>
-        <b>ข้าวสวยหอมมะลิตราอีซี่โก</b>
+      <b>{foodData[0]?.name}</b>
       </h1>
     </div>
     <div className="Nutritions text-accent">
@@ -69,7 +89,7 @@ const Todayfood = ({ className }) => {
             onChange={handleNumChange}
           />
           <br/>
-          <PieColor />
+          <PieColor kcal={foodData[0]?.kcal} carb={foodData[0]?.per_carb} protein={foodData[0]?.per_protein} fat={foodData[0]?.per_fat} veg={foodData[0]?.per_veg} sugar={foodData[0]?.per_sugar} salt={foodData[0]?.per_salt} />
         </div>
         <div className="dayly">
       <h1>
@@ -106,7 +126,30 @@ const Todayfood = ({ className }) => {
     </div>
   
   </div>
-  
+  :
+  <>
+      {/* The button to open modal */}
+     
+  {/* Put this part before </body> tag */}
+
+  <center>
+      <div className="card w-96 bg-base-100 shadow-xl">
+      <figure className="px-10 pt-10">
+        <img src="/logo/SORRY.png" alt="Shoes" className="rounded-xl" />
+      </figure>
+      <div className="card-body items-center text-center">
+        <h2 className="card-title">ขออภัย</h2>
+        <p>หมายเลขสินค้านี้ยังไม่มีข้อมูลในระบบ โปรดอย่ากังวลไปทางเราจะรีบอัพเดตข้อมูลให้เร็วที่สุด</p>
+        <div className="card-actions">
+          <button className="btn btn-primary" onClick={() =>dispatch(setStatus(false))}>back</button>
+        </div>
+      </div>
+    </div>
+    </center>
+</>
+}
+</>
+
 );};
 
 export default styled(Todayfood)`
