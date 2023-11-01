@@ -22,28 +22,32 @@ import IG from "./components/Scan/IG";
 import Line from "./Page/Line/line";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import userSlice from "./store/aiPageSlice";
 import {setType, setLineID, setDisplayName, setPictureUrl} from "./store/userSlice";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    
-      method:"POST",
-      credentials: 'include',
-      headers:{
-          "Content-Type": "application/json",
-      },
-      })
-      .then(res => res.json())
-      .then(data => {
-          if(data.type === "login"){
-            dispatch(setType(data.type))
-          }else if(data.type === "register"){
-            dispatch(setType(data.type))
-            navigate("/line");
-          }
-      })
+    // fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    
+    //   method:"POST",
+    //   credentials: 'include',
+    //   headers:{
+    //       "Content-Type": "application/json",
+    //   },
+    //   })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //       if(data.gender != null && data.weight != null && data.height !=  null){
+    //         console.log("login");
+    //         dispatch(setType("login"))
+    //       }else if(data.gender == null || data.weight == null || data.height ==  null){
+    //         console.log("register");
+    //         dispatch(setType("register"))
+    //         navigate("/line");
+    //       }
+    //   })
   },[])
 
   return (

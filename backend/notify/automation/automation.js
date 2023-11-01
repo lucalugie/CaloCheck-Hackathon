@@ -42,9 +42,15 @@ async function Message() {
     
       setInterval(() => {
         const currentTime = new Date();
-        if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
-            sendMessageDinner();
-        }
+
+        checkPrime(() => {const midnight = new Date();
+            midnight.setHours(0, 24, 0, 0);
+            if(currentTime >= midnight){
+                if (currentTime >= notificationTimeDinner) {    //เช็คทุก 20.00 น.ของทุกวัน
+                    sendMessageDinner();
+                }    
+            }},1000);
+    
       },24 * 60 * 60 * 1000);
 
 
