@@ -26,8 +26,9 @@ const MyFood = ({ className }) => {
       </div>
 
       <div className="Myfood--list">
-        <div className="Mybox--list">
-          {tableData.map((item) => (
+        <div className="Mybox--list ">
+          {
+           tableData.map((item) => (
             <Link
               className="m-4"
               to={`/myfood/Pastfood/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
@@ -35,7 +36,7 @@ const MyFood = ({ className }) => {
               <div
                 key={item.id}
                 tabIndex={0}
-                className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2 max-w-md "
+                className="list collapse collapse-open border border-base-300 bg-base-200 margin-bottom-2 max-w-md"
               >
                 <div className="collapse-title text-xl font-medium">
                   {item.name}{" "}
@@ -49,6 +50,7 @@ const MyFood = ({ className }) => {
             </Link>
           ))}
           </div>
+
           <div className="button">
             <div className="flex-grow"></div>
             <Link to="/myfood/Addfood">

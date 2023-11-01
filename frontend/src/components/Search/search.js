@@ -33,16 +33,16 @@ function Searchmenu() {
 
     return (
         <>
-            <div className="Myfood--search">
+            <div className="Myfood--search ">
           <div className="input-with-icon">
             <input
               type="text"
               placeholder="Search..."
-              className="input input-bordered w-full max-w-xs search-component"
+              className="input input-bordered w-full max-w-xs search-component "
               value={prefix}
               onChange={handlePrefixChange}
             />
-            <button className="btn btn-accent ml-2" >
+            <button className="btn btn-accent ml-2 " >
               <FontAwesomeIcon icon={faBarcode} className="input-icon" />
             </button>
           </div>
@@ -53,21 +53,7 @@ function Searchmenu() {
 
 
 export default styled(Searchmenu)`
-  .Myfood--search {
-    width: 100%;
-    border-radius: 50%;
-    max-width: 604px; /* ความกว้างของช่องค้นหาที่ไม่เปลี่ยนแปลง */
-    margin: 1rem; /* ทำให้ช่องค้นหาอยู่กลางแนวแนวนอน */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .input-with-icon {
-    display: flex; /* ให้ข้อความและ icon อยู่ในบรรทัดเดียวกัน */
-    align-items: center; /* จัดตำแหน่งให้ตรงกัน */
-  }
+  
 
 `;
 

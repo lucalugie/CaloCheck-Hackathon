@@ -17,6 +17,7 @@ import Buyfood from "./components/Addfood/Buyfood";
 import Datastatus from "./components/DataStatus/Datastatus";
 import ConfirmAI from "./components/Scan/ConfirmAI";
 import IG from "./components/Scan/IG";
+import NotFound from "./components/NotFound";
 
 //Pim added
 import Line from "./Page/Line/line";
@@ -70,6 +71,7 @@ function App() {
           <Route path="/datastatus" element={<Datastatus />}></Route>
 
           <Route path="/today" element={<TodayFood />}></Route>
+          <Route path='*' element={<NotFound />}/>
 
           {/* <Route path="/" element={<Login />} />
           <Route path="/line" element={<Line />} /> */}
