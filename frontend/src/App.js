@@ -20,7 +20,6 @@ import IG from "./components/Scan/IG";
 
 //Pim added
 import Line from "./Page/Line/line";
-import Calendar from "./components/Calendar/Calendar";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -72,9 +71,9 @@ function App() {
 
           <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
           <Route path="/myfood/Addfood/Buyfood" element={<Buyfood />}></Route>
-          <Route path="/datastatus" element={<Calendar />}></Route>
+          <Route path="/datastatus" element={<Datastatus />}></Route>
 
-          {/* <Route path="/today" element={<TodayFood />}></Route> */}
+          <Route path="/today" element={<TodayFood />}></Route>
 
           {/* <Route path="/" element={<Login />} />
           <Route path="/line" element={<Line />} /> */}

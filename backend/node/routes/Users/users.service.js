@@ -89,7 +89,55 @@ async function addInfo(req, res) {
     }
 } 
 
+//get
+async function getInfo(req, res) {
+    try {
+      if (!req.cookies.token) {
+        console.log("No token");
+        return res.status(400).json({
+          status: "Failed",
+          message: "No data",
+        });
+      }
+  
+      jwt.verify(
+        req.cookies.token,
+        process.env.PRIVATE_KEY,
+        async (err, decoded) => {
+          if (err) {
+            console.error(err);
+            return res
+              .status(401)
+              .json({ status: "Failed", message: "Unauthorized" });
+          }
+  
+          console.log("decoded from getInfo", decoded.userId);
+  
+          const member = await Users.findOne({
+            where: {
+              userlineId: decoded.userId,
+            },
+          });
+  
+          if (!member) {
+            return res
+              .status(404)
+              .json({ status: "Failed", message: "User not found" });
+          }
+          return res.status(201).json(member);
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ status: "Failed", message: "Internal server error" });
+    }
+  }
+  
+
 module.exports = {
     getMember,
-    addInfo
+    addInfo,
+    getInfo
 }

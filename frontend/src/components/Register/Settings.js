@@ -1,57 +1,134 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData, updateUsersInfo, updatedbGoals } from "../../Convert/userController";
+import Swal from "sweetalert2";
 
 function Settings({ className }) {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  const fetchUserDataAndDispatch = async () => {
+    try {
+      await fetchUserData(dispatch);
+      setInfoData({
+        name: user.displayName,
+        age: user.age,
+        gender: user.gender,
+        height: user.height,
+        weight: user.weight,
+        bmi: user.bmi,
+        image: user.pictureUrl,
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  const updateUserDataAndDispatch = async (infoData) => {
+    try {
+      await updateUsersInfo(infoData, dispatch);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserDataAndDispatch();
+  }, [user]);
+
+  // findDefaultInfo(data.gender, data.age);
+  //   const updatedUserGoals = {
+  //     goals_kcal: kcal_total,
+  //     goals_g: grams_total,
+  //     goals_protein: g_gramsProtein,
+  //     goals_fat: g_gramsFat,
+  //     goals_salt: g_gramsSodium,
+  //     goals_sugar: g_gramsSugar,
+  //     goals_veg: g_gramsVeg,
+  //     goals_carb: g_gramsCarb,
+  //   };
+  // useEffect(() => {
+  //   console.log("setAlldefaultValue");
+  //   setAlldefaultValue(data);
+  // }, [data]);
 
 
   const [formData, setFormData] = useState({
-    age: "",
-    height: "",
-    weight: "",
+    age: 0,
+    height: 0,
+    weight: 0,
     gender: "",
-    bmi: "",
+    bmi: 0,
   });
   const [error, setError] = useState("");
   const [mode, setMode] = useState("display");
-  const profilepath =
-    "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
-
-  const isButtonDisabled =
-    !formData.age ||
-    !formData.height ||
-    !formData.weight ||
-    !formData.gender ||
-    !formData.bmi;
 
   const [infoData, setInfoData] = useState({
-    name: "Premey",
-    age: 27,
-    gender: "female",
-    height: 160,
-    weight: 75,
-    bmi: 29.3,
-    image:
-      "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg",
+    name: "",
+    age: 0,
+    gender: "",
+    height: 0,
+    weight: 0,
+    bmi: 0,
+    image: "",
   });
+
+  const isButtonDisabled =
+    !infoData.age ||
+    !infoData.height ||
+    !infoData.weight ||
+    !infoData.gender ||
+    !infoData.bmi;
 
   const handleSaveClick = () => {
     if (isButtonDisabled) {
       setError("Please fill in all fields.");
     } else {
       setError("");
-      setMode("display");
-      setInfoData({
-        ...infoData,
-        age: formData.age,
-        height: formData.height,
-        weight: formData.weight,
-        gender: formData.gender,
-        bmi: formData.bmi,
-      });
+      confirm();
     }
   };
+
+  function setINFO() {
+    const bmi = calculateBMI(formData.weight, formData.height);
+    setInfoData((prevInfoData) => ({
+      ...prevInfoData,
+      age: formData.age,
+      height: formData.height,
+      weight: formData.weight,
+      gender: formData.gender,
+      bmi: bmi,
+    }));
+    // console.log("formData", formData);
+    console.log("infoData", infoData);
+  }
+
+  function confirm() {
+    Swal.fire({
+      title: "ยืนยันการแก้ไข",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "ยกเลิก",
+      confirmButtonText: "ตกลง",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updateUserDataAndDispatch(infoData);
+        Swal.fire("แก้ไขเรียบร้อยแล้ว").then(() => {
+          setMode("display");
+          console.log("infoData", infoData);
+        });
+
+        // add_food(newFood).then(() => {
+        //   Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
+
+        //   });
+        // });
+      }
+    });
+  }
 
   const handleCancelClick = () => {
     setError("");
@@ -59,15 +136,13 @@ function Settings({ className }) {
   };
 
   const handleEditClick = () => {
-    const BMI = calculateBMI(infoData.weight, infoData.height);
     setFormData({
       age: infoData.age,
       height: infoData.height,
       weight: infoData.weight,
       gender: infoData.gender,
-      bmi: BMI,
+      bmi: infoData.bmi,
     });
-
     setMode("edit");
   };
 
@@ -75,12 +150,24 @@ function Settings({ className }) {
     weight = parseFloat(weight);
     height = parseFloat(height);
     const BMI = weight / ((height * height) / 10000);
-    return parseFloat(BMI).toFixed(2);
+    console.log(BMI);
+    const BMItoNumber = Number(parseFloat(BMI).toFixed(2));
+    console.log(BMItoNumber);
+    return BMItoNumber;
   }
 
+  // useEffect(() => {
+  //   const bmi = calculateBMI(infoData.weight, infoData.height);
+  //   setFormData({ ...formData, bmi: bmi });
+  //   console.log("BMI", formData);
+  // }, [infoData]);
+
+  
   useEffect(() => {
-    console.log("Updated formData:", formData);
-  }, []); //formdata
+    
+    setINFO();
+    console.log("BMI", infoData);
+  }, [formData]);
 
   return (
     <div className={className}>
@@ -99,7 +186,7 @@ function Settings({ className }) {
 
                 <figure className="w-24 h-24 mt-2">
                   <img
-                    src={profilepath}
+                    src={infoData.image}
                     alt="Profile Image"
                     className="rounded-full w-full h-full"
                   />
@@ -177,10 +264,11 @@ function Settings({ className }) {
                   <div className="box flex flex-row justify-center items-center m-4">
                     <select
                       className="select select-secondary w-full max-w-xs text-center font-bold text-xl mt-4"
-                      value={formData.gender}
-                      onChange={(e) =>
-                        setFormData({ ...formData, gender: e.target.value })
-                      }
+                      value={infoData.gender}
+                      onChange={(e) => {
+                        setFormData({ ...formData, gender: e.target.value });
+                        // setInfoData({ ...infoData, gender: e.target.value });
+                      }}
                     >
                       <option value="female">หญิง</option>
                       <option value="male">ชาย</option>
@@ -192,14 +280,12 @@ function Settings({ className }) {
                     </div>
                     <input
                       type="text"
-                      placeholder={formData.age}
-                      value={formData.age}
+                      placeholder={infoData.age}
+                      value={infoData.age}
                       onChange={(e) => {
                         const newValue = e.target.value.replace(/[^0-9]/g, "");
-                        setFormData({
-                          ...formData,
-                          age: newValue,
-                        });
+                        setFormData({ ...formData, age: Number(newValue) });
+                        // setInfoData({ ...infoData, age: Number(newValue) });
                       }}
                       className="input input-bordered input-secondary w-1/3  max-w-xs text-center"
                     />
@@ -211,11 +297,12 @@ function Settings({ className }) {
                     </div>
                     <input
                       type="text"
-                      placeholder={formData.height}
-                      value={formData.height}
+                      placeholder={infoData.height}
+                      value={infoData.height}
                       onChange={(e) => {
                         const newValue = e.target.value.replace(/[^0-9]/g, "");
-                        setFormData({ ...formData, height: newValue });
+                        setFormData({ ...formData, height: Number(newValue) });
+                        // setInfoData({ ...infoData, height: Number(newValue) });
                       }}
                       className="input input-bordered input-secondary w-1/3 max-w-xs text-center"
                     />
@@ -229,11 +316,12 @@ function Settings({ className }) {
                     </div>
                     <input
                       type="text"
-                      placeholder={formData.weight}
-                      value={formData.weight}
+                      placeholder={infoData.weight}
+                      value={infoData.weight}
                       onChange={(e) => {
                         const newValue = e.target.value.replace(/[^0-9]/g, "");
-                        setFormData({ ...formData, weight: newValue });
+                        setFormData({ ...formData, weight: Number(newValue) });
+                        // setInfoData({ ...infoData, weight: Number(newValue) });
                       }}
                       className="input input-bordered input-secondary w-1/3 max-w-xs text-center"
                     />
@@ -258,7 +346,7 @@ function Settings({ className }) {
                       isButtonDisabled ? "disabled" : ""
                     }`}
                     disabled={isButtonDisabled}
-                    onClick={handleSaveClick}
+                    onClick={ () => handleSaveClick() }
                   >
                     Save
                   </button>

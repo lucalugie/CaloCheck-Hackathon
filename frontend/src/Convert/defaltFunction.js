@@ -1,10 +1,11 @@
-let kcal_total = 0; // Cal
-let gramsVeg = 0; // g
-let gramsSodium = 0; // g
-let gramsCarb = 0;
-let gramsSugar = 0;
-let gramsFat = 0;
-let gramsProtein = 0;
+let kcal_total = 0; 
+let grams_total = 0; 
+let g_gramsVeg = 0; 
+let g_gramsSodium = 0; 
+let g_gramsCarb = 0;
+let g_gramsSugar = 0;
+let g_gramsFat = 0;
+let g_gramsProtein = 0;
 
 function findDefaultInfo(gender, age) {
   if (isNaN(age)) {
@@ -13,9 +14,8 @@ function findDefaultInfo(gender, age) {
   }
 
   if (age <= 8) {
-    gramsVeg = 175;
-    gramsSodium = 1.2;
-    console.log(gramsVeg, gramsSodium);
+    g_gramsVeg = 175;
+    g_gramsSodium = 1.2;
 
     if (age <= 3) {
       kcal_total = 1000;
@@ -26,8 +26,8 @@ function findDefaultInfo(gender, age) {
     }
   } else if (age >= 8) {
     if (age <= 13) {
-      gramsVeg = 350;
-      gramsSodium = 1.2;
+      g_gramsVeg = 350;
+      g_gramsSodium = 1.2;
 
       if (gender === "male") {
         kcal_total = 1800;
@@ -35,9 +35,9 @@ function findDefaultInfo(gender, age) {
         kcal_total = 1600;
       }
     } else if (age > 13) {
-      gramsVeg = 400;
+      g_gramsVeg = 400;
       if (age <= 50) {
-        gramsSodium = 2;
+        g_gramsSodium = 2;
         if (age <= 18) {
           if (gender === "male") {
             kcal_total = 2300;
@@ -58,7 +58,7 @@ function findDefaultInfo(gender, age) {
           }
         }
       } else if (age > 50) {
-        gramsSodium = 1.5;
+        g_gramsSodium = 1.5;
         if (age <= 60) {
           if (gender === "male") {
             kcal_total = 2000;
@@ -81,6 +81,11 @@ function findDefaultInfo(gender, age) {
       }
     }
   }
+  g_gramsCarb = findGramsCarb(kcal_total) ;
+  g_gramsSugar = findGramsSugar(kcal_total) ;
+  g_gramsProtein = findGramsProtein(kcal_total) ;
+  g_gramsFat = findGramsFat(kcal_total) ;
+  grams_total = findGramsTotal(g_gramsCarb , g_gramsSugar, g_gramsFat, g_gramsProtein, g_gramsVeg, g_gramsSodium);
 }
 
 //findGramsfromtotal
@@ -100,7 +105,6 @@ function findGramsFat(kcal_total) {
   const gFat = (kcal_total * 0.3) / 9;
   return gFat;
 }
-
 function findGramsTotal(gCarb, gSugar, gFat, gPro, gVeg, gSalt) {
   const gTotal = gCarb + gSugar + gFat + gPro + gVeg + gSalt;
   return gTotal;
@@ -108,11 +112,12 @@ function findGramsTotal(gCarb, gSugar, gFat, gPro, gVeg, gSalt) {
 
 export {
   kcal_total,
-  gramsVeg,
-  gramsSodium,
-  gramsCarb,
-  gramsSugar,
-  gramsFat,
-  gramsProtein,
+  grams_total,
+  g_gramsVeg,
+  g_gramsSodium,
+  g_gramsCarb,
+  g_gramsSugar,
+  g_gramsFat,
+  g_gramsProtein,
   findDefaultInfo,
 };

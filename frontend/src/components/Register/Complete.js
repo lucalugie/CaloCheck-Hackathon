@@ -1,13 +1,76 @@
 import styled from "styled-components";
-
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import {
+  kcal_total,
+  grams_total,
+  g_gramsVeg,
+  g_gramsSodium,
+  g_gramsCarb,
+  g_gramsSugar,
+  g_gramsFat,
+  g_gramsProtein,
+  findDefaultInfo,
+} from "../../Convert/defaltFunction";
 
-function Complete({ className }) {
+function Complete({ className, data }) {
+  // const [userGoals, setUserGoals] = useState({
+  //   goals_kcal: 0,
+  //   goals_g: 0,
+  //   goals_protein: 0,
+  //   goals_fat: 0,
+  //   goals_salt: 0,
+  //   goals_sugar: 0,
+  //   goals_veg: 0,
+  //   goals_carb: 0,
+  // });
+
+  useEffect(() => {
+    console.log("setAlldefaultValue");
+    setAlldefaultValue(data);
+  }, [data]);
+
+  function setAlldefaultValue(data) {
+    findDefaultInfo(data.gender, data.age);
+    const updatedUserGoals = {
+      goals_kcal: kcal_total,
+      goals_g: grams_total,
+      goals_protein: g_gramsProtein,
+      goals_fat: g_gramsFat,
+      goals_salt: g_gramsSodium,
+      goals_sugar: g_gramsSugar,
+      goals_veg: g_gramsVeg,
+      goals_carb: g_gramsCarb,
+    };
+    // setUserGoals(updatedUserGoals);
+    const pushtobdGoals = () => {
+      console.log("Sending data to the server:", updatedUserGoals);
+      axios
+        .put(
+          `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
+          updatedUserGoals,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    pushtobdGoals();
+  }
+
   return (
     <div className={className}>
-
       <div className="wrap w-full h-1/2">
         <div className="title flex flex-col justify-center items-center text-center">
           <FontAwesomeIcon
@@ -35,13 +98,13 @@ function Complete({ className }) {
 }
 
 export default styled(Complete)`
-.wrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
