@@ -2,7 +2,7 @@
 const {DataTypes} = require("sequelize");
 const {sequelize} = require("../config/database");
 
-const noti = sequelize.define("noti",
+const noti = sequelize.define("notis",
 {
     userid: {
     type: DataTypes.STRING,
@@ -15,11 +15,14 @@ const noti = sequelize.define("noti",
     type: DataTypes.TINYINT,
     allowNull: true
   },
-  dinnereat: {
+  dinnerEat: {
     type: DataTypes.TINYINT,
     allowNull: true
   },
 
+
+},{
+    updatedAt: false
 });
 
 

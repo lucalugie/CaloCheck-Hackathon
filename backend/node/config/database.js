@@ -43,6 +43,8 @@ try {
   db.foodnutrition = sequelize.import('../model/foodnutrition');
   db.Usershistory = sequelize.import('../model/Usershistory');
   db.UsersNutrition = sequelize.import('../model/UsersNutrition');
+  db.noti=sequelize.import('../model/noti');
+
   db.Usershistory.hasMany(
     db.User,
     {
@@ -54,6 +56,15 @@ try {
     },
     
     );
+
+    db.noti.hasMany(
+      db.User,
+      {
+          foreignKey: { name: 'userid', field: 'userid' }, //name ตรงสำคัญพยายามตั่งให้เป็นชื่อเดียวกับ FK ใน table ที่นำไปใช้นะครับ
+      }
+    );
+
+
     db.Usershistory.belongsTo(db.User, { foreignKey: 'userlineid' });
     db.Usershistory.belongsTo(db.foodnutrition, { foreignKey: 'idfood' });
 
