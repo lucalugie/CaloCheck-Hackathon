@@ -1,4 +1,3 @@
-
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
@@ -24,48 +23,57 @@ import Calendar from "./components/Calendar/Calendar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userSlice from "./store/aiPageSlice";
-import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setAge, setBmi} from "./store/userSlice";
+import {
+  setType,
+  setLineID,
+  setDisplayName,
+  setPictureUrl,
+  setGender,
+  setWeight,
+  setHeight,
+  setAge,
+  setBmi,
+} from "./store/userSlice";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   useEffect(() => {
     setTimeout(() => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    
-        method:"POST",
-        credentials: 'include',
-        headers:{
-            "Content-Type": "application/json",
+      fetch(`${process.env.REACT_APP_BASE_URL}/users/`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.type == "login"){
-                const {member} = data;
-                dispatch(setType(data.type));
-                dispatch(setLineID(member.userlineId));
-                dispatch(setDisplayName(member.displayName));
-                dispatch(setPictureUrl(member.pictureUrl));
-                dispatch(setGender(member.gender));
-                dispatch(setWeight(member.weight));
-                dispatch(setHeight(member.height));
-                dispatch(setBmi(member.bmi));
-                dispatch(setAge(member.age));
-                navigate("/");
-            }else if(data.type == "register"){
-                const {member} = data;
-                dispatch(setType(data.type));
-                dispatch(setLineID(member.userlineId));
-                dispatch(setDisplayName(member.displayName));
-                dispatch(setPictureUrl(member.pictureUrl));
-                navigate("/line");
-            }else{
-                navigate("/welcome");
-            }
-        })
-    },1000)
-    
-  },[])
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.type == "login") {
+            const { member } = data;
+            dispatch(setType(data.type));
+            dispatch(setLineID(member.userlineId));
+            dispatch(setDisplayName(member.displayName));
+            dispatch(setPictureUrl(member.pictureUrl));
+            dispatch(setGender(member.gender));
+            dispatch(setWeight(member.weight));
+            dispatch(setHeight(member.height));
+            dispatch(setBmi(member.bmi));
+            dispatch(setAge(member.age));
+            navigate("/");
+          } else if (data.type == "register") {
+            const { member } = data;
+            dispatch(setType(data.type));
+            dispatch(setLineID(member.userlineId));
+            dispatch(setDisplayName(member.displayName));
+            dispatch(setPictureUrl(member.pictureUrl));
+            navigate("/line");
+          } else {
+            navigate("/welcome");
+          }
+        });
+    }, 1000);
+  }, []);
 
   return (
     <>
@@ -80,8 +88,9 @@ function App() {
           <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/myfood" element={<MyFood />}></Route>
+          {/* lugie modify**** */}
           <Route
-            path="/myfood/Pastfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb"
+            path="/myfood/Pastfood/:idfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb"
             element={<Pastfood />}
           ></Route>
           <Route path="/myfood/Addfood" element={<Addfood />}></Route>
@@ -91,9 +100,6 @@ function App() {
           <Route path="/datastatus" element={<Calendar />}></Route>
 
           <Route path="/today" element={<TodayFood />}></Route>
-
-          {/* <Route path="/" element={<Login />} />
-          <Route path="/line" element={<Line />} /> */}
         </Routes>
       </Container>
       <Footer />

@@ -46,7 +46,8 @@ function Register() {
       height: heightAsNumber,
       bmi: bmiAsNumber,
     });
-     setCurrentStep("Complete");
+    createdefaultNutrition();
+    createdefaultValuedb();
   };
 
   const handleEditStep = (step) => {

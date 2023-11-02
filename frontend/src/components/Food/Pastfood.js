@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -11,9 +11,12 @@ import {
   updateUsersNutritons,
 } from "../FoodController/updateNutritionController";
 import Swal from "sweetalert2";
+//lugie modify****
+import { postUsersHistory } from "../FoodController/historyController";
 
 const Pastfood = ({ className }) => {
-  const { name, kcal, protein, fat, salt, sugar, veg, carb } = useParams();
+   //lugie modify****
+   const { idfood, name, kcal, protein, fat, salt, sugar, veg, carb } = useParams();
   const [quantity, setQuantity] = useState(1); // เพิ่มสถานะเก็บจำนวน
   const navigate = useNavigate();
 
@@ -50,7 +53,7 @@ const Pastfood = ({ className }) => {
 
   useEffect(() => {
     console.log("Nutrition has changed:", nutrition);
-    if ( done === true){
+    if (done === true) {
       putToNutritionDB(nutrition);
       setDone(false);
     }
@@ -87,14 +90,37 @@ const Pastfood = ({ className }) => {
           });
         }
         updateStateNutrition();
-        // putToNutritionDB(nutrition).then(() => {
-        Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
-          backToHome();
-        });
+
+        //lugie modify****
+        // console.log("params idfood", idfood);
+        // const addedFoodId = idfood;
+        // const history = {
+        //   idfood: Number(addedFoodId),
+        // };
+        // console.log("addedFoodId:", addedFoodId);
+        // console.log("history:", history);
+        // postHistory(history).then(() => {
+        //   Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
+        //     backToHome();
+        //   });
         // });
+        handleAddToHistory();
       }
     });
   }
+
+   //lugie modify****
+   const handleAddToHistory = () => {
+    const addedFoodId = idfood;
+    const foodsToAdd = Array.from({ length: quantity }, () => ({
+      idfood: Number(addedFoodId),
+    }));
+    Promise.all(foodsToAdd.map(food => postHistory(food))).then(() => {
+      Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
+        backToHome();
+      });
+    });
+  };
 
   function handleConvert() {
     const tkcal = kcal * quantity;
@@ -133,7 +159,7 @@ const Pastfood = ({ className }) => {
       ach_veg: prevNu.ach_veg + updateNutrition.ach_veg,
       ach_carb: prevNu.ach_carb + updateNutrition.ach_carb,
     }));
-    if (nutrition){
+    if (nutrition) {
       setDone(true);
     }
     console.log("nutrition after setstate", nutrition);
@@ -141,6 +167,17 @@ const Pastfood = ({ className }) => {
 
   function backToHome() {
     navigate("/");
+  }
+
+   //lugie modify****
+   async function postHistory(idfood) {
+    console.log("postHistory called:", idfood);
+    try {
+      const history = await postUsersHistory(idfood);
+      console.log("history added:", history);
+    } catch (error) {
+      console.error("Failed to add history:", error);
+    }
   }
 
   return (
@@ -194,12 +231,12 @@ const Pastfood = ({ className }) => {
       </div>
       <div className="cc">
         <Link to="/myfood">
-          <div class="cancel">
-            <button class="btn btn-error">Cancel</button>
-          </div>{" "}
+          <div className="cancel">
+            <button className="btn btn-error">Cancel</button>
+          </div>
         </Link>
-        <div class="confirm">
-          <button class="btn btn-success" onClick={() => confirmAdd()}>
+        <div className="confirm">
+          <button className="btn btn-success" onClick={() => confirmAdd()}>
             Confirm Add
           </button>
         </div>

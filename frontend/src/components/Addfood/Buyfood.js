@@ -16,6 +16,8 @@ import {
   findGramsVegFromAdd,
   findGramsTotalShop,
 } from "../../Convert/convertAddFunction";
+//lugie modify****
+import { postUsersHistory } from "../FoodController/historyController";
 
 const Buyfood = ({ className }) => {
   const navigate = useNavigate();
@@ -29,6 +31,9 @@ const Buyfood = ({ className }) => {
   const [per_protein, setPer_protein] = useState("");
   const [veg, setVeg] = useState("");
   const [per_veg, setPer_veg] = useState("");
+  const per_fat = 0;
+  const per_sugar = 0;
+  const per_salt = 0;
 
   ///luca function to update usersNutrition db
   const [nutrition, setNutrition] = useState({
@@ -101,7 +106,7 @@ const Buyfood = ({ className }) => {
       ach_veg: prevNu.ach_veg + updateNutrition.ach_veg,
       ach_carb: prevNu.ach_carb + updateNutrition.ach_carb,
     }));
-    if (nutrition){
+    if (nutrition) {
       setDone(true);
     }
     console.log("nutritionaftersetstate", nutrition);
@@ -117,7 +122,7 @@ const Buyfood = ({ className }) => {
 
   useEffect(() => {
     console.log("Nutrition has changed:", nutrition);
-    if ( done === true){
+    if (done === true) {
       putToNutritionDB(nutrition);
       setDone(false);
     }
@@ -140,8 +145,27 @@ const Buyfood = ({ className }) => {
     try {
       const addedFood = await addFood("Foodnutrition", theData);
       console.log("Food added:", addedFood);
+      //lugie modify****
+      const addedFoodId = addedFood.idfood;
+      const history = {
+        idfood: addedFoodId,
+      };
+      console.log("Added Food ID:", addedFoodId);
+      console.log("history:", history);
+      postHistory(history);
     } catch (error) {
       console.error("Failed to add food:", error);
+    }
+  }
+
+  //lugie modify****
+  async function postHistory(idfood) {
+    console.log("postHistory called:", idfood);
+    try {
+      const history = await postUsersHistory(idfood);
+      console.log("history added:", history);
+    } catch (error) {
+      console.error("Failed to add history:", error);
     }
   }
 
@@ -167,10 +191,13 @@ const Buyfood = ({ className }) => {
           kcal,
           carb,
           per_carb,
+          per_fat,
           protein,
           per_protein,
           veg,
           per_veg,
+          per_sugar,
+          per_salt,
         };
 
         if (

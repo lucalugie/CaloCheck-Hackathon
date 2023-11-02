@@ -5,7 +5,8 @@ const { sequelize } = require('../config/database');
 const Foodnutrition = sequelize.define('foodnutritions', {
   idfood: {
     type: DataTypes.INTEGER,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true,  //lugie modify****  very important****
   },
   sku: {
     type: DataTypes.STRING
