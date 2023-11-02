@@ -1,51 +1,94 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
-function ConfirmAI({ className,url,nameOFFood }) {
+import { useSelector } from "react-redux";
+import axios from "axios";
+
+function ConfirmAI({ className, url, nameOFFood }) {
   const aiPage = useSelector((state) => state.aiPage);
-  console.log("aiPage",aiPage.name);
-  const demo = {
-    image:
-      "https://christieathome.com/wp-content/uploads/2022/06/Egg-Fried-Rice-3.jpg",
-    name: "ข้าวผัดไข่",
+  console.log("aiPage", aiPage.name);
+  
+  //lugie modify
+  const [food, setFood] = useState({});
+  const fetchFood = async (id) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/foodnutrition/${id}`
+      );
+      console.log("Get food data complete");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
   };
 
-  const [data, setData] = useState("");
+  const showDetails = async () => {
+    try {
+      if (aiPage.name === "ผัดกระเพรา") {
+        console.log(aiPage.name);
+        const food = await fetchFood(301);
+        setFood(food);
+        console.log("Success food:", food);
+      } else if (aiPage.name === "ไข่เจียว") {
+        console.log(aiPage.name);
+        const food = await fetchFood(302);
+        setFood(food);
+        console.log("Success food:", food);
+      }
+    } catch (error) {
+      console.error("Error fetching food details:", error);
+    }
+  };
 
   useEffect(() => {
-    setData(demo);
-  }, []);
+    console.log("called");
+    showDetails();
+  }, [aiPage]);
 
   return (
-    <>   
-    { aiPage.loading  ?
-            <>
-            Load
-            </>
-            :
-              <div className={className}>
-                    <div className="wrap w-full h-1/2">
-                      <div className="card w-96 bg-base-100 border-2 border-primary shadow-xl">
-                        <figure className="px-10 pt-10">
-                          <img src={aiPage.url} alt="Food" className="rounded-xl" />
-                        </figure>
-                        <div className="card-body items-center text-center">
-                          <h2 className="card-title">{aiPage.name}</h2>
+    <>
+      {aiPage.loading ? (
+        <>Load</>
+      ) : (
+        <div className={className}>
+          <div className="wrap w-full h-1/2">
+            <div className="card w-96 bg-base-100 border-2 border-primary shadow-xl">
+              <figure className="px-10 pt-10">
+                <img src={aiPage.url} alt="Food" className="rounded-xl" />
+              </figure>
+              <div className="card-body items-center text-center">
+                <h2 className="card-title">{aiPage.name}</h2>
+                {/* lugie modify */}
+                <div className="card-actions">
+                  {aiPage.url === "" ? (
+                    <>
+                      <Link to="/ai-scan">
+                        <button className="btn btn-error">try again</button>
+                      </Link>
+                      <Link to="/myfood/Addfood">
+                        <button className="btn btn-success">Add food</button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/ai-scan">
+                        <button className="btn btn-error">try again</button>
+                      </Link>
 
-                          <div className="card-actions">
-                            <Link to="/myfood">
-                              <button className="btn btn-error ">cancel</button>
-                            </Link>
-                            <Link to="/myfood">
-                              <button className="btn btn-success ">confrim</button>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            }
+                      <Link
+                        to={`/myfood/Pastfood/${food.idfood}/${food.name}/${food.kcal}/${food.per_items}/${food.per_protein}/${food.per_fat}/${food.per_salt}/${food.per_sugar}/${food.per_veg}/${food.per_carb}`}
+                      >
+                        <button className="btn btn-success">details</button>
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

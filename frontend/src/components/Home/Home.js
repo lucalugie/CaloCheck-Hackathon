@@ -30,7 +30,7 @@ function Home({ className }) {
   const fetchUserGoalsAndDispatch = async () => {
     console.log("UserGoalFetch");
     try {
-      await fetchUserNutrition(dispatch);
+      await fetchUserGoals(dispatch);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -39,7 +39,7 @@ function Home({ className }) {
   const fetchUserNutritionAndDispatch = async () => {
     console.log("UserNutrition");
     try {
-      await fetchUserGoals(dispatch);
+      await fetchUserNutrition(dispatch);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
