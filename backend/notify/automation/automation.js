@@ -12,18 +12,22 @@ async function  Message() {
     
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 9 โมงเช้า)
         const notificationTimeBreakfast = new Date(); 
-        notificationTimeBreakfast.setHours(12) //เวลาทานอาหารเช้า
-        notificationTimeBreakfast.setMinutes(0);
-
+        notificationTimeBreakfast.setHours(17) //เวลาทานอาหารเช้า
+        notificationTimeBreakfast.setMinutes(8);
+        notificationTimeBreakfast.setSeconds(10);
 
    
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 12.30 โมงเช้า)
     const notificationTimeLunch = new Date(); 
-    notificationTimeLunch.setHours(13, 0, 0, 0); //เวลาทานอาหารเช้า
+    notificationTimeLunch.setHours(13) //เวลาทานอาหารเช้า
+    notificationTimeLunch.setMinutes(0);
+    notificationTimeLunch.setSeconds(0);
 
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ก่อน 20.00 น.)
     const notificationTimeDinner = new Date(); 
-    notificationTimeDinner.setHours(20, 0, 0, 0); //เวลาทานอาหารเช้า
+    notificationTimeDinner.setHours(20) //เวลาทานอาหารเช้า
+    notificationTimeDinner.setMinutes(0);
+    notificationTimeDinner.setSeconds(0);
 
    
    
@@ -34,13 +38,13 @@ async function  Message() {
     }
 
 
-    if(currentTime.getTime()>=notificationTimeBreakfast.getTime() && currentTime.getTime()<=notificationTimeLunch.getTime()){
-        sendMessageLunch();
+    if(currentTime.getTime()==notificationTimeBreakfast.getTime()){
+        // sendMessageLunch();
   }
 
 
-  if(currentTime.getTime()>notificationTimeDinner){
-    sendMessageDinner();
+  if(currentTime.getTime()>notificationTimeDinner.getTime){
+    // sendMessageDinner();
 }
  
 
@@ -49,8 +53,7 @@ async function  Message() {
         console.log("error from automation ",error) 
     }
 
-const test =new Date(new Date().setHours(7, 0, 0, 0))
-console.log("test "+test.toLocaleTimeString())
+
 
 }
 
@@ -68,23 +71,34 @@ async function sendMessageBreakfast() {
             },
         },
     });
+
+    const noti = await Usershistory.findAll({
+        where: {
+            createdAt: {
+                [Op.notIn]:  users.map(user => user.userlineid),
+                // >
+            },
+        },
+    });
+
     try {
-        if(!users){
+        if(noti){
         users.forEach(async (element) => {
-            const code = element.userlineid
-            const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
-                to: code,
-                messages: [
-                    {
-                        "type": "text",
-                        "text": "คุณทานอาหารเช้าเเล้วรึยัง"
-                    }
-                ]
-            }, {
-                headers: {
-                    "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
-                }
-            })
+            const code = element
+            console.log(code)
+            // const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
+            //     to: code,
+            //     messages: [
+            //         {
+            //             "type": "text",
+            //             "text": "คุณทานอาหารเช้าเเล้วรึยัง"
+            //         }
+            //     ]
+            // }, {
+            //     headers: {
+            //         "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
+            //     }
+            // })
         
           
         });
