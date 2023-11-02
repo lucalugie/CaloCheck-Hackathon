@@ -23,7 +23,6 @@ function Bmi({ className, dataage, dataheight, dataweight, onSubmit, onEdit }) {
   const handleSubmit = (newage, newweight, newheight) => {
     onSubmit(newage, newweight, newheight);
   };
-
   return (
     <div className={className}>
       <button

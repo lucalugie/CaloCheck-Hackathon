@@ -5,18 +5,23 @@ import {  faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Searchmenu from "./Search/search";
 import { useSelector } from "react-redux";
+import TodayFood from "./Food/TodayFood";
 
 const MyFood = ({ className }) => {
   const searchmenu = useSelector((state) => state.search.tableData);
   const [tableData, setTableData] = useState([]);
 
-  console.log("tadatable", tableData);
-
   useEffect(() => {
     setTableData(searchmenu);
   }, [searchmenu]);
-
+  const {status} = useSelector((state) => state.barcode);
   return (
+    <>
+    { status ?
+    <>
+    <TodayFood/>
+    </>
+    :
     <div className={className}>
       <div className="Myfood--box">
         <h1>
@@ -29,10 +34,10 @@ const MyFood = ({ className }) => {
         <div className="Mybox--list">
           {tableData.map((item) => (
              //lugie modify****
-            <Link
-              className="m-4"
-              to={`/myfood/Pastfood/${item.idfood}/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
-            >
+             <Link
+             className="m-4"
+             to={`/myfood/Pastfood/${item.idfood}/${item.name}/${item.kcal}/${item.per_items}/${item.per_protein}/${item.per_fat}/${item.per_salt}/${item.per_sugar}/${item.per_veg}/${item.per_carb}`}
+           >
               <div
                 key={item.idfood}
                 tabIndex={0}
@@ -61,6 +66,8 @@ const MyFood = ({ className }) => {
         
       </div>
     </div>
+    }
+    </>
   );
 };
 

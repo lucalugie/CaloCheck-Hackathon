@@ -1,11 +1,11 @@
 const Usershistory = require("../../model/Usershistory");
+const Foodnutrition = require("../../model/foodnutrition");
 const { Op } = require("sequelize");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 dotenv.config();
 //lugie
 const Users = require("../../model/User");
-
 
 async function getFoodByDate(req, res) {
   const dateParam = req.query.createdAt;
@@ -38,6 +38,7 @@ async function getFoodByDate(req, res) {
           console.log(dateParam);
           const food = await Usershistory.findAll({
             where: {
+              userlineId: userId,
               createdAt: {
                 [Op.and]: [
                   { [Op.gte]: dateParam + " 00:00:00" },
@@ -102,9 +103,7 @@ async function postUserHistory(req, res) {
             .json({ status: "Failed", message: "User not found" });
         }
         const userlineid = decoded.userId;
-        const {
-          idfood,
-        } = req.body;
+        const { idfood } = req.body;
 
         const history = await Usershistory.create({
           userlineid,

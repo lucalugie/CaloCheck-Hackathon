@@ -7,14 +7,13 @@
 
     return (
         <>
-             {user.type === "register" ?
+             {user.type === "register"  ?
              <>
                 <Register/>
              </>
              :
              <>
-
-                <Home/>
+               <Home/>
              </>
              }
         </>

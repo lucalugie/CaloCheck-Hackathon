@@ -2,5 +2,11 @@ const automation = require('./automation/automation');
 
 
 
-console.log("--------test------------")
+setInterval(() => {
+    
+},1000)
 automation.Message();
+
+// automonths.MessageAutoMonth();
+
+

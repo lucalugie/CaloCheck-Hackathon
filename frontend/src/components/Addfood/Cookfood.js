@@ -182,7 +182,6 @@ const Cookfood = ({ className }) => {
     try {
       const addedFood = await addFood("Foodnutrition", theData);
       console.log("Food added:", addedFood);
-
       //lugie modify****
       const addedFoodId = addedFood.idfood;
       const history = {

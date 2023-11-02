@@ -15,8 +15,13 @@ import {
   g_gramsProtein,
   findDefaultInfo,
 } from "../../Convert/defaltFunction";
+//Add
+import API from "../../constant/API";
+import { useDispatch } from "react-redux";
+import { setType, setAge, setGender, setWeight, setHeight, setBmi } from "../../store/userSlice";
 
-function Complete({ className, data }) {
+
+// function Complete({ className, data }) {
   // const [userGoals, setUserGoals] = useState({
   //   goals_kcal: 0,
   //   goals_g: 0,
@@ -28,47 +33,91 @@ function Complete({ className, data }) {
   //   goals_carb: 0,
   // });
 
+
+
+
+
+
+
+function Complete({ className, gender, age, weight, height, bmi,data }) {
+  const dispatch = useDispatch();
+  const updateUserData = () => {
+    fetch(API.updateUser, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        gender: gender,
+        age: age,
+        weight: weight,
+        height: height,
+        bmi: bmi
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(setBmi(data.member.bmi));
+        dispatch(setHeight(data.member.height));
+        dispatch(setWeight(data.member.weight));
+        dispatch(setGender(data.member.gender));
+        dispatch(setAge(data.member.age));
+      })
+      .catch((error) => {
+        console.error("Error updating user data");
+      });
+  };
+
   useEffect(() => {
-    console.log("setAlldefaultValue");
-    setAlldefaultValue(data);
-  }, [data]);
+   updateUserData(); 
+  },[])
 
-  function setAlldefaultValue(data) {
-    findDefaultInfo(data.gender, data.age);
-    const updatedUserGoals = {
-      goals_kcal: kcal_total,
-      goals_g: grams_total,
-      goals_protein: g_gramsProtein,
-      goals_fat: g_gramsFat,
-      goals_salt: g_gramsSodium,
-      goals_sugar: g_gramsSugar,
-      goals_veg: g_gramsVeg,
-      goals_carb: g_gramsCarb,
-    };
-    // setUserGoals(updatedUserGoals);
-    const pushtobdGoals = () => {
-      console.log("Sending data to the server:", updatedUserGoals);
-      axios
-        .put(
-          `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
-          updatedUserGoals,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    pushtobdGoals();
-  }
 
+    //-----------------
+    useEffect(() => {
+      console.log("setAlldefaultValue");
+      setAlldefaultValue(data);
+    }, [data]);
+
+    function setAlldefaultValue(data) {
+      findDefaultInfo(data.gender, data.age);
+      const updatedUserGoals = {
+        goals_kcal: kcal_total,
+        goals_g: grams_total,
+        goals_protein: g_gramsProtein,
+        goals_fat: g_gramsFat,
+        goals_salt: g_gramsSodium,
+        goals_sugar: g_gramsSugar,
+        goals_veg: g_gramsVeg,
+        goals_carb: g_gramsCarb,
+      };
+      // setUserGoals(updatedUserGoals);
+      const pushtobdGoals = () => {
+        console.log("Sending data to the server:", updatedUserGoals);
+        axios
+          .put(
+            `${process.env.REACT_APP_BASE_URL}/usersgoals/updategoals`,
+            updatedUserGoals,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          )
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      pushtobdGoals();
+    }
+  
   return (
     <div className={className}>
       <div className="wrap w-full h-1/2">
@@ -87,7 +136,7 @@ function Complete({ className, data }) {
             เริ่มการบันทึกอาหารมื้อแรกของคุณได้เลย
           </h3>
         </div>
-        <Link to="/">
+        <Link onClick={() => dispatch(setType("login"))} to="/">
           <div className="flex row justify-center items-center m-4">
             <button className="btn btn-primary w-1/3">Home</button>
           </div>

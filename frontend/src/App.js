@@ -1,4 +1,3 @@
-
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
@@ -20,31 +19,61 @@ import IG from "./components/Scan/IG";
 
 //Pim added
 import Line from "./Page/Line/line";
-
+import Calendar from "./components/Calendar/Calendar";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import {setType, setLineID, setDisplayName, setPictureUrl} from "./store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import userSlice from "./store/aiPageSlice";
+import {
+  setType,
+  setLineID,
+  setDisplayName,
+  setPictureUrl,
+  setGender,
+  setWeight,
+  setHeight,
+  setAge,
+  setBmi,
+} from "./store/userSlice";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    
-      method:"POST",
-      credentials: 'include',
-      headers:{
+    setTimeout(() => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/users/`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
           "Content-Type": "application/json",
-      },
+        },
       })
-      .then(res => res.json())
-      .then(data => {
-          if(data.type === "login"){
-            dispatch(setType(data.type))
-          }else if(data.type === "register"){
-            dispatch(setType(data.type))
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.type == "login") {
+            const { member } = data;
+            dispatch(setType(data.type));
+            dispatch(setLineID(member.userlineId));
+            dispatch(setDisplayName(member.displayName));
+            dispatch(setPictureUrl(member.pictureUrl));
+            dispatch(setGender(member.gender));
+            dispatch(setWeight(member.weight));
+            dispatch(setHeight(member.height));
+            dispatch(setBmi(member.bmi));
+            dispatch(setAge(member.age));
+            navigate("/");
+          } else if (data.type == "register") {
+            const { member } = data;
+            dispatch(setType(data.type));
+            dispatch(setLineID(member.userlineId));
+            dispatch(setDisplayName(member.displayName));
+            dispatch(setPictureUrl(member.pictureUrl));
             navigate("/line");
+          } else {
+            navigate("/welcome");
           }
-      })
-  },[])
+        });
+    }, 1000);
+  }, []);
 
   return (
     <>
@@ -65,11 +94,12 @@ function App() {
             element={<Pastfood />}
           ></Route>
           <Route path="/myfood/Addfood" element={<Addfood />}></Route>
+
           <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
           <Route path="/myfood/Addfood/Buyfood" element={<Buyfood />}></Route>
-          <Route path="/datastatus" element={<Datastatus />}></Route>
+          <Route path="/datastatus" element={<Calendar />}></Route>
+
           <Route path="/today" element={<TodayFood />}></Route>
-  
         </Routes>
       </Container>
       <Footer />

@@ -15,9 +15,8 @@ import Swal from "sweetalert2";
 import { postUsersHistory } from "../FoodController/historyController";
 
 const Pastfood = ({ className }) => {
-  //lugie modify****
-  const { idfood, name, kcal, protein, fat, salt, sugar, veg, carb } =
-    useParams();
+   //lugie modify****
+   const { idfood, name, kcal, protein, fat, salt, sugar, veg, carb } = useParams();
   const [quantity, setQuantity] = useState(1); // เพิ่มสถานะเก็บจำนวน
   const navigate = useNavigate();
 
@@ -110,8 +109,8 @@ const Pastfood = ({ className }) => {
     });
   }
 
-  //lugie modify****
-  const handleAddToHistory = () => {
+   //lugie modify****
+   const handleAddToHistory = () => {
     const addedFoodId = idfood;
     const foodsToAdd = Array.from({ length: quantity }, () => ({
       idfood: Number(addedFoodId),
@@ -170,8 +169,8 @@ const Pastfood = ({ className }) => {
     navigate("/");
   }
 
-  //lugie modify****
-  async function postHistory(idfood) {
+   //lugie modify****
+   async function postHistory(idfood) {
     console.log("postHistory called:", idfood);
     try {
       const history = await postUsersHistory(idfood);
