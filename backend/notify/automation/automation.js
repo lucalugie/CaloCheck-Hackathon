@@ -13,7 +13,7 @@ async function  Message() {
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 9 โมงเช้า)
         const notificationTimeBreakfast = new Date(); 
         notificationTimeBreakfast.setHours(17) //เวลาทานอาหารเช้า
-        notificationTimeBreakfast.setMinutes(8);
+        notificationTimeBreakfast.setMinutes(28);
         notificationTimeBreakfast.setSeconds(10);
 
    
@@ -34,6 +34,7 @@ async function  Message() {
 
 
     if(currentTime.getTime()==notificationTimeBreakfast.getTime()){
+        console.log("send message Breakfast")
           sendMessageBreakfast();
     }
 
@@ -90,8 +91,13 @@ async function sendMessageBreakfast() {
             //     to: code,
             //     messages: [
             //         {
-            //             "type": "text",
-            //             "text": "คุณทานอาหารเช้าเเล้วรึยัง"
+            //             "type":"text",
+            //             "text":"คุณทานมื้อเช้ารึยัง"
+            //         },
+            //         {
+            //             "type":"image",
+            //             "originalContentUrl": "https://yungying.com/images/preme/1.png",
+            //             "previewImageUrl": "https://yungying.com/images/preme/1.png"
             //         }
             //     ]
             // }, {
@@ -103,28 +109,6 @@ async function sendMessageBreakfast() {
           
         });
     }
-
-    if(users){
-        users.forEach(async (element) => {
-            const code = element.userlineid
-            const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
-                to: code,
-                messages: [
-                    {
-                        "type": "text",
-                        "text": "ทำได้ดีมาก"
-                    }
-                ]
-            }, {
-                headers: {
-                    "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
-                }
-            })
-        
-          
-        });
-    }
-
     }
     catch (error) {
         console.log("error")
@@ -150,8 +134,13 @@ async function sendMessageLunch() {
                 to: code,
                 messages: [
                     {
-                        "type": "text",
-                        "text": "คุณทานอาหารกลางวันเเล้วรึยัง"
+                        "type":"text",
+                        "text":"อย่าลืมทานมื้อเที่ยง"
+                    },
+                    {
+                        "type":"image",
+                        "originalContentUrl": "https://yungying.com/images/preme/2.png",
+                        "previewImageUrl": "https://yungying.com/images/preme/2.png"
                     }
                 ]
             }, {
