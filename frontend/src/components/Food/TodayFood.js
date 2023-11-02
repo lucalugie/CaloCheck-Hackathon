@@ -30,7 +30,7 @@ const Todayfood = ({ className }) => {
       try {
         const response = await fetch(`http://localhost:3000/foodnutrition/barcode/?sku=${sku.sku}`);
         const data = await response.json();
-        if(data){
+        if(data.length>0){
           setFoodData(data);
           setFound(true)
         }
