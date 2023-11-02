@@ -49,6 +49,9 @@ async function getUsersNu(req, res) {
 
 //get by date
 async function getUsersNuBydate(req, res) {
+  //lugie modify
+  const dateParam = req.query.createdAt;
+
   try {
     if (!req.cookies.token) {
       console.log("No token");
@@ -70,20 +73,19 @@ async function getUsersNuBydate(req, res) {
         }
 
         console.log("decoded from userNutrition", decoded.userId);
+        console.log("dateParam from userNutrition",dateParam);
 
         const userlineid = decoded.userId;
-        const { date } = req.query;
-
-        // get by electdate  **มั่วเด้อสู่เขา ฉันหาโค้ดที่จะดึงบ่าเจอ
-        const selectdate = new Date(date).setHours(0, 0, 0, 0);
-        const endOfDay = new Date(date).setHours(23, 59, 59, 999);
-
+  
+        //lugie modify
         const usernutritions = await UsersNutrition.findOne({
           where: {
             userlineid: userlineid,
             createdAt: {
-              [Op.gte]: selectdate,
-              [Op.lt]: endOfDay,
+              [Op.and]: [
+                { [Op.gte]: dateParam + " 00:00:00" },
+                { [Op.lte]: dateParam + " 23:59:59" },
+              ],
             },
           },
         });

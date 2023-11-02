@@ -247,4 +247,53 @@ const fetchUserNutrition = async (dispatch) => {
   }
 };
 
-export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition};
+//lugie modify
+//getusernutrition by date query
+const fetchUserNutritionByDate = async (dispatch, year = null, month = null, date = null) => {
+  const today = new Date();
+  if (isNaN(year) || year < 1) {
+    year = today.getFullYear();
+  }
+  if (isNaN(month) || month < 1 || month > 12) {
+    month = today.getMonth() + 1; // Month is 0-based, so add 1
+  }
+  if (isNaN(date) || date < 1 || date > 31) {
+    date = today.getDate();
+  }
+  const dateParam = `${year}-${month}-${date}`;
+
+  console.log("dateParam in fetchUserNutritionByDate",dateParam)
+
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/usersnutrition/bydate?createdAt=${dateParam}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    const userData = response.data;
+
+    if (userData) {
+      dispatch(setAchKcal(userData.ach_kcal));
+      dispatch(setAchG(userData.ach_g));
+      dispatch(setAchProtein(userData.ach_protein));
+      dispatch(setAchFat(userData.ach_fat));
+      dispatch(setAchSalt(userData.ach_salt));
+      dispatch(setAchSugar(userData.ach_sugar));
+      dispatch(setAchVeg(userData.ach_veg));
+      dispatch(setAchCarb(userData.ach_carb));
+    } else {
+      console.error("no data:", userData);
+    }
+
+    console.log(userData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition, fetchUserNutritionByDate};

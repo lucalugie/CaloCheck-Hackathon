@@ -1,24 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../Convert/userController";
-// const profilepath =
-//   "https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg";
-
-  const cleartoken = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/`, {
-        method: 'DELETE',
-        credentials: 'include',
-      })
-      const data = await res.json()
-      console.log(data)
-    } catch (error) {
-      console.log("Err")
-    }
-  };
-
 
 function Navbar() {
   const user = useSelector((state) => state.user);
@@ -33,11 +17,29 @@ function Navbar() {
     }
   };
 
-  const [userImage, setUserImage] = useState("https://pub-static.fotor.com/assets/projects/pages/28dfdd1b67984fd095e368b7c603b7e4/600w/fotor-8883abdca0284d13a2542f8810bf8156.jpg");
+  //lugie modify
+  const defaultUserImage =
+    "https://i.pinimg.com/474x/89/d1/ee/89d1eedd44904286c8113a1f8603aa4c.jpg";
+  const [userImage, setUserImage] = useState(defaultUserImage);
   useEffect(() => {
     fetchUserDataAndDispatch();
-    setUserImage(user.pictureUrl);
+    setUserImage(user.pictureUrl || defaultUserImage);
   }, [user]);
+
+  const cleartoken = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      console.log(data);
+      //lugie modify
+      setUserImage(defaultUserImage);
+    } catch (error) {
+      console.log("Err");
+    }
+  };
 
   return (
     <>
@@ -65,16 +67,16 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-              <Link to="/">Homepage</Link>
+                <Link to="/">Homepage</Link>
               </li>
               <li>
-              <Link to="/datastatus">Calendar</Link>
+                <Link to="/datastatus">Calendar</Link>
               </li>
               <li>
-              <Link to="/ai-scan">AI Scan</Link>
+                <Link to="/ai-scan">AI Scan</Link>
               </li>
               <li>
-              <Link to="/ig-scan">IG-story Scan</Link>
+                <Link to="/ig-scan">IG-story Scan</Link>
               </li>
             </ul>
           </div>
@@ -84,7 +86,6 @@ function Navbar() {
         </div>
 
         <div className="navbar-end">
-
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -96,10 +97,12 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-              <Link to="/settings">Settings</Link>
+                <Link to="/settings">Settings</Link>
               </li>
               <li>
-              <Link to="/welcome" onClick={() => cleartoken()} >Logout</Link>
+                <Link to="/welcome" onClick={() => cleartoken()}>
+                  Logout
+                </Link>
               </li>
             </ul>
           </div>
