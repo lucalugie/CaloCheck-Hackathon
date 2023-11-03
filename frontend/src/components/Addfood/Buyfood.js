@@ -63,24 +63,9 @@ const Buyfood = ({ className }) => {
     const gCarb = findGramsCarbFromAdd(carb, per_carb) * per_items;
     const gVeg = findGramsVegFromAdd(veg, per_veg) * per_items;
     const gPro = findGramsProteinFromAdd(per_protein) * per_items;
-
-    //find kcal
-    // const kcal_carb = gramsCarbToCal(carb, gCarb);
-    // const kcal_pro = gramsProteinToCal(protein, gPro);
-
-    // console.log("kcal_carb", kcal_carb);
-    // console.log("kcal_pro", kcal_pro);
-
     //daily total
-    // const kcaltotal_ = findKcalDailyShop(kcal_carb, kcal_pro);
     const gtotal_ = findGramsTotalShop(gCarb, gPro, gVeg);
-
-    // console.log("kcaltotal_", kcaltotal_);
     console.log("gtotal_", gtotal_);
-    // const KcalToString = kcaltotal_.toString();
-    // setKcal(KcalToString);
-    // console.log("setKcal", kcal);
-
     const kaclToNumber = Number(kcal) * per_items;
 
     setUpdateNutrition((prevNu) => ({
@@ -143,7 +128,7 @@ const Buyfood = ({ className }) => {
 
   async function add_food(theData) {
     try {
-      const addedFood = await addFood("Foodnutrition", theData);
+      const addedFood = await addFood("foodnutrition", theData);
       console.log("Food added:", addedFood);
       //lugie modify****
       const addedFoodId = addedFood.idfood;
@@ -234,11 +219,13 @@ const Buyfood = ({ className }) => {
           <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
         </button>
       </Link>
-
-      <div className="Text">
-        <h1>
-          <b>เพิ่มรายการอาหาร</b>
-        </h1>
+      <div className="Text text-center flex flex-col justify-center items-center">
+        <h3 className="card-titletwo text-accent font-bold text-center">
+          ADD FOOD
+        </h3>
+        <h2 className="card-title font-bold text-center leading-none">
+          เพิ่มรายการอาหาร
+        </h2>
       </div>
       <div className="DataAll">
         <div className="Data">
@@ -430,9 +417,9 @@ const Buyfood = ({ className }) => {
         </div>
       </div>
 
-      <div className="confirm">
+      <div className="confirm mt-16 mb-32">
         <button className="btn btn-success" onClick={checkaddbuyfood}>
-          Confirm
+          add food
         </button>
       </div>
     </div>
@@ -454,11 +441,11 @@ export default styled(Buyfood)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 5rem;
+    margin-top: 2rem;
   }
   .DataAll {
     font-size: calc(60% + 2vmin);
-    padding: 50px;
+    padding-top: 25px;
     color: black;
     display: flex;
     flex-direction: column;

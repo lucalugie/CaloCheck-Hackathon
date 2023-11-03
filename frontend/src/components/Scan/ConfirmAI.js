@@ -7,13 +7,13 @@ import axios from "axios";
 function ConfirmAI({ className, url, nameOFFood }) {
   const aiPage = useSelector((state) => state.aiPage);
   console.log("aiPage", aiPage.name);
-  
+
   //lugie modify
   const [food, setFood] = useState({});
   const fetchFood = async (id) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/foodnutrition/${id}`
+        `${process.env.REACT_APP_BASE_URL}/foodnutrition/findfood/${id}`
       );
       console.log("Get food data complete");
       return response.data;
@@ -49,17 +49,25 @@ function ConfirmAI({ className, url, nameOFFood }) {
   return (
     <>
       {aiPage.loading ? (
-        <>Load</>
+        <>
+          <div className="wrap w-full h-1/2 mt-32">
+            <div className="flex flex-row justify-center items-center h-full">
+              <span className="loading loading-ball loading-xs text-success"></span>
+              <span className="loading loading-ball loading-sm text-primary"></span>
+              <span className="loading loading-ball loading-md text-accent"></span>
+              <span className="loading loading-ball loading-lg text-secondary"></span>
+            </div>
+          </div>
+        </>
       ) : (
         <div className={className}>
           <div className="wrap w-full h-1/2">
-            <div className="card w-96 bg-base-100 border-2 border-primary shadow-xl">
+            <div className="card w-96 bg-base-100 ">
               <figure className="px-10 pt-10">
-                <img src={aiPage.url} alt="Food" className="rounded-xl" />
+                <img src={aiPage.url || "/logo/SORRY.png"} alt="Food" className="rounded-xl" />
               </figure>
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{aiPage.name}</h2>
-                {/* lugie modify */}
                 <div className="card-actions">
                   {aiPage.url === "" ? (
                     <>

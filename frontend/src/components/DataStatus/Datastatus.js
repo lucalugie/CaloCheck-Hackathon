@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 //lugie modify
-import {fetchUserNutritionByDate} from "../../Convert/userController"
+import { fetchUserNutritionByDate } from "../../Convert/userController";
 import { useDispatch } from "react-redux";
 
 const Datastatus = ({ className, day, month, year }) => {
@@ -70,42 +70,41 @@ const Datastatus = ({ className, day, month, year }) => {
         <div className="data">
           <div className="form-control w-full max-w-xs">
             <div className="overflow-x-auto">
-              <div className="Text">
-                <h1>
-                  <b>
-                    <FontAwesomeIcon
-                      icon={faUtensils}
-                      style={{ marginRight: "1rem" }}
-                    />
-                    รายการอาหาร
-                  </b>
-                  <br />
-                </h1>
+              <div className="Text text-center flex flex-col justify-center items-center mb-6">
+                <h3 className="card-titletwo text-accent font-bold text-center">
+                  FOOD LISTS
+                </h3>
+                <h2 className="card-title font-bold text-center leading-none">
+                  <FontAwesomeIcon
+                    icon={faUtensils}
+                    style={{ marginRight: "0.25rem" }}
+                  />
+                  รายการอาหาร
+                </h2>
               </div>
 
               {/* row 1 */}
               {Data.length > 0 ? (
-                Data.map((data) => (
-                  <table className="table">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>ชื่ออาหาร</th>
-                        <th>จำนวน</th>
-                        <th>Kcal</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>ชื่ออาหาร</th>
+                      <th>จำนวน</th>
+                      <th>Kcal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Data.map((data) => (
                       <tr key={data.idfood}>
                         <th>{data.idfood}</th>
                         <td>{data.name}</td>
                         <td>{data.per_items}</td>
                         <td>{data.kcal}</td>
                       </tr>
-                    </tbody>
-                  </table>
-                ))
+                    ))}
+                  </tbody>
+                </table>
               ) : (
                 <div className="text-center font-bold">
                   ไม่มีรายการอาหารของวันนี้
@@ -113,9 +112,9 @@ const Datastatus = ({ className, day, month, year }) => {
               )}
               <br />
               {/* lugie modify */}
-                <div>
-                  <PieAll/>
-                </div>
+              <div className="mt-4 mb-40">
+                <PieAll />
+              </div>
             </div>
           </div>
         </div>

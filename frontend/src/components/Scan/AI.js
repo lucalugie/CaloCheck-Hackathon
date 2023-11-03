@@ -1,13 +1,11 @@
-import React, { useState,useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faCamera } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-
-
 import ConfirmAI from "./ConfirmAI";
-import { setName,setUrl,setLoading } from "../../store/aiPageSlice";
+import { setName, setUrl, setLoading } from "../../store/aiPageSlice";
 import { useDispatch } from "react-redux";
 function AI({ className }) {
   const inputRef = useRef(null);
@@ -18,7 +16,7 @@ function AI({ className }) {
 
   useEffect(() => {
     console.log(inputRef.current.files);
-  },[inputRef]);
+  }, [inputRef]);
 
   const handleImageSelection = (image) => {
     if (selectedImage === image) {
@@ -55,37 +53,30 @@ function AI({ className }) {
   };
 
   //pimadded
-  const AIchecked =  () => {
+  const AIchecked = () => {
     // console.log("use AI checked",selectedImage);
     dispatch(setLoading(true));
-      var formdata = new FormData();
-      formdata.append("image_file", inputRef.current.files[0]);
-      var requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
-      };
-      fetch(`${process.env.REACT_APP_SCAN_PHOTO}/detect`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          if(result.length>0){
-            dispatch(setName(result[0][4]));
-            dispatch(setUrl(selectedImage));
-            dispatch(setLoading(false));
-          }
-         else {
-        
+    var formdata = new FormData();
+    formdata.append("image_file", inputRef.current.files[0]);
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+    fetch(`${process.env.REACT_APP_SCAN_PHOTO}/detect`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.length > 0) {
+          dispatch(setName(result[0][4]));
+          dispatch(setUrl(selectedImage));
+          dispatch(setLoading(false));
+        } else {
           dispatch(setName("ข้อมูลอาหารชนิดนี้ยังไม่มีในระบบ"));
           dispatch(setUrl(""));
           dispatch(setLoading(false));
-          }
-      
-          
-        })
-
-        
-  }
-  
+        }
+      });
+  };
 
   return (
     <div className={className}>
@@ -94,14 +85,14 @@ function AI({ className }) {
           Welcome to AI Food Scanning
         </h1>
         <h2 className="text-xl text-primary text-center flex flex-col justify-center items-center mb-4">
-          Upload Image to start AI Scanning.
+          อัพโหลดรูปภาพเพื่อเริ่มทำ AI Scanning.
         </h2>
 
         {/* bottom */}
 
         <div className="flex justify-center items-center">
           <input
-           ref={inputRef}
+            ref={inputRef}
             type="file"
             accept="image/*"
             style={{ display: "none" }}
@@ -111,9 +102,7 @@ function AI({ className }) {
           <label
             htmlFor="file-input"
             className={`grid-gallery h-64 max-w-sm flex-grow justify-center card bg-secondary rounded-box place-items-center m-4 cursor-pointer duration-100 
-            ${
-              selectedImage === "gallery" ? "selected" : ""
-            }`}
+            ${selectedImage === "gallery" ? "selected" : ""}`}
             onClick={() => {
               handleImageSelection("gallery");
               console.log("Gallery image clicked");
@@ -122,7 +111,7 @@ function AI({ className }) {
             <div className="flex flex-col justify-center items-center">
               <FontAwesomeIcon icon={faImage} className="font-bold text-7xl" />
               <h2 className="text-lg font-bold mt-2 text-center">
-                from gallery
+                เลือกจากคลังรูปภาพ
               </h2>
             </div>
           </label>
@@ -140,9 +129,7 @@ function AI({ className }) {
           <label
             htmlFor="camera-input"
             className={`grid-camera h-64 max-w-sm flex-grow justify-center card bg-accent rounded-box place-items-center m-4 cursor-pointer duration-100 
-            ${
-              selectedImage === "camera" ? "selected" : ""
-            }`}
+            ${selectedImage === "camera" ? "selected" : ""}`}
             onClick={() => {
               handleImageSelection("camera");
               console.log("Camera image clicked");
@@ -151,7 +138,7 @@ function AI({ className }) {
             <div className="flex flex-col justify-center items-center ">
               <FontAwesomeIcon icon={faCamera} className="font-bold text-7xl" />
               <h2 className="text-lg font-bold mt-2 text-center">
-                from camera
+              เลือกจากกล้องถ่ายรูป
               </h2>
             </div>
           </label>
@@ -175,7 +162,7 @@ function AI({ className }) {
             <div className="card w-80 border border-primary">
               <div className="card-body items-center text-center">
                 <h2 className="text-lg font-bold items-center">
-                  Selected Image :
+                  ภาพที่เลือก :
                 </h2>
                 <h2 className="text-lg font-bold items-center">None</h2>
               </div>
@@ -185,12 +172,16 @@ function AI({ className }) {
 
         {/* bottom */}
         {selectedImage ? (
-          <Link to="/ai-scan/confirm" element={<ConfirmAI ></ConfirmAI>}>
+          <Link to="/ai-scan/confirm" element={<ConfirmAI></ConfirmAI>}>
             <div className="flex row justify-center items-center">
-              <button className="btn btn-primary w-1/3 max-w-xs" onClick={() => AIchecked()}>Start</button>
+              <button
+                className="btn btn-primary w-1/3 max-w-xs"
+                onClick={() => AIchecked()}
+              >
+                Start
+              </button>
             </div>
           </Link>
-
         ) : (
           <div className="flex row justify-center items-center">
             <button className="btn btn-primary w-1/3 max-w-xs" disabled>
