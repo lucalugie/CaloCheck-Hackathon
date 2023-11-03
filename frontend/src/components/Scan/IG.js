@@ -23,7 +23,7 @@ function IG({ className }) {
           Welcome to IG Story Food Scanning
         </h1>
         <h2 className="text-xl text-primary text-center flex flex-col justify-center items-center mb-4">
-          Connect to your story and start AI Scanning.
+          เชื่อมต่อกับ ig-story ของคุณและเริ่ม AI Scanning.
         </h2>
 
         {/* bottom */}
@@ -40,7 +40,7 @@ function IG({ className }) {
             <div className="flex flex-col justify-center items-center">
             <FontAwesomeIcon icon={faCircleUser} className="font-bold text-7xl" />
               <h2 className="text-lg font-bold mt-2 text-center">
-                from ig-story
+                อัพโหลดจาก ig-story
               </h2>
             </div>
           </div>
@@ -66,7 +66,7 @@ function IG({ className }) {
               <div className="card w-80 border border-primary">
                 <div className="card-body items-center text-center">
                   <h2 className="text-lg font-bold items-center">
-                    Selected Image :
+                  ภาพที่เลือก :
                   </h2>
                   <h2 className="text-lg font-bold items-center">None</h2>
                 </div>

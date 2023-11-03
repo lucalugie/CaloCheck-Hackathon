@@ -11,29 +11,6 @@ const pieParams = { height: 200, margin: { right: 5 } };
 export default function PieAll() {
   //lugie modify
   const nutri = useSelector((state) => state.nutrition);
-  // const [nutritionData, setNutritionData] = useState({
-  //   ach_kcal: 0,
-  //   ach_g: 0,
-  //   ach_protein: 0,
-  //   ach_fat: 0,
-  //   ach_salt: 0,
-  //   ach_sugar: 0,
-  //   ach_veg: 0,
-  //   ach_carb: 0,
-  // });
-
-  // useEffect(() => {
-  //   setNutritionData({
-  //     ach_kcal: nutri.ach_kcal,
-  //     ach_g: nutri.ach_g,
-  //     ach_protein: nutri.ach_protein,
-  //     ach_fat: nutri.ach_fat,
-  //     ach_salt: nutri.ach_salt,
-  //     ach_sugar: nutri.ach_sugar,
-  //     ach_veg: nutri.ach_veg,
-  //     ach_carb: nutri.ach_carb,
-  //   });
-  // }, [nutri]);
 
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
@@ -86,7 +63,7 @@ export default function PieAll() {
           </div>
         )}
 
-        <div className="text-center font-bold mt-4">ภาพรวมรายเดือน</div>
+        {/* <div className="text-center font-bold mt-4">ภาพรวมรายเดือน</div>
         <PieChart
           series={[
             {
@@ -114,7 +91,7 @@ export default function PieAll() {
         <div className="badge badge bg-red-600 text-white">กินขาดโภชนาการ</div>
         <div className="badge badge bg-green-600 text-white">
           กินตรงตามโภชนาการ
-        </div>
+        </div> */}
       </Box>
     </Stack>
   );

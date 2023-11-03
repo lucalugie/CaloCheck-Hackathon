@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PieColor from "./Piedayly";
 import { useDispatch, useSelector } from "react-redux";
-import { setStatus } from "../../store/barcodeSlice";
+import { setStatus, setLoading } from "../../store/barcodeSlice";
 import { Table } from "@mui/material";
 //lugie modify
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,15 +39,18 @@ const Todayfood = ({ className }) => {
     const fetchDataAndUpdateK = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/foodnutrition/barcode/?sku=${sku.sku}`
+          `${process.env.REACT_APP_BASE_URL}/foodnutrition/barcode/?sku=${sku.sku}`
         );
         const data = await response.json();
+       
         if (data.length > 0) {
           setFoodData(data);
-          setFound(true);
+          setFound(true); 
+          dispatch(setLoading(false));
         } else {
           console.log("no data");
-          setFound(false);
+          setFound(false); 
+          dispatch(setLoading(false));
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -200,6 +203,7 @@ const Todayfood = ({ className }) => {
   function backToHome() {
     console.log("3");
     dispatch(setStatus(false));
+    dispatch(setLoading(true));
     navigate("/");
   }
 
@@ -220,196 +224,227 @@ const Todayfood = ({ className }) => {
 
   return (
     <>
-      {found ? (
-        <div className={className}>
-          <div className="back">
-            {/* lugie modify */}
-            <button
-              className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4"
-              onClick={() => {
-                dispatch(setStatus(false));
-                backToHome();
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                className="font-bold text-3xl"
-              />
-            </button>
-          </div>
-          <div className="Text">
-            <h1>
-              <b>{foodData[0]?.name}</b>
-            </h1>
-          </div>
-          <div className="Nutritions text-accent">
-            <h2>
-              <b>Nutritions</b>
-            </h2>
-            <h1>
-              <b>สารอาหาร</b>
-            </h1>
-          </div>
-          <div className="data">
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text1">จำนวน</span>
-                <span className="label-text-alt">หน่วยตามที่บรรจุ</span>
-              </label>
-              <input
-                type="text"
-                min="1"
-                placeholder="1"
-                className="input input-bordered input-error w-full max-w-xs"
-                value={Number(num)}
-                //lugie modify
-                onChange={(e) => {
-                  const newValue = e.target.value.replace(/[^0-9]/g, "");
-                  setNum(Number(newValue));
-                }}
-              />
-              <br />
-              <PieColor
-                kcal={foodData[0]?.kcal}
-                carb={foodData[0]?.per_carb}
-                protein={foodData[0]?.per_protein}
-                fat={foodData[0]?.per_fat}
-                veg={foodData[0]?.per_veg}
-                sugar={foodData[0]?.per_sugar}
-                salt={foodData[0]?.per_salt}
-              />
-            </div>
-            {/* lugie modify */}
-            <div className="dayly">
-              <h1>
-                <b>เป้าหมายรายวัน</b>
-              </h1>
-              <br />
-              <h2>รวม</h2>
-              <progress
-                className="progress progress-success w-5rem"
-                value={findPercentage(nutri.ach_g, goals.goals_g)}
-                max="100"
-              ></progress>
-              <h3>{findPercentage(nutri.ach_g, goals.goals_g)}%</h3>
-            </div>
-            <div className="daylylist">
-              <div className="dayly grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 gap-y-6 sm:gap-y-10 w-5rem">
-                <div className="list">
-                  <h2>คาร์โบไฮเดรต</h2>
-                  <progress
-                    className={`progress progress-accent`}
-                    value={findPercentage(nutri.ach_carb, goals.goals_carb)}
-                    max="100"
-                  />
-                  <h3>{findPercentage(nutri.ach_carb, goals.goals_carb)}%</h3>
-                </div>
-                <div className="list">
-                  <h2>น้ำตาล</h2>
-                  <progress
-                    className={`progress progress-secondary`}
-                    value={findPercentage(nutri.ach_sugar, goals.goals_sugar)}
-                    max="100"
-                  />
-                  <h3>{findPercentage(nutri.ach_sugar, goals.goals_sugar)}%</h3>
-                </div>
-                <div className="list">
-                  <h2>โปรตีน</h2>
-                  <progress
-                    className={`progress progress-error`}
-                    value={findPercentage(
-                      nutri.ach_protein,
-                      goals.goals_protein
-                    )}
-                    max="100"
-                  />
-                  <h3>
-                    {findPercentage(nutri.ach_protein, goals.goals_protein)}%
-                  </h3>
-                </div>
-                <div className="list">
-                  <h2>ผัก</h2>
-                  <progress
-                    className={`progress progress-success`}
-                    value={findPercentage(nutri.ach_veg, goals.goals_veg)}
-                    max="100"
-                  />
-                  <h3>{findPercentage(nutri.ach_veg, goals.goals_veg)}%</h3>
-                </div>
-                <div className="list">
-                  <h2>ไขมัน</h2>
-                  <progress
-                    className={`progress progress-warning`}
-                    value={findPercentage(nutri.ach_fat, goals.goals_fat)}
-                    max="100"
-                  />
-                  <h3>{findPercentage(nutri.ach_fat, goals.goals_fat)}%</h3>
-                </div>
-                <div className="list">
-                  <h2>เกลือ</h2>
-                  <progress
-                    className={`progress progress-info`}
-                    value={findPercentage(nutri.ach_salt, goals.goals_salt)}
-                    max="100"
-                  />
-                  <h3>{findPercentage(nutri.ach_salt, goals.goals_salt)}%</h3>
-                </div>
-                {/* lugie modify */}
-              </div>
+      {sku.loading ? (
+        <>
+          <div className="wrap w-full h-1/2 mt-32">
+            <div className="flex flex-row justify-center items-center h-full">
+              <span className="loading loading-ball loading-xs text-success"></span>
+              <span className="loading loading-ball loading-sm text-primary"></span>
+              <span className="loading loading-ball loading-md text-accent"></span>
+              <span className="loading loading-ball loading-lg text-secondary"></span>
             </div>
           </div>
-
-          {/* //lugie modify */}
-          <div className="cc">
-            <div
-              className="cancel"
-              onClick={() => {
-                dispatch(setStatus(false));
-                backToHome();
-              }}
-            >
-              <button className="btn btn-error">Cancel</button>
-            </div>
-
-            <div className="confirm">
-              <button
-                className="btn btn-success"
-                onClick={() => {
-                  confirmAdd();
-                }}
-              >
-                Confirm Add
-              </button>
-            </div>
-          </div>
-        </div>
+        </>
       ) : (
         <>
-          {/* The button to open modal */}
-          {/* Put this part before </body> tag */}
+          {found ? (
+            <div className={className}>
+              <div className="back">
+                {/* lugie modify */}
+                <button
+                  className="btn btn-primary font-bold w-12 h-12 p-2 flex justify-center items-center m-4"
+                  onClick={() => {
+                    dispatch(setStatus(false));
+                    backToHome();
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowLeft}
+                    className="font-bold text-3xl"
+                  />
+                </button>
+              </div>
+              <div className="Text">
+                <h1>
+                  <b>{foodData[0]?.name}</b>
+                </h1>
+              </div>
+              <div className="Nutritions text-accent">
+                <h2>
+                  <b>Nutritions</b>
+                </h2>
+                <h1>
+                  <b>สารอาหาร</b>
+                </h1>
+              </div>
+              <div className="data">
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text1">จำนวน</span>
+                    <span className="label-text-alt">หน่วยตามที่บรรจุ</span>
+                  </label>
+                  <input
+                    type="text"
+                    min="1"
+                    placeholder="1"
+                    className="input input-bordered input-error w-full max-w-xs"
+                    value={Number(num)}
+                    //lugie modify
+                    onChange={(e) => {
+                      const newValue = e.target.value.replace(/[^0-9]/g, "");
+                      setNum(Number(newValue));
+                    }}
+                  />
+                  <br />
+                  <PieColor
+                    kcal={foodData[0]?.kcal}
+                    carb={foodData[0]?.per_carb}
+                    protein={foodData[0]?.per_protein}
+                    fat={foodData[0]?.per_fat}
+                    veg={foodData[0]?.per_veg}
+                    sugar={foodData[0]?.per_sugar}
+                    salt={foodData[0]?.per_salt}
+                  />
+                </div>
+                {/* lugie modify */}
+                <div className="dayly">
+                  <h1>
+                    <b>เป้าหมายรายวัน</b>
+                  </h1>
+                  <br />
+                  <h2>รวม</h2>
+                  <progress
+                    className="progress progress-success w-5rem"
+                    value={findPercentage(nutri.ach_g, goals.goals_g)}
+                    max="100"
+                  ></progress>
+                  <h3>{findPercentage(nutri.ach_g, goals.goals_g)}%</h3>
+                </div>
+                <div className="daylylist">
+                  <div className="dayly grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 gap-y-6 sm:gap-y-10 w-5rem">
+                    <div className="list">
+                      <h2>คาร์โบไฮเดรต</h2>
+                      <progress
+                        className={`progress progress-accent`}
+                        value={findPercentage(nutri.ach_carb, goals.goals_carb)}
+                        max="100"
+                      />
+                      <h3>
+                        {findPercentage(nutri.ach_carb, goals.goals_carb)}%
+                      </h3>
+                    </div>
+                    <div className="list">
+                      <h2>น้ำตาล</h2>
+                      <progress
+                        className={`progress progress-secondary`}
+                        value={findPercentage(
+                          nutri.ach_sugar,
+                          goals.goals_sugar
+                        )}
+                        max="100"
+                      />
+                      <h3>
+                        {findPercentage(nutri.ach_sugar, goals.goals_sugar)}%
+                      </h3>
+                    </div>
+                    <div className="list">
+                      <h2>โปรตีน</h2>
+                      <progress
+                        className={`progress progress-error`}
+                        value={findPercentage(
+                          nutri.ach_protein,
+                          goals.goals_protein
+                        )}
+                        max="100"
+                      />
+                      <h3>
+                        {findPercentage(nutri.ach_protein, goals.goals_protein)}
+                        %
+                      </h3>
+                    </div>
+                    <div className="list">
+                      <h2>ผัก</h2>
+                      <progress
+                        className={`progress progress-success`}
+                        value={findPercentage(nutri.ach_veg, goals.goals_veg)}
+                        max="100"
+                      />
+                      <h3>{findPercentage(nutri.ach_veg, goals.goals_veg)}%</h3>
+                    </div>
+                    <div className="list">
+                      <h2>ไขมัน</h2>
+                      <progress
+                        className={`progress progress-warning`}
+                        value={findPercentage(nutri.ach_fat, goals.goals_fat)}
+                        max="100"
+                      />
+                      <h3>{findPercentage(nutri.ach_fat, goals.goals_fat)}%</h3>
+                    </div>
+                    <div className="list">
+                      <h2>เกลือ</h2>
+                      <progress
+                        className={`progress progress-info`}
+                        value={findPercentage(nutri.ach_salt, goals.goals_salt)}
+                        max="100"
+                      />
+                      <h3>
+                        {findPercentage(nutri.ach_salt, goals.goals_salt)}%
+                      </h3>
+                    </div>
+                    {/* lugie modify */}
+                  </div>
+                </div>
+              </div>
 
-          <center>
-            <div className="card w-96 bg-base-100 shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src="/logo/SORRY.png" alt="Shoes" className="rounded-xl" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ขออภัย</h2>
-                <p>
-                  หมายเลขสินค้านี้ยังไม่มีข้อมูลในระบบ
-                  โปรดอย่ากังวลไปทางเราจะรีบอัพเดตข้อมูลให้เร็วที่สุด
-                </p>
-                <div className="card-actions">
+              {/* //lugie modify */}
+              <div className="cc">
+                <div
+                  className="cancel"
+                  onClick={() => {
+                    backToHome();
+                  }}
+                >
+                  <button className="btn btn-error">Cancel</button>
+                </div>
+
+                <div className="confirm">
                   <button
-                    className="btn btn-primary"
-                    onClick={() => dispatch(setStatus(false))}
+                    className="btn btn-success"
+                    onClick={() => {
+                      confirmAdd();
+                    }}
                   >
-                    back
+                    Confirm Add
                   </button>
                 </div>
               </div>
             </div>
-          </center>
+          ) : (
+            <>
+              {/* The button to open modal */}
+              {/* Put this part before </body> tag */}
+
+              <center>
+                <div className="card w-96 bg-base-100 shadow-xl">
+                  <figure className="px-10 pt-10">
+                    <img
+                      src="/logo/SORRY.png"
+                      alt="Shoes"
+                      className="rounded-xl"
+                    />
+                  </figure>
+                  <div className="card-body items-center text-center">
+                    <h2 className="card-title">ขออภัย</h2>
+                    <p>
+                      หมายเลขสินค้านี้ยังไม่มีข้อมูลในระบบ
+                      โปรดอย่ากังวลไปทางเราจะรีบอัพเดตข้อมูลให้เร็วที่สุด
+                    </p>
+                    <div className="card-actions">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          dispatch(setStatus(false));
+                          dispatch(setLoading(true));
+                        }}
+                      >
+                        back
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </center>
+            </>
+          )}
         </>
       )}
     </>

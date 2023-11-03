@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000';
 
 export const fetchFood = async (endpoint) => {
   try {
-    const response = await axios.get(`${baseURL}/${endpoint}`);
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/findfood/${endpoint}`);
     console.log('Set Data Complete')
     return response.data;
   } catch (error) {
@@ -14,7 +13,7 @@ export const fetchFood = async (endpoint) => {
 };
 export const addFood = async (endpoint, data) => {
     try {
-      const response = await axios.post(`${baseURL}/${endpoint}`, data);
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, data);
       return response.data;
     } catch (error) {
       console.error('Error adding data:', error);

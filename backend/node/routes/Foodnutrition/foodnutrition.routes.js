@@ -18,7 +18,8 @@ router.get("/barcode", (req, res) => {
   return service.getFoodBysku(req, res);
 });
 
-router.get("/:idfood", async (req, res) => {
+//lugie modify
+router.get("/findfood/:idfood", async (req, res) => {
   return service.findFoodnu(req, res);
 });
 

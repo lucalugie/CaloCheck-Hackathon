@@ -173,7 +173,7 @@ function Settings({ className }) {
     <div className={className}>
       <div className="wrap">
         <div className="myinfocard flex items-center justify-center">
-          <div className="card w-96 h-full bg-base-100 border-2 border-primary m-2 drop-shadow-md">
+          <div className="card w-96 h-full bg-base-100  m-2 ">
             {mode === "display" && (
               <div className="card-body items-center text-center">
                 <h3 className="card-titletwo text-accent font-bold">MY INFO</h3>
@@ -202,7 +202,7 @@ function Settings({ className }) {
                       <div className="h-20 flex flex-col items-center">
                         <div className="box pt-4">
                           <p className="attribute font-bold">{infoData.age}</p>
-                          <p className="attribute-details">Age</p>
+                          <p className="attribute-details">อายุ</p>
                         </div>
                       </div>
                       <div className="h-20 flex flex-col items-center">
@@ -210,7 +210,7 @@ function Settings({ className }) {
                           <p className="attribute font-bold capitalize">
                             {infoData.gender}
                           </p>
-                          <p className="attribute-details">Gender</p>
+                          <p className="attribute-details">เพศ</p>
                         </div>
                       </div>
                     </div>
@@ -220,7 +220,7 @@ function Settings({ className }) {
                           <p className="attribute font-bold">
                             {infoData.weight}
                           </p>
-                          <p className="attribute-details">Weight(kg.)</p>
+                          <p className="attribute-details">น้ำหนัก(kg.)</p>
                         </div>
                       </div>
                       <div className="h-20 flex flex-col items-center">
@@ -228,7 +228,7 @@ function Settings({ className }) {
                           <p className="attribute font-bold">
                             {infoData.height}
                           </p>
-                          <p className="attribute-details">Height(cm.)</p>
+                          <p className="attribute-details">ส่วนสูง(cm.)</p>
                         </div>
                       </div>
                     </div>

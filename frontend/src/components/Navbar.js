@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../Convert/userController";
+import ThemeChange from "./ThemeChange/ThemeChange";
 
 function Navbar() {
   const user = useSelector((state) => state.user);
@@ -86,6 +87,9 @@ function Navbar() {
         </div>
 
         <div className="navbar-end">
+          <div className="dropdown dropdown-end">
+            <ThemeChange />
+          </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">

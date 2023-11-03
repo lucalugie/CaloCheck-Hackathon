@@ -55,7 +55,7 @@ function Myinfo({ className }) {
                   <div className="h-20 flex flex-col items-center">
                     <div className="box pt-4">
                       <p className="attribute font-bold">{infoData.age}</p>
-                      <p className="attribute-details">Age</p>
+                      <p className="attribute-details">อายุ</p>
                     </div>
                   </div>
                   <div className="h-20 flex flex-col items-center">
@@ -63,7 +63,7 @@ function Myinfo({ className }) {
                       <p className="attribute font-bold capitalize">
                         {infoData.gender}
                       </p>
-                      <p className="attribute-details">Gender</p>
+                      <p className="attribute-details">เพศ</p>
                     </div>
                   </div>
                 </div>
@@ -71,13 +71,13 @@ function Myinfo({ className }) {
                   <div className="h-20 flex flex-col items-center">
                     <div className="box pt-4">
                       <p className="attribute font-bold">{infoData.weight}</p>
-                      <p className="attribute-details">Weight(kg.)</p>
+                      <p className="attribute-details">น้ำหนัก(kg.)</p>
                     </div>
                   </div>
                   <div className="h-20 flex flex-col items-center">
                     <div className="box pt-4">
                       <p className="attribute font-bold">{infoData.height}</p>
-                      <p className="attribute-details">Height(cm.)</p>
+                      <p className="attribute-details">ส่วนสูง(cm.)</p>
                     </div>
                   </div>
                 </div>

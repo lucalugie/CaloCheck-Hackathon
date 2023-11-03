@@ -7,7 +7,7 @@ const Barcode = () => {
     const {scannerRef, cameraId, setCameraId, scanning, setScanning, setResults, cameraError, cameras} = BarcodeFunctions();
   return (
     <>
-        <button className="btn btn-accent ml-2" onClick={()=>document.getElementById('my_modal_2').showModal()}>
+        <button className="btn btn-primary bg-primary-focus ml-2" onClick={()=>document.getElementById('my_modal_2').showModal()}>
               <FontAwesomeIcon icon={faBarcode} className="input-icon" />
         </button>
         <dialog id="my_modal_2" className="modal">

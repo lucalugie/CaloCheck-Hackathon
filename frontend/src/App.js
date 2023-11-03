@@ -6,14 +6,12 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AI from "./components/Scan/AI";
 import Settings from "./components/Register/Settings";
-// import Barcode from "./components/Scan/Barcode";
 import MyFood from "./components/MyFood";
 import Pastfood from "./components/Food/Pastfood";
 import TodayFood from "./components/Food/TodayFood";
 import Addfood from "./components/Addfood/Addfood";
 import Cookfood from "./components/Addfood/Cookfood";
 import Buyfood from "./components/Addfood/Buyfood";
-import Datastatus from "./components/DataStatus/Datastatus";
 import ConfirmAI from "./components/Scan/ConfirmAI";
 import IG from "./components/Scan/IG";
 
