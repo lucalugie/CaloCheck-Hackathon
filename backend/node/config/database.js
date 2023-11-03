@@ -79,4 +79,5 @@ module.exports = {
     sequelize,
     connect,
     sync,
+    relation
 }
