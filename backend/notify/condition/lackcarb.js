@@ -7,6 +7,7 @@ const Users = require("../../node/model/User");
 const notiCon = require("../../node/model/conditionnutrition");
 const noticonmonths = require("../../node/model/noticonmonth");
 const checknotisconditions = require("../../node/model/checknotisconditions");
+const Checkmorenoticons = require("../../node/model/checkmorenoticons");
 const db = require("../../node/config/database");
 dotenv.config();
 
@@ -14,18 +15,19 @@ let uniqueData = new Map();
 
 async function lackcarbnoti() {
     const currentTime = new Date(); 
-    const TimeTocheck = new Date(); 
-    TimeTocheck.setHours(9) //เวลาในการเช็ค
-    TimeTocheck.setMinutes(0);
-    TimeTocheck.setSeconds(10);
+    const checkeveryday = new Date(); 
+    const TimeTocheck = new Date(currentTime.getFullYear(), currentTime.getMonth(), 1);
+    checkeveryday.setHours(9) //เวลาในการเช็ค
+    checkeveryday.setMinutes(0);
+    checkeveryday.setSeconds(10);
 
-
-  
 
     if(currentTime.getTime()==TimeTocheck.getTime()){
         lackcarb()
     }
-
+    if(currentTime.getTime()==checkeveryday.getTime()){
+        check7Days(); 
+    }
 
 }
 
@@ -42,11 +44,12 @@ async function lackcarb() {
 
     //วันเเรกของเดือน
     const today = new Date()
+    const Todaysent = today.toLocaleDateString();
     const firstDayOfPreviousMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
     firstDayOfPreviousMonth.setHours(0);
     firstDayOfPreviousMonth.setMinutes(0);
     firstDayOfPreviousMonth.setSeconds(0);
-    console.log(firstDayOfPreviousMonth.toLocaleDateString())
+    console.log("check "+firstDayOfPreviousMonth.toLocaleDateString())
 
     //วันสุดท้ายของเดือนที่เเล้ว
     const firstDayOfCurrentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -55,52 +58,48 @@ async function lackcarb() {
     lastDayOfPreviousMonth.setMinutes(59);
     lastDayOfPreviousMonth.setSeconds(59);
 
-    const monthName =firstDayOfPreviousMonth.toLocaleDateString('th-TH', { month: 'long' });
+    const monthName =firstDayOfPreviousMonth.toLocaleString('th-TH', { month: 'long' });
     const numberofPreviousMonth=firstDayOfPreviousMonth.getMonth()+1
 
     console.log(numberofPreviousMonth)
 
     console.log("-------------")
 
-    const users = await noticonmonths.findAll({
+    const lackcarb = await noticonmonths.findAll({ 
+        attributes: [
+            'userlineid',
+            [db.sequelize.fn('SUM', db.sequelize.col('lackcarb')), 'lackcarb']
+          ],
         where: {
             nameMon0thandyear: {
                 [Op.like]: `${numberofPreviousMonth}%`
         },
-    },
-    });
 
-      users.forEach(async (element) => {
-        console.log(element.userlineid)
-
-
-    const lackcarb = await noticonmonths.count({
-        where: {
-            nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
         },
-            userlineid: element.userlineid,
-            lackcarb: 1,
-        },
+        group: ['userlineid']
       });
-      console.log("คุณ "+element.userlineid)
-      console.log("ขาดโปรตีน "+lackcarb+" วัน ในเดือน "+monthName)
+   
+      lackcarb.forEach(async (e) => {
+        console.log("คุณ "+e.userlineid)
+        console.log("ขาดcarb "+e.lackcarb+" วัน ในเดือน "+monthName)
+  
+        //เดือนนี้มี ....วัน
+  
+        const lastDayOfMonth = countDaysInMonth(firstDayOfPreviousMonth.getFullYear(), firstDayOfPreviousMonth.getMonth()+1);
+        const lackcarbPercent = (e.lackcarb/lastDayOfMonth)*100
+        console.log("คิดเป็น "+lackcarbPercent+" %")
+  
+        if(lackcarbPercent>=50){
+          checklistlackcarb(e.userlineid,Todaysent)
+        }
+      })
+     
 
-      //เดือนนี้มี ....วัน
 
-      const lastDayOfMonth = countDaysInMonth(firstDayOfPreviousMonth.getFullYear(), firstDayOfPreviousMonth.getMonth()+1);
-      const lackcarbPercent = (lackcarb/lastDayOfMonth)*100
-      console.log("คิดเป็น "+lackcarbPercent+" %")
+}
 
-      if(lackcarbPercent>=50){
-        checklistlackcarb(element.userlineid)
-      }
-
-    })
-
-    //------------------------ต่อเนื่อง 7 วัน-------------------------------
-    check7Days();
 async function check7Days() {
+      //------------------------ต่อเนื่อง 7 วัน-------------------------------
     const To = new Date();
     const Todaysent = To.toLocaleDateString();
     const last7Days = getLast7Days();
@@ -127,6 +126,7 @@ async function check7Days() {
         group: ['userlineid']
       });
 
+ 
    
       result.forEach(async (element) => {
           console.log("id:"+element.userlineid+" count: "+element.lackcarb)
@@ -152,9 +152,6 @@ async function check7Days() {
 }
     
 
-
-}
-
 function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;
 }
@@ -176,9 +173,19 @@ function getLast7Days() {
 }
 
 
- async function checklistlackcarb(id) {
+ async function checklistlackcarb(id,date) {
+    const checknotiscon = await Checkmorenoticons.findOne({
+        where: {
+            userid: id,
+            date: {
+                [Op.like]: `${date}%`
+            },
+            lackcarb: 1
+        },
+    })
+    if(!checknotiscon){
     const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
-        to: code,
+        to: id,
         messages: [
             {
                 "type": "text",
@@ -199,6 +206,39 @@ function getLast7Days() {
             "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
         }
     })
+    const checknoti = await Checkmorenoticons.findAll({
+        where: {
+            userid: id,
+            date: {
+                [Op.like]: `${date}%`
+            },
+        },
+    })
+    if(checknoti.length>0){
+        console.log("มี")
+        await Checkmorenoticons.update({
+            lackcarb: 1,
+            date: date
+        },{
+            where:{
+                userid: id,
+            }
+        })
+    }
+    else{ 
+        console.log("ไม่มี")
+        const log = await Checkmorenoticons.create({
+        lackcarb: 1,
+        userid: id,
+        date: date
+    })
+    }
+}
+
+else{
+console.log("เคยส่งแล้ว")
+return
+}
   }
 
   async function sentwhenlack7day(id,date,name) {

@@ -21,10 +21,11 @@ const overveg   = require('./condition/overveg');
 const overcarb  = require('./condition/overcarb');
 const lacksugar = require('./condition/lacksugar');
 const oversugar = require('./condition/oversugar');
+const compliment  = require('./condition/compliment');
 console.log("start")
 setInterval(() => {
 
-
+   
 
 },1000)
 //Automation เเจ้งเตือน ทานอาหาร+เเบบทดสอบ3เดือน
@@ -42,18 +43,20 @@ setInterval(() => {
 
 //เเจ้งเตือนจากตาราง
 
-//  lackcal.lackcalnoti();
-//  lackcarb.lackcarbnoti();
-//  lackfat.lackfatnoti();
+  //lackcal.lackcalnoti();
+  //lackcarb.lackcarbnoti();
+  //lackfat.lackfatnoti();
 //lacksalt.lacksaltnoti();
-// lackveg.lackvegnoti();
-// overcal.overcalnoti();
-// overfat.overfatnoti();
-// oversalt.oversaltnoti();
-//overveg.overvegnoti();
-// overcarb.overcarbnoti();
+ //lackveg.lackvegnoti();
  //lacksugar.lacksugarnoti();
- //oversugar.oversugarnoti();
-
+//overcal.overcalnoti();
+// overfat.overfatnoti();
+//overcarb.overcarbnoti();
  //notimonthlackProtein.notimonthlackProtein();
- //overProtein.overProtein();
+//oversalt.oversaltnoti();
+//overveg.overvegnoti();
+//oversugar.oversugarnoti();
+ //overProtein.overproteinnoti();
+
+ //ชม
+ compliment.complimentnoti();

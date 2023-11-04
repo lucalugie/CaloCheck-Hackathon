@@ -17,7 +17,7 @@ const corsOptions = {
   credentials: true,
 };
 
-// Connect to the database
+//Connect to the database
 async function initializeDatabase() {
   await connect();
   await sync();

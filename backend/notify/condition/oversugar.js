@@ -7,6 +7,7 @@ const Users = require("../../node/model/User");
 const notiCon = require("../../node/model/conditionnutrition");
 const noticonmonths = require("../../node/model/noticonmonth");
 const checknotisconditions = require("../../node/model/checknotisconditions");
+const Checkmorenoticons = require("../../node/model/checkmorenoticons");
 const db = require("../../node/config/database");
 dotenv.config();
 
@@ -14,18 +15,20 @@ let uniqueData = new Map();
 
 async function oversugarnoti() {
     const currentTime = new Date(); 
-    const TimeTocheck = new Date(); 
-    TimeTocheck.setHours(9) //เวลาในการเช็ค
-    TimeTocheck.setMinutes(0);
-    TimeTocheck.setSeconds(10);
+    const checkeveryday = new Date(); 
+    const TimeTocheck = new Date(currentTime.getFullYear(), currentTime.getMonth(), 1);
+    checkeveryday.setHours(9) //เวลาในการเช็ค
+    checkeveryday.setMinutes(0);
+    checkeveryday.setSeconds(10);
 
-     
     oversugar()
-
+    check7Days();
     if(currentTime.getTime()==TimeTocheck.getTime()){
-
+      
     }
-
+    if(currentTime.getTime()==checkeveryday.getTime()){
+       
+    }
 
 }
 
@@ -42,6 +45,7 @@ async function oversugar() {
 
     //วันเเรกของเดือน
     const today = new Date()
+    const Todaysent = today.toLocaleDateString();
     const firstDayOfPreviousMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
     firstDayOfPreviousMonth.setHours(0);
     firstDayOfPreviousMonth.setMinutes(0);
@@ -55,51 +59,46 @@ async function oversugar() {
     lastDayOfPreviousMonth.setMinutes(59);
     lastDayOfPreviousMonth.setSeconds(59);
 
-    const monthName =firstDayOfPreviousMonth.toLocaleDateString('th-TH', { month: 'long' });
+    const monthName =firstDayOfPreviousMonth.toLocaleString('th-TH', { month: 'long' });
     const numberofPreviousMonth=firstDayOfPreviousMonth.getMonth()+1
 
     console.log(numberofPreviousMonth)
 
     console.log("-------------")
 
-    const users = await noticonmonths.findAll({
+    const oversugar = await noticonmonths.findAll({ 
+        attributes: [
+            'userlineid',
+            [db.sequelize.fn('SUM', db.sequelize.col('oversugar')), 'oversugar']
+          ],
         where: {
             nameMon0thandyear: {
                 [Op.like]: `${numberofPreviousMonth}%`
         },
-    },
-    });
 
-      users.forEach(async (element) => {
-        console.log(element.userlineid)
-
-
-    const oversugar = await noticonmonths.count({
-        where: {
-            nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
         },
-            userlineid: element.userlineid,
-            oversugar: 1,
-        },
+        group: ['userlineid']
       });
-      console.log("คุณ "+element.userlineid)
-      console.log("ขาดโปรตีน "+oversugar+" วัน ในเดือน "+monthName)
-
-      //เดือนนี้มี ....วัน
-
-      const lastDayOfMonth = countDaysInMonth(firstDayOfPreviousMonth.getFullYear(), firstDayOfPreviousMonth.getMonth()+1);
-      const oversugarPercent = (oversugar/lastDayOfMonth)*100
-      console.log("คิดเป็น "+oversugarPercent+" %")
-
-      if(oversugarPercent>=50){
-        checklistoversugar(element.userlineid)
-      }
-
-    })
-
+   
+      oversugar.forEach(async (e) => {
+        console.log("คุณ "+e.userlineid)
+        console.log("ขาดsugar "+e.oversugar+" วัน ในเดือน "+monthName)
+  
+        //เดือนนี้มี ....วัน
+  
+        const lastDayOfMonth = countDaysInMonth(firstDayOfPreviousMonth.getFullYear(), firstDayOfPreviousMonth.getMonth()+1);
+        const oversugarPercent = (e.oversugar/lastDayOfMonth)*100
+        console.log("คิดเป็น "+oversugarPercent+" %")
+  
+        if(oversugarPercent>=50){
+            checklistovesugar(e.userlineid,Todaysent)
+        }
+      })
     //------------------------ต่อเนื่อง 7 วัน-------------------------------
-    check7Days();
+
+
+}
+
 async function check7Days() {
     const To = new Date();
     const Todaysent = To.toLocaleDateString();
@@ -150,10 +149,6 @@ async function check7Days() {
       })
 
 }
-    
-
-
-}
 
 function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;
@@ -176,13 +171,23 @@ function getLast7Days() {
 }
 
 
- async function checklistoversugar(id) {
+async function checklistovesugar(id,date) {
+    const checknotiscon = await Checkmorenoticons.findOne({
+        where: {
+            userid: id,
+            date: {
+                [Op.like]: `${date}%`
+            },
+            oversugar: 1
+        },
+    })
+    if(!checknotiscon){
     const token = await axios.post(`https://api.line.me/v2/bot/message/push`, {
         to: id,
         messages: [
             {
                 "type": "text",
-                "text": "เช็คร่างกายหน่อยสิ~ เดือนนี้คุณกินหวานค่อนข้างเยอะเลยนะ"
+                "text": "เช็คร่างกายหน่อยสิ~ เดือนนี้คุณกินหวานค่อนข้างเยอะเลยนะ "
             },
             {
                 "type":"image",
@@ -191,11 +196,11 @@ function getLast7Days() {
             },
             {
                 "type": "text",
-                "text": "ถ้ามีอาการเหล่านี้ คุณต้องลดอาหารทีมีน้ำตาลได้เเล้วนะ"
+                "text": "ถ้ามีอาการเหล่านี้ คุณต้องลดอาหารที่มีน้ำตาลได้เเล้วนะ ╰（‵□′）╯ "
             },
             {
                 "type": "text",
-                "text": "ถ้าคุณยังไม่เข้าใจโทษของนำตาล ลองอ่านบทความนี้ดูสิ https://shorturl.asia/iC6mS "
+                "text": "ถ้าคุณยังไม่เข้าใจโทษของน้ำตาล ลองอ่านบทความนี้ดูสิ https://shorturl.asia/iC6mS "
             },
         ]
     }, {
@@ -203,6 +208,34 @@ function getLast7Days() {
             "Authorization": `Bearer ${process.env.TOKEN_LINE_CALOCHECK}`
         }
     })
+    const checknoti = await Checkmorenoticons.findAll({
+        where: {
+            userid: id,
+            date: {
+                [Op.like]: `${date}%`
+            },
+        },
+    })
+    if(checknoti.length>0){
+        console.log("มี")
+        await Checkmorenoticons.update({
+            oversugar: 1,
+            date: date
+        },{
+            where:{
+                userid: id,
+            }
+        })
+    }
+    else{ 
+        console.log("ไม่มี")
+        const log = await Checkmorenoticons.create({
+        oversugar: 1,
+        userid: id,
+        date: date
+    })
+    }
+  }
   }
 
   async function sentwhenover7day(id,date,name) {

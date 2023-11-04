@@ -22,16 +22,12 @@ const sequelize = new Sequelize(
   
 
 async function sync() { 
-    try {
+  try {
     await sequelize.sync();
-    console.log(
-      'Connection synced successfully'
-    );
+    console.log("Connection synced successfully");
   } catch (error) {
-    console.error(
-      'Unable to sync to the database:',
-      error
-); }
+    console.error("Unable to sync to the database:", error);
+  }
 }
 
 async function relation () { 
@@ -39,12 +35,13 @@ try {
   const db = {};
   db.Sequelize = Sequelize;
   db.sequelize = sequelize;
-  db.User = sequelize.import('./model/users');
+
+  db.User = sequelize.import('../model/users');
   db.foodnutrition = sequelize.import('../model/foodnutrition');
   db.Usershistory = sequelize.import('../model/Usershistory');
   db.UsersNutrition = sequelize.import('../model/UsersNutrition');
-  db.noti=sequelize.import('../model/noti');
-  db.checkmorenoticons=sequelize.import('../model/checkmorenoticons');
+  db.noti = sequelize.import('../model/noti');
+  db.Checkmorenoticons = sequelize.import('../model/checkmorenoticons');
 
   db.Usershistory.hasMany(
     db.User,
@@ -80,5 +77,5 @@ module.exports = {
     sequelize,
     connect,
     sync,
-    relation
+  
 }

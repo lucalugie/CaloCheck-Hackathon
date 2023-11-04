@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/database");
 
-const checkmorenoticons = sequelize.define("checkmorenoticons", {
+const Checkmorenoticons = sequelize.define("checkmorenoticons", {
     userid: {
     type: DataTypes.STRING,
   },
@@ -52,7 +52,7 @@ const checkmorenoticons = sequelize.define("checkmorenoticons", {
   }
 },{
     updatedAt: false,
-    createdAt: false
+    createdAt: false,
   });
 
-module.exports = checkmorenoticons;
+module.exports = Checkmorenoticons;
