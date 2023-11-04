@@ -6,7 +6,6 @@ import { faPalette, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 const ThemeChange=()=>{
     useEffect(() => {
-        console.log("theme is running");
         themeChange(false)
       }, [])
       themeChange()

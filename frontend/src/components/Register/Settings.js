@@ -131,6 +131,15 @@ function Settings({ className }) {
   }
 
   const handleCancelClick = () => {
+    setInfoData({
+      name: user.displayName,
+      age: user.age,
+      gender: user.gender,
+      height: user.height,
+      weight: user.weight,
+      bmi: user.bmi,
+      image: user.pictureUrl,
+    });
     setError("");
     setMode("display");
   };
