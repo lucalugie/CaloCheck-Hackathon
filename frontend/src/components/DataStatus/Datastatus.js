@@ -112,9 +112,15 @@ const Datastatus = ({ className, day, month, year }) => {
               )}
               <br />
               {/* lugie modify */}
-              <div className="mt-4 mb-40">
-                <PieAll />
-              </div>
+              {Data.length > 0 ? (
+                <div className="mt-4 mb-40">
+                  <PieAll />
+                </div>
+              ) : (
+                <div className="text-center font-bold mt-4 mb-40">
+                  ไม่มีภาพรวมรายวันของวันนี้
+                </div>
+              )}
             </div>
           </div>
         </div>
