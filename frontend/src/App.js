@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Container from "./components/Container";
 import Home from "./components/Home/Home";
 import Welcome from "./components/Register/Welcome";
@@ -79,25 +79,23 @@ function App() {
       <Container>
         <Routes>
           <Route path="/line" element={<Line />}></Route>
-          <Route path="/" element={<Home />}></Route>
           <Route path="/welcome" element={<Welcome />}></Route>
-          <Route path="/ai-scan" element={<AI />}></Route>
-          <Route path="/ig-scan" element={<IG />}></Route>
+           {/* lugie modify**** */}
+          <Route path="/" element={ user.userlineId ? <Home /> : <Navigate to="/welcome" />} />
+          <Route path="/ai-scan" element={user.userlineId ? <AI />: <Navigate to="/welcome" />}/>
+          <Route path="/ig-scan" element={user.userlineId ? <IG />: <Navigate to="/welcome" /> }></Route>
           <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
-          <Route path="/settings" element={<Settings />}></Route>
-          <Route path="/myfood" element={<MyFood />}></Route>
-          {/* lugie modify**** */}
+          <Route path="/settings" element={user.userlineId ? <Settings /> : <Navigate to="/welcome" />}></Route>
+          <Route path="/myfood" element={user.userlineId ? <MyFood />  : <Navigate to="/welcome" />}></Route> 
           <Route
             path="/myfood/Pastfood/:idfood/:name/:kcal/:amount/:protein/:fat/:salt/:sugar/:veg/:carb"
-            element={<Pastfood />}
+            element={user.userlineId ? <Pastfood /> : <Navigate to="/welcome" />}
           ></Route>
-          <Route path="/myfood/Addfood" element={<Addfood />}></Route>
-
-          <Route path="/myfood/Addfood/Cookfood" element={<Cookfood />}></Route>
-          <Route path="/myfood/Addfood/Buyfood" element={<Buyfood />}></Route>
-          <Route path="/datastatus" element={<Calendar />}></Route>
-
-          <Route path="/today" element={<TodayFood />}></Route>
+          <Route path="/myfood/Addfood" element={ user.userlineId ? <Addfood /> : <Navigate to="/welcome" />}></Route>
+          <Route path="/myfood/Addfood/Cookfood" element={  user.userlineId ? <Cookfood /> : <Navigate to="/welcome" />}></Route>
+          <Route path="/myfood/Addfood/Buyfood" element={ user.userlineId ? <Buyfood /> : <Navigate to="/welcome" />}></Route>
+          <Route path="/datastatus" element={ user.userlineId ? <Calendar /> : <Navigate to="/welcome" />}></Route>
+          <Route path="/today" element={ user.userlineId ? <TodayFood /> : <Navigate to="/welcome" />}></Route>
         </Routes>
       </Container>
       <Footer />
