@@ -13,7 +13,7 @@ const { connect, sync } = require("./config/database");
 const morgan = require("morgan");
 
 const corsOptions = {
-  origin: ['http://localhost:3001', 'https://calocheck.yungying.com/'],
+  origin: ['http://localhost:3001', 'https://calocheck.yungying.com'],
   credentials: true,
 };
 

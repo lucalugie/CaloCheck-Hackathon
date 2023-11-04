@@ -22,14 +22,65 @@ import IG from "./components/Scan/IG";
 import Line from "./Page/Line/line";
 import Calendar from "./components/Calendar/Calendar";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userSlice from "./store/aiPageSlice";
 import {setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setAge, setBmi} from "./store/userSlice";
+
+import API from "./constant/API";
+import liff from '@line/liff';
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [lineBrowser, setLineBrowser] = useState(false);
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    liff.init({
+      liffId: process.env.REACT_APP_LIFF_ID,
+  }).then(() => {
+    setLineBrowser(liff.isInClient());
+    const token = liff.getAccessToken();
+    if(lineBrowser && token){
+      fetch(API.getTokenByLIFF,{
+        method:"POST",
+        credentials: 'include',
+        body:JSON.stringify({
+          token
+        }),
+        headers:{
+            "Content-Type": "application/json",
+        }
+      }).then(res => res.json())
+      .then(data => {
+        if(data.type == "login"){
+          const {member} = data;
+          dispatch(setType(data.type));
+          dispatch(setLineID(member.userlineId));
+          dispatch(setDisplayName(member.displayName));
+          dispatch(setPictureUrl(member.pictureUrl));
+          dispatch(setGender(member.gender));
+          dispatch(setWeight(member.weight));
+          dispatch(setHeight(member.height));
+          dispatch(setBmi(member.bmi));
+          dispatch(setAge(member.age));
+          navigate("/");
+      }else if(data.type == "register"){
+          const {member} = data;
+          dispatch(setType(data.type));
+          dispatch(setLineID(member.userlineId));
+          dispatch(setDisplayName(member.displayName));
+          dispatch(setPictureUrl(member.pictureUrl));
+          navigate("/line");
+      }else{
+          navigate("/welcome");
+      }
+      })
+    }
+  })
+  },[lineBrowser])
+
   useEffect(() => {
     setTimeout(() => {
       fetch(`${process.env.REACT_APP_BASE_URL}/users/`,{    

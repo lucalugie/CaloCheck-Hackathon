@@ -44,6 +44,7 @@ try {
   db.Usershistory = sequelize.import('../model/Usershistory');
   db.UsersNutrition = sequelize.import('../model/UsersNutrition');
   db.noti=sequelize.import('../model/noti');
+  db.checkmorenoticons=sequelize.import('../model/checkmorenoticons');
 
   db.Usershistory.hasMany(
     db.User,

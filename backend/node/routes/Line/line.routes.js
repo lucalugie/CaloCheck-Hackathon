@@ -3,6 +3,10 @@ const service = require('./line.service');
 const lineRouter = express.Router();
 
 
+lineRouter.post('/getTokenByLIFF',async (req, res) => {
+   return await service.getCookieByLIFF(req, res);
+});
+
 lineRouter.post('/',async (req, res) => {
    return await service.login(req, res);
 });

@@ -18,15 +18,11 @@ async function MessageAutoMonth() {
                             "text": "เช็คร่างกายหน่อยไหม? ครบ3เดือนเเล้วนะ!!"
                         },
                         {
-                            "type":"image",
-                            "originalContentUrl": "https://yungying.com/images/preme/3.png",
-                            "previewImageUrl": "https://yungying.com/images/preme/3.png"
+                            "type":"text",
+                            "text": "https://forms.gle/3u2wLxkdisSsZHd69",
+                            
                         },
-                        {
-                            "type":"image",
-                            "originalContentUrl": "https://yungying.com/images/preme/4.png",
-                            "previewImageUrl": "https://yungying.com/images/preme/4.png"
-                        }
+    
                     ]
                 }, {
                     headers: {
@@ -45,15 +41,10 @@ async function MessageAutoMonth() {
                     "text": "เช็คร่างกายหน่อยไหม? ครบ3เดือนเเล้วนะ!!"
                 },
                 {
-                    "type":"image",
-                    "originalContentUrl": "https://yungying.com/images/preme/3.png",
-                    "previewImageUrl": "https://yungying.com/images/preme/3.png"
+                    "type": "text",
+                    "text": "https://forms.gle/PmZunWSHHEtEBJtUA"
                 },
-                {
-                    "type":"image",
-                    "originalContentUrl": "https://yungying.com/images/preme/4.png",
-                    "previewImageUrl": "https://yungying.com/images/preme/4.png"
-                }
+                
             ]
         }, {
             headers: {
@@ -89,7 +80,7 @@ async function MessageAutoMonth() {
         },
     });
     
- console.log(users[0].dataValues.userlineId)
+// console.log(users[0].dataValues.userlineId)
 
         users.forEach(async (user) => {
             if(user.age>70){
