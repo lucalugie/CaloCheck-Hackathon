@@ -5,8 +5,21 @@ const { Op } = require("sequelize");
 const Usershistory = require("../../node/model/Usershistory");
 dotenv.config();
 
-
 async function MessageAutoMonth() {
+    const currentTime = new Date(); 
+    const checkeveryday = new Date(); 
+    checkeveryday.setHours(9) //เวลาในการเช็ค
+    checkeveryday.setMinutes(0);
+    checkeveryday.setSeconds(0);
+
+
+    if(currentTime.getTime()==checkeveryday.getTime()){
+        Message()
+    }
+ 
+}
+
+async function Message() {
     /******รวมฟังก์ชั้นส่งข้อความ*************/
     async function sendMessageMNA(code) {
         console.log("แบบทดสอบประเมินภาวะทุนโภชนาการ")
@@ -60,16 +73,17 @@ async function MessageAutoMonth() {
 
     // ลด 3 เดือน
     var threeMonthsLater = new Date();
-    threeMonthsLater.setMonth(threeMonthsLater.getMonth() )
+    threeMonthsLater.setMonth(threeMonthsLater.getMonth()-3 )
     threeMonthsLater.setHours(0)
     threeMonthsLater.setMinutes(0)
     threeMonthsLater.setSeconds(0)
 
     var threeMonthsLaterend = new Date();
-    threeMonthsLaterend.setMonth(threeMonthsLater.getMonth() )
+    threeMonthsLaterend.setMonth(threeMonthsLater.getMonth() -3)
     threeMonthsLaterend.setHours(23)
     threeMonthsLaterend.setMinutes(59)
     threeMonthsLaterend.setSeconds(59)
+
     
     console.log(threeMonthsLater)
     const users = await User.findAll({
