@@ -83,6 +83,8 @@ export default styled(MyFood)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    z-index: 1;
   }
   .Myfood--box h1 {
     font-size: calc(60% + 2vmin);
@@ -107,6 +109,7 @@ export default styled(MyFood)`
   }
   .Mybox--list {
     margin: 1rem;
+    margin-top: 150px;
   }
   .collapse {
     border: 1px solid #ef9fbc;
