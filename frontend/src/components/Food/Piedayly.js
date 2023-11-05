@@ -10,7 +10,9 @@ export default function PieColor({ kcal, carb, protein, fat, veg, sugar, salt })
   return (
     <Stack direction="row" width="100%" textAlign="center" spacing={2}>
       <Box flexGrow={1}>
-        <Typography>โภชนาการของสินค้า</Typography>
+      <h2 className="card-title flex justify-center text-center leading-none">
+      โภชนาการของสินค้า
+        </h2>
         <PieChart
           series={[
             {
@@ -35,8 +37,14 @@ export default function PieColor({ kcal, carb, protein, fat, veg, sugar, salt })
           ]}
           {...pieParams}
         />
-        <Typography>{kcal}</Typography>
-        <Typography>Kcal</Typography>
+
+        <h3 className="card-title flex justify-center text-center leading-none">
+        {kcal}
+        </h3>
+        <h3 className="card-title flex justify-center text-center leading-none mb-4">
+        Kcal
+        </h3>
+  
         <div className="badge badge bg-purple-600 text-white">คาร์โบไฮเดรต</div>
         <div className="badge badge bg-red-600 text-white">โปรตีน</div>
         <div className="badge badge bg-yellow-400 text-white">ไขมัน</div>

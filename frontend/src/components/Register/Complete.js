@@ -33,12 +33,6 @@ import { setType, setAge, setGender, setWeight, setHeight, setBmi } from "../../
   //   goals_carb: 0,
   // });
 
-
-
-
-
-
-
 function Complete({ className, gender, age, weight, height, bmi,data }) {
   const dispatch = useDispatch();
   const updateUserData = () => {

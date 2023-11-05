@@ -14,9 +14,9 @@ const Addfood = ({ className }) => {
       </Link>
 
       <div className="cc">
-        <div className="flex justify-center items-center mt-24">
+        <div className="flex justify-center items-center mt-24 mb-24">
           <div className="card w-96 bg-base-100 shadow-xl mx-4">
-            <figure className="px-10 pt-10">
+            <figure className="px-5 pt-10">
               <img
                 src="../img/cooking.jpg"
                 alt="Cooking"
@@ -28,13 +28,13 @@ const Addfood = ({ className }) => {
               <p>คุณปรุงอาหารเอง ?</p>
               <div className="card-actions">
                 <Link to="/myfood/Addfood/Cookfood">
-                  <button className="btn btn-success">Cooking</button>
+                  <button className="btn btn-primary">Cooking</button>
                 </Link>
               </div>
             </div>
           </div>
           <div className="card w-96 bg-base-100 shadow-xl mx-4">
-            <figure className="px-10 pt-10">
+            <figure className="px-5 pt-10">
               <img
                 src="../img/foodshop.jpg"
                 alt="Foodshop"
@@ -43,10 +43,10 @@ const Addfood = ({ className }) => {
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">ซื้อมา</h2>
-              <p>คุณซื้ออาหารมาทาน ?</p>
+              <p>คุณซื้ออาหารมา ?</p>
               <div className="card-actions">
                 <Link to="/myfood/Addfood/Buyfood">
-                  <button className="btn btn-warning">Shopping</button>
+                  <button className="btn btn-secondary">Shopping</button>
                 </Link>
               </div>
             </div>

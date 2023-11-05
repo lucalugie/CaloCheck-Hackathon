@@ -76,9 +76,9 @@ function Navbar() {
               <li>
                 <Link to="/ai-scan">AI Scan</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/ig-scan">IG-story Scan</Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <Link to="/" className="logo" style={{ cursor: "pointer" }}>

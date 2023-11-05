@@ -187,8 +187,8 @@ const Pastfood = ({ className }) => {
           <FontAwesomeIcon icon={faArrowLeft} className="font-bold text-3xl" />
         </button>
       </Link>
-      <div className="Text">
-        <h1>
+      <div className="Text text-2xl">
+        <h1 className="">
           <b>{name}</b>
         </h1>
       </div>
@@ -202,9 +202,9 @@ const Pastfood = ({ className }) => {
       </div>
       <div className="num">
         <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text1">จำนวน</span>
-            <span className="label-text-alt">หน่วยตามที่บรรจุ</span>
+          <label className="label mt-4">
+            <span className="label-text1 text-lg">จำนวน</span>
+            <span className="label-text-alt text-lg">หน่วยตามที่บรรจุ</span>
           </label>
           <input
             type="text"
@@ -260,7 +260,7 @@ export default styled(Pastfood)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 5rem;
+    margin-top: 2rem;
   }
   .Nutritions h2 {
     font-size: calc(60% + 1vmin);
@@ -280,7 +280,7 @@ export default styled(Pastfood)`
   }
   .num {
     font-size: calc(60% + 2vmin);
-    padding: 50px;
+    padding: 0px 50px 50px 50px;
     color: black;
     display: flex;
     flex-direction: column;

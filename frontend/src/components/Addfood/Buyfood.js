@@ -247,7 +247,7 @@ const Buyfood = ({ className }) => {
         <div className="Data">
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              <span className="label-text1">แคลลอรี่</span>
+              <span className="label-text1">แคลอรี่</span>
               <span className="label-text-alt">Kcal</span>
             </label>
             <input
