@@ -5,6 +5,69 @@ const API = require('../../constant/API');
 const jwt = require('jsonwebtoken');
 dotenv.config();
 
+async function getCookieByLIFF(req, res) {
+    try{
+        if(!req.body.token) return res.json("can't get token")
+
+        const {token} = req.body;
+
+        const profile = await axios.get(API.profile, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        const userId = profile.data.userId;
+
+
+
+
+        const member = await Users.findOne(
+            {
+                where: {
+                    userlineId: userId,
+                },
+            }
+        )   
+
+         jwt.sign({ userId }, process.env.PRIVATE_KEY,{ algorithm: 'HS256', expiresIn: "5 Days" }, async (err, tokenid)  => {
+
+
+            if(!member){
+                const user = await Users.create({
+                    displayName: profile.data.displayName,
+                    pictureUrl: profile.data.pictureUrl,
+                    userlineId: profile.data.userId,
+                })
+                res.clearCookie('token').cookie('token', tokenid,{
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: 'lax',
+                            expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+                 }).status(200).json({type: "register", member: user});
+            }else if(member.gender != null && member.weight != null && member.height != null && member.age != null && member.weight > 0 && member.height > 0 && member.age > 0){
+                res.clearCookie('token').cookie('token', tokenid,{
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: 'lax',
+                            expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+                 }).status(200).json({type: "login", member: member});
+            }else{
+                res.clearCookie('token').cookie('token', tokenid,{
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: 'lax',
+                            expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
+                 }).status(200).json({type: "register", member: member});
+            }
+
+         });
+
+    }catch(err){
+        res.json("err")
+    }
+}
+
 //Login 
 async function login(req, res) {
 
@@ -330,6 +393,7 @@ module.exports = {
     getMember,
     loginagain,
     checktoken,
-    clearCookie
+    clearCookie,
+    getCookieByLIFF
 
 }
