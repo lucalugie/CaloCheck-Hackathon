@@ -172,7 +172,7 @@ function Register() {
           userData.age &&
           userData.weight &&
           userData.height &&
-          userData.bmi && <Complete gender={userData.gender} age={userData.age} weight={userData.weight} height={userData.height} bmi={userData.bmi}/>}
+          userData.bmi && <Complete gender={userData.gender} age={userData.age} weight={userData.weight} height={userData.height} bmi={userData.bmi} data={userData}/>}
       </div>
     </>
   );
