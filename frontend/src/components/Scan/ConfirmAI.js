@@ -27,12 +27,12 @@ function ConfirmAI({ className, url, nameOFFood }) {
     try {
       if (aiPage.name === "ผัดกระเพรา") {
         console.log(aiPage.name);
-        const food = await fetchFood(301);
+        const food = await fetchFood(2067);
         setFood(food);
         console.log("Success food:", food);
       } else if (aiPage.name === "ไข่เจียว") {
         console.log(aiPage.name);
-        const food = await fetchFood(302);
+        const food = await fetchFood(2068);
         setFood(food);
         console.log("Success food:", food);
       }
