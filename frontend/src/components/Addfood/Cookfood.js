@@ -236,10 +236,18 @@ const Cookfood = ({ className }) => {
           per_sugar,
           per_salt,
         };
+        if (per_items ==="0") {
+          return Swal.fire({
+            title: "Error!",
+            text: "ไม่สามารถเพิ่มข้อมูล 0 จานได้",
+            icon: "error",
+            confirmButtonText: "รับทราบ",
+          });
+        }
 
         if (
           !name ||
-          !per_items || per_items ==="0" ||
+          !per_items ||
           !kcal ||
           carb === "" ||
           !per_carb ||
@@ -380,7 +388,7 @@ const Cookfood = ({ className }) => {
             <option value="" disabled selected>
               โปรตีน
             </option>
-            <option value="wegg">ไข่ไก่</option>
+            <option value="wegg">ไข่ไก่ (1 ฟอง)</option>
             <option value="sadine">ซาดีน</option>
             <option value="cbreast">อกไก่</option>
             <option value="redpork">หมู</option>
