@@ -7,11 +7,12 @@ import { useEffect } from "react";
 //lugie modify
 import { fetchUserNutritionByDate } from "../../Convert/userController";
 import { useDispatch } from "react-redux";
+import { AspectRatio } from "@mui/icons-material";
 
 const Datastatus = ({ className, day, month, year }) => {
   //pimadded
-  const [previousData, setPreviousData] = useState(0);
   const [Data, setData] = useState([]);
+
   //lugie modify
   const dispatch = useDispatch();
 
@@ -28,60 +29,57 @@ const Datastatus = ({ className, day, month, year }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.length > 0) {
-          result.forEach((element) => {
-            getFood(element.idfood);
-          });
+            getFood(result);
         } else {
           console.log("no data");
         }
       });
   }, [`${year}-${month}-${day}`]);
 
-  const getFood = (result) => {
-    fetch(
-      `${process.env.REACT_APP_BASE_URL}/foodnutrition/foods/?idfood=${result}`,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setData((prevData) => {
-          return [...prevData, ...result];
-        });
-      });
+  const getFood = async (arr) => { 
+    let temp = [];
+      await Promise.all(
+        arr.map(async (item) => {
+          const response = await fetch(
+            `${process.env.REACT_APP_BASE_URL}/foodnutrition/foods/?idfood=${item.idfood}`,
+            {
+              credentials: "include",
+            }
+          );
+          const result = await response.json();
+          temp.push(result[0]);
+        })
+      )
+      setData(prepareData(temp));
   };
-  //pimadded not finish
-  // if(Data.length>0)
-  // {
-  //   if(Data.length > 0)
-  //     {
-  //         Data.forEach((data) => {
-  //           for (let i = 0; i < Data.length; i++)
-  //           {
-  //             setPreviousData(data.idfood);
-  //             if(data.idfood === previousData)
-  //             {
-  //               console.log("same "+data.name);
-  //               data.per_items = data.per_items + 1;
-  //             }
-  //             else
-  //             {
-  //               console.log("different "+data.name);
-  //               return
-  //             }
-  //           }
-  //         }
-  //         )
-  //       }
-  //     }
-  // Data.map((data) =>
-  // {
-  //   console.log("Datafood");
-  //   console.log(data.idfood+" "+data.per_items);
-  //   }
-  // )
+
+  //pimadded
+
+function prepareData(_){
+    const countData = [];
+    const newData = [];
+
+    for (const item of _) {
+      const foundItem = countData.find((entry) => entry.idfood === item.idfood);
+      if (foundItem) {
+        foundItem.count++;
+      } else {
+        countData.push({ idfood: item.idfood, skuu: item.sku,name: item.name, count: 1,kcal: item.kcal});
+      }
+    }
+  
+  countData.forEach((entry) => {
+    newData.push({
+      idfood: entry.idfood,
+      skuu: entry.skuu,
+      name: entry.name,
+      per_items: entry.count,
+      kcal: entry.kcal*entry.count
+    })
+  })
+
+  return newData
+  }
 
   // lugie modify
   const fetchUserNutrition = async (year, month, day) => {
@@ -128,10 +126,10 @@ const Datastatus = ({ className, day, month, year }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/*pimadded*/} {/* lugie modify */}
+                      {/*pimadded & modify*/} {/* lugie modify */}
                       {Data.map((data, index) => {
                         return (
-                          <tr key={data.idfood}>
+                          <tr key={data.index}>
                             <td>{index + 1}</td>
                             <td>{data.name}</td>
                             <td>{data.per_items}</td>
