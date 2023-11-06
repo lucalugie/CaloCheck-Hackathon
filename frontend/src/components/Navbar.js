@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../Convert/userController";
 import ThemeChange from "./ThemeChange/ThemeChange";
-
+import { setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi, setAge } from "../store/userSlice";
 function Navbar() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -34,7 +34,16 @@ function Navbar() {
         credentials: "include",
       });
       const data = await res.json();
-      console.log(data);
+      //pim modified
+      dispatch(setType(""));
+      dispatch(setLineID(""));
+      dispatch(setDisplayName(""));
+      dispatch(setPictureUrl(""));
+      dispatch(setGender(""));
+      dispatch(setWeight(0));
+      dispatch(setHeight(0));
+      dispatch(setBmi(0));
+      dispatch(setAge(0));
       //lugie modify
       setUserImage(defaultUserImage);
     } catch (error) {
