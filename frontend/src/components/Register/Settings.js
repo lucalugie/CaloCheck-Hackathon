@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData, updateUsersInfo, updatedbGoals } from "../../Convert/userController";
+import { fetchUserData, updateUsersInfo } from "../../Convert/userController";
 import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Settings({ className }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchUserDataAndDispatch = async () => {
     try {
@@ -52,7 +56,6 @@ function Settings({ className }) {
   //   console.log("setAlldefaultValue");
   //   setAlldefaultValue(data);
   // }, [data]);
-
 
   const [formData, setFormData] = useState({
     age: 0,
@@ -155,6 +158,10 @@ function Settings({ className }) {
     setMode("edit");
   };
 
+  const handleHome = () => {
+    navigate("/");
+  };
+
   function calculateBMI(weight, height) {
     weight = parseFloat(weight);
     height = parseFloat(height);
@@ -171,9 +178,7 @@ function Settings({ className }) {
   //   console.log("BMI", formData);
   // }, [infoData]);
 
-  
   useEffect(() => {
-    
     setINFO();
     console.log("BMI", infoData);
   }, [formData]);
@@ -182,7 +187,7 @@ function Settings({ className }) {
     <div className={className}>
       <div className="wrap">
         <div className="myinfocard flex items-center justify-center">
-          <div className="card w-96 h-full bg-base-100  m-2 ">
+          <div className="card w-96 h-full bg-base-100">
             {mode === "display" && (
               <div className="card-body items-center text-center">
                 <h3 className="card-titletwo text-accent font-bold">MY INFO</h3>
@@ -245,12 +250,21 @@ function Settings({ className }) {
                 </div>
                 <div className="bmi font-bold">BMI: {infoData.bmi}</div>
 
-                <button
-                  className="btn btn-primary w-1/2 max-w-xs mt-4"
-                  onClick={handleEditClick} // Switch to edit mode when clicking the button
-                >
-                  Edit Info
-                </button>
+                <div className="flex flex-row justify-center items-center mt-4">
+                  <button
+                    className="btn btn-outline btn-primary w-1/2 mr-2"
+                    onClick={handleHome}
+                  >
+                    Home
+                  </button>
+
+                  <button
+                    className="btn btn-primary w-1/2 ml-2"
+                    onClick={handleEditClick} // Switch to edit mode when clicking the button
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
             )}
 
@@ -342,9 +356,9 @@ function Settings({ className }) {
                 {error && <div className="text-red-500">{error}</div>}
 
                 {/* form */}
-                <div className="flex flex-row">
+                <div className="flex flex-row justify-center items-center mt-4">
                   <button
-                    className="btn btn-error mr-2"
+                    className="btn btn-error mr-2 w-1/2"
                     onClick={handleCancelClick}
                   >
                     cancel
@@ -355,7 +369,7 @@ function Settings({ className }) {
                       isButtonDisabled ? "disabled" : ""
                     }`}
                     disabled={isButtonDisabled}
-                    onClick={ () => handleSaveClick() }
+                    onClick={() => handleSaveClick()}
                   >
                     Save
                   </button>

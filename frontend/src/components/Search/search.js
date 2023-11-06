@@ -4,7 +4,7 @@ import { faBarcode } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import {setLoading, setTableData} from "../../store/setSearch";
+import setSearch, {setLoading, setTableData} from "../../store/setSearch";
 import Barcode from "../Barcode/barcode";
 
 function Searchmenu() {
@@ -21,6 +21,7 @@ function Searchmenu() {
           .then(response => response.json())
           .then(result => {
               dispatch(setTableData(result));
+              dispatch(setLoading(false));
           })
           .catch(error => console.log('error', error));
   }, [prefix]);
@@ -49,21 +50,15 @@ function Searchmenu() {
 }
 
 export default styled(Searchmenu)`
-  .Myfood--search {
-    width: 100%;
-    border-radius: 50%;
-    max-width: 604px; /* ความกว้างของช่องค้นหาที่ไม่เปลี่ยนแปลง */
-    margin: 1rem; /* ทำให้ช่องค้นหาอยู่กลางแนวแนวนอน */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .input-with-icon {
-    display: flex; /* ให้ข้อความและ icon อยู่ในบรรทัดเดียวกัน */
-    align-items: center; /* จัดตำแหน่งให้ตรงกัน */
-  }
-
+.Myfood--search {
+  width: 100%;
+  border-radius: 50%;
+  max-width: 604px; /* ความกว้างของช่องค้นหาที่ไม่เปลี่ยนแปลง */
+  margin: 1rem; /* ทำให้ช่องค้นหาอยู่กลางแนวแนวนอน */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 `;
 

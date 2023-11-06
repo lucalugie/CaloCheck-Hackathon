@@ -239,7 +239,7 @@ const Cookfood = ({ className }) => {
 
         if (
           !name ||
-          !per_items ||
+          !per_items || per_items ==="0" ||
           !kcal ||
           carb === "" ||
           !per_carb ||

@@ -44,8 +44,8 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar bg-base-100">
-        <div className="navbar-start">
+      <div className="navbar bg-base-100 z-10">
+        <div className="navbar-start z-10">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <svg
@@ -86,7 +86,7 @@ function Navbar() {
           </Link>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end z-10">
           {/* <div className="dropdown dropdown-end">
             <ThemeChange />
           </div> */}

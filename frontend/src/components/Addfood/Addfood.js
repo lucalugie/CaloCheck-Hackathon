@@ -25,7 +25,7 @@ const Addfood = ({ className }) => {
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">ปรุงเอง</h2>
-              <p>คุณปรุงอาหารเอง ?</p>
+              <p>คุณปรุงอาหารทานเอง ?</p>
               <div className="card-actions">
                 <Link to="/myfood/Addfood/Cookfood">
                   <button className="btn btn-primary">Cooking</button>
@@ -43,7 +43,7 @@ const Addfood = ({ className }) => {
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">ซื้อมา</h2>
-              <p>คุณซื้ออาหารมา ?</p>
+              <p>คุณซื้ออาหารมาทาน ?</p>
               <div className="card-actions">
                 <Link to="/myfood/Addfood/Buyfood">
                   <button className="btn btn-secondary">Shopping</button>

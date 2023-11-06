@@ -50,40 +50,38 @@ const Datastatus = ({ className, day, month, year }) => {
         setData((prevData) => {
           return [...prevData, ...result];
         });
-      })
+      });
   };
-//pimadded not finish
-// if(Data.length>0)
-// {
-//   if(Data.length > 0)
-//     {
-//         Data.forEach((data) => {
-//           for (let i = 0; i < Data.length; i++)
-//           {
-//             setPreviousData(data.idfood);
-//             if(data.idfood === previousData)
-//             {
-//               console.log("same "+data.name);
-//               data.per_items = data.per_items + 1;
-//             }
-//             else
-//             {
-//               console.log("different "+data.name);
-//               return
-//             }
-//           }
-//         }
-//         )
-//       }     
-//     }
-// Data.map((data) =>
-// {
-//   console.log("Datafood");
-//   console.log(data.idfood+" "+data.per_items);
-//   }
-// )
-
-  
+  //pimadded not finish
+  // if(Data.length>0)
+  // {
+  //   if(Data.length > 0)
+  //     {
+  //         Data.forEach((data) => {
+  //           for (let i = 0; i < Data.length; i++)
+  //           {
+  //             setPreviousData(data.idfood);
+  //             if(data.idfood === previousData)
+  //             {
+  //               console.log("same "+data.name);
+  //               data.per_items = data.per_items + 1;
+  //             }
+  //             else
+  //             {
+  //               console.log("different "+data.name);
+  //               return
+  //             }
+  //           }
+  //         }
+  //         )
+  //       }
+  //     }
+  // Data.map((data) =>
+  // {
+  //   console.log("Datafood");
+  //   console.log(data.idfood+" "+data.per_items);
+  //   }
+  // )
 
   // lugie modify
   const fetchUserNutrition = async (year, month, day) => {
@@ -119,45 +117,41 @@ const Datastatus = ({ className, day, month, year }) => {
 
               {/* row 1 */}
               {Data.length > 0 ? (
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>ชื่ออาหาร</th>
-                      <th>จำนวน</th>
-                      <th>Kcal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/*pimadded*/}
-                    {Data.map((data) => {
-                    return (
-                      <tr key={data.idfood}>
-                        <td></td>
-                        <td>{data.name}</td>
-                        <td>{data.per_items}</td>
-                        <td>{data.kcal}</td>
+                <>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>ชื่ออาหาร</th>
+                        <th>จำนวน</th>
+                        <th>Kcal</th>
                       </tr>
-                    );
-                  })}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {/*pimadded*/} {/* lugie modify */}
+                      {Data.map((data, index) => {
+                        return (
+                          <tr key={data.idfood}>
+                            <td>{index + 1}</td>
+                            <td>{data.name}</td>
+                            <td>{data.per_items}</td>
+                            <td>{data.kcal}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  {/* lugie modify */}
+                  <div className="mt-4 mb-40">
+                    <PieAll />
+                  </div>
+                </>
               ) : (
                 <div className="text-center font-bold">
                   ไม่มีรายการอาหารของวันนี้
                 </div>
               )}
               <br />
-              {/* lugie modify */}
-              {Data.length > 0 ? (
-                <div className="mt-4 mb-40">
-                  <PieAll />
-                </div>
-              ) : (
-                <div className="text-center font-bold mt-4 mb-40">
-                  ไม่มีภาพรวมรายวันของวันนี้
-                </div>
-              )}
             </div>
           </div>
         </div>
