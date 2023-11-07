@@ -301,32 +301,8 @@ const fetchUserNutritionByDate = async (dispatch, year = null, month = null, dat
   }
 };
 
-async function noti() {
-  const goals = useSelector((state) => state.goals);
-  const nutrition = useSelector((state) => state.nutrition);
-
-  console.log("yy "+goals.goals_kcal);
-  console.log("zz "+nutrition.ach_kcal);
-  const double = goals.goals_kcal*2
-  useEffect(() => {
-    if(nutri.ach_kcal>=double){
-      // fetch(`${process.env.REACT_APP_BASE_URL}/users/`, {
-      //   method: "POST",
-      //   credentials: "include",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     console.log("test api ",data);
-      //   });
-    console.log("eat over")
-    }
-    //pim
-  }) 
-
-}
 
 
-export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition, fetchUserNutritionByDate,noti};
+
+
+export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition, fetchUserNutritionByDate};
