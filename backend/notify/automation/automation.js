@@ -14,9 +14,9 @@ async function  Message() {
     
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 9 โมงเช้า)
         const notificationTimeBreakfast = new Date(); 
-        notificationTimeBreakfast.setHours(19) //เวลาทานอาหารเช้า
-        notificationTimeBreakfast.setMinutes(45);
-        notificationTimeBreakfast.setSeconds(15);
+        notificationTimeBreakfast.setHours(9) //เวลาทานอาหารเช้า
+        notificationTimeBreakfast.setMinutes(1);
+        notificationTimeBreakfast.setSeconds(10);
 
    
     // ตั้งเวลาที่ต้องการเริ่มแจ้งเตือน (ในตัวอย่างเป็น 12.30 โมงเช้า)

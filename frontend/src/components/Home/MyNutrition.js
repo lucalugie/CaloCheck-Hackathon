@@ -55,6 +55,8 @@ function MyNutrition({ className }) {
   }, [nutri]);
 
 
+
+
   function findPercentage(achieve, goals) {
     const percentage = (achieve / goals) * 100;
     return Math.round(percentage);
@@ -66,6 +68,8 @@ function MyNutrition({ className }) {
   }
 
   const leftPercent= findPercentage(nutritionData.ach_g, goalsData.goals_g);
+
+
 
   return (
     <div className={className}>

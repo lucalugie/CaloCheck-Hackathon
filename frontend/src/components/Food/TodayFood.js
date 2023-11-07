@@ -222,6 +222,8 @@ const Todayfood = ({ className }) => {
     return Math.round(percentage);
   }
 
+
+
   return (
     <>
       {sku.loading ? (

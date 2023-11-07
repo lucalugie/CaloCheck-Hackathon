@@ -31,7 +31,6 @@ function IG({ className }) {
     fetch(`${process.env.REACT_APP_BASE_URL}/ig/photostorys/${nameig}`, requestOptions)
        .then((response) => response.json())
        .then((result) => {
-
           const url = result.result[0].image_versions2.candidates[0].url
           fetch(`${process.env.REACT_APP_BASE_URL}/proxy-image`,{
             method: 'POST',

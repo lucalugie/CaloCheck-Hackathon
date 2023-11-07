@@ -9,6 +9,21 @@ const noticonmonths = require("../../node/model/noticonmonth");
 dotenv.config();
 
 async function conditionsugar() {
+    const currentTime = new Date(); 
+    const checkeveryday = new Date(); 
+
+    checkeveryday.setHours(23) //เวลาในการเช็ค
+    checkeveryday.setMinutes(59);
+    checkeveryday.setSeconds(59);
+   
+
+    if(currentTime.getTime()==checkeveryday.getTime()){
+        conditionsugarB()
+    }
+
+}
+
+async function conditionsugarB() {
 
     const startday = new Date()
     const startday1 = new Date()

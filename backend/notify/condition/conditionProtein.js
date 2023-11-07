@@ -8,7 +8,23 @@ const notiCon = require("../../node/model/conditionnutrition");
 const noticonmonths = require("../../node/model/noticonmonth");
 dotenv.config();
 
+
 async function conditionProtein() {
+    const currentTime = new Date(); 
+    const checkeveryday = new Date(); 
+
+    checkeveryday.setHours(23) //เวลาในการเช็ค
+    checkeveryday.setMinutes(59);
+    checkeveryday.setSeconds(59);
+   
+
+    if(currentTime.getTime()==checkeveryday.getTime()){
+        conditionProteinB()
+    }
+
+}
+
+async function conditionProteinB() {
 
     const startday = new Date()
     const startday1 = new Date()

@@ -55,7 +55,11 @@ function Home({ className }) {
 
   useEffect(() => {
     fetchUserNutritionAndDispatch();
+
   }, [nutri]);
+
+
+
 
   return (
     <div className={className}>

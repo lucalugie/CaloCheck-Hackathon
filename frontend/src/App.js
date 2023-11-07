@@ -15,6 +15,7 @@ import Buyfood from "./components/Addfood/Buyfood";
 import ConfirmAI from "./components/Scan/ConfirmAI";
 import IG from "./components/Scan/IG";
 
+
 //Pim added
 
 import API from "./constant/API";
@@ -149,6 +150,7 @@ function App() {
       }, 500);
     }   
   }, []);
+
 
   return (
     <>

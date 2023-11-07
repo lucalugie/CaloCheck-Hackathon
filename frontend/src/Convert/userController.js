@@ -43,6 +43,8 @@ import {
   setAchCarb,
 } from "./../store/nutritionSlice";
 
+import { useSelector } from "react-redux";
+
 const fetchUserData = async (dispatch) => {
   try {
     const response = await axios.get(
@@ -172,6 +174,7 @@ const updatedbGoals = async (updatedUserGoals, dispatch) => {
     dispatch(setGoalsVeg(userData.goals_veg));
     dispatch(setGoalsCarb(userData.goals_carb));
 
+
     console.log(userData);
   } catch (error) {
     console.log(error);
@@ -237,6 +240,8 @@ const fetchUserNutrition = async (dispatch) => {
       dispatch(setAchSugar(userData.ach_sugar));
       dispatch(setAchVeg(userData.ach_veg));
       dispatch(setAchCarb(userData.ach_carb));
+
+
     } else {
       console.error("no data:", userData);
     }
@@ -296,4 +301,32 @@ const fetchUserNutritionByDate = async (dispatch, year = null, month = null, dat
   }
 };
 
-export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition, fetchUserNutritionByDate};
+async function noti() {
+  const goals = useSelector((state) => state.goals);
+  const nutrition = useSelector((state) => state.nutrition);
+
+  console.log("yy "+goals.goals_kcal);
+  console.log("zz "+nutrition.ach_kcal);
+  const double = goals.goals_kcal*2
+  useEffect(() => {
+    if(nutri.ach_kcal>=double){
+      // fetch(`${process.env.REACT_APP_BASE_URL}/users/`, {
+      //   method: "POST",
+      //   credentials: "include",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     console.log("test api ",data);
+      //   });
+    console.log("eat over")
+    }
+    //pim
+  }) 
+
+}
+
+
+export { fetchUserData, updatedbGoals, updateUsersInfo, fetchUserGoals, fetchUserNutrition, fetchUserNutritionByDate,noti};
