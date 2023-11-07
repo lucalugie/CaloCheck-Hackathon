@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../Convert/userController";
-import ThemeChange from "./ThemeChange/ThemeChange";
 import { setType, setLineID, setDisplayName, setPictureUrl, setGender, setWeight, setHeight, setCal, setBmi, setAge } from "../store/userSlice";
-function Navbar() {
+function Navbar({className}) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -52,8 +51,8 @@ function Navbar() {
   };
 
   return (
-    <>
-      <div className="navbar bg-base-100 z-10">
+    <div className={className}>
+      <div className="navbar bg-base-100">
         <div className="navbar-start z-10">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -121,7 +120,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -130,4 +129,7 @@ const Image = styled.img`
   max-height: 100%;
 `;
 
-export default Navbar;
+export default styled(Navbar)`
+position: relative; 
+z-index: 2;
+`;
