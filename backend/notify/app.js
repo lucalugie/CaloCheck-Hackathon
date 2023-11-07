@@ -22,41 +22,47 @@ const overcarb  = require('./condition/overcarb');
 const lacksugar = require('./condition/lacksugar');
 const oversugar = require('./condition/oversugar');
 const compliment  = require('./condition/compliment');
+//added
+const doubleofcal = require('./conditionDay/doubleofcal');
+
 console.log("start")
 setInterval(() => {
 
    
 
 },1000)
-//Automation เเจ้งเตือน ทานอาหาร+เเบบทดสอบ3เดือน
-automation.Message();
-automonths.MessageAutoMonth();
+// //Automation เเจ้งเตือน ทานอาหาร+เเบบทดสอบ3เดือน
+// automation.Message();
+// automonths.MessageAutoMonth();
 
-// //condtition วัดการกินเเล้วอัพเดตตาราง
-conditioncarb.conditioncarb();
-conditionProtein.conditionProtein();
-conditioncal.conditioncal();
-conditionfat.conditionfat();
-conditionsalt.conditionsalt();
-conditionsugar.conditionsugar();
-conditionsuveg.conditionsuveg();
+// // //condtition วัดการกินเเล้วอัพเดตตาราง
+// conditioncarb.conditioncarb();
+// conditionProtein.conditionProtein();
+// conditioncal.conditioncal();
+// conditionfat.conditionfat();
+// conditionsalt.conditionsalt();
+// conditionsugar.conditionsugar();
+// conditionsuveg.conditionsuveg();
 
-//เเจ้งเตือนจากตาราง
+// //เเจ้งเตือนจากตาราง
 
-  lackcal.lackcalnoti();
-  lackcarb.lackcarbnoti();
-  lackfat.lackfatnoti();
-lacksalt.lacksaltnoti();
- lackveg.lackvegnoti();
- lacksugar.lacksugarnoti();
-overcal.overcalnoti();
-overfat.overfatnoti();
-overcarb.overcarbnoti();
- notimonthlackProtein.notimonthlackProtein();
-oversalt.oversaltnoti();
-overveg.overvegnoti();
-oversugar.oversugarnoti();
- overProtein.overproteinnoti();
+//   lackcal.lackcalnoti();
+//   lackcarb.lackcarbnoti();
+//   lackfat.lackfatnoti();
+// lacksalt.lacksaltnoti();
+//  lackveg.lackvegnoti();
+//  lacksugar.lacksugarnoti();
+// overcal.overcalnoti();
+// overfat.overfatnoti();
+// overcarb.overcarbnoti();
+//  notimonthlackProtein.notimonthlackProtein();
+// oversalt.oversaltnoti();
+// overveg.overvegnoti();
+// oversugar.oversugarnoti();
+//  overProtein.overproteinnoti();
 
- //ชม
- compliment.complimentnoti();
+//  //ชม
+//  compliment.complimentnoti();
+
+//added
+doubleofcal.doubleofcal();

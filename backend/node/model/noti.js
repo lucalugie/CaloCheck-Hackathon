@@ -19,6 +19,9 @@ const noti = sequelize.define("notis",
     type: DataTypes.TINYINT,
     allowNull: true
   },
+  morecal: {
+    type: DataTypes.TINYINT,
+  }
 
 
 },{
