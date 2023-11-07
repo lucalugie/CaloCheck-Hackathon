@@ -36,6 +36,7 @@ import {
   setAge,
   setBmi,
 } from "./store/userSlice";
+import ConfirmIG from "./components/Scan/ConfirmIG";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -169,6 +170,7 @@ function App() {
         <Route path="/ai-scan" element={user.userlineId ? <AI />: <Navigate to="/welcome" />}/>
         <Route path="/ig-scan" element={user.userlineId ? <IG />: <Navigate to="/welcome" /> }></Route>
         <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
+        <Route path="/ig-scan/confirm" element={<ConfirmIG />}></Route>
         <Route path="/settings" element={user.userlineId ? <Settings /> : <Navigate to="/welcome" />}></Route>
         <Route path="/myfood" element={user.userlineId ? <MyFood />  : <Navigate to="/welcome" />}></Route> 
         <Route
