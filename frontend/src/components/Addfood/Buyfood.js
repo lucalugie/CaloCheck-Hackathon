@@ -170,20 +170,15 @@ const Buyfood = ({ className }) => {
       cancelButtonText: "ยกเลิก",
     }).then((result) => {
       if (result.isConfirmed) {
-        const per_itemsNumber = parseInt(per_items, 50);
-  
-        if (per_itemsNumber <= 0 || per_itemsNumber > 50) {
+        if (per_items === "0") {
           return Swal.fire({
             title: "Error!",
-            text: "ไม่สามารถเพิ่มข้อมูลที่น้อยกว่า 1 จานหรือมากกว่า 50 จานได้",
+            text: "ไม่สามารถเพิ่มข้อมูลที่น้อยกว่า 0 จานได้",
             icon: "error",
             confirmButtonText: "รับทราบ",
           });
         }
-        
-        // แปลงค่า per_items กลับเป็น string
-        per_items = per_itemsNumber.toString();
-  
+
         const newFood = {
           name,
           per_items,
@@ -198,10 +193,10 @@ const Buyfood = ({ className }) => {
           per_sugar,
           per_salt,
         };
-  
+
         if (
           !name ||
-          !per_items || 
+          !per_items ||
           !kcal ||
           carb === "" ||
           !per_carb ||

@@ -15,8 +15,9 @@ import Swal from "sweetalert2";
 import { postUsersHistory } from "../FoodController/historyController";
 
 const Pastfood = ({ className }) => {
-   //lugie modify****
-   const { idfood, name, kcal, protein, fat, salt, sugar, veg, carb } = useParams();
+  //lugie modify****
+  const { idfood, name, kcal, protein, fat, salt, sugar, veg, carb } =
+    useParams();
   const [quantity, setQuantity] = useState(1); // เพิ่มสถานะเก็บจำนวน
   const navigate = useNavigate();
 
@@ -81,7 +82,7 @@ const Pastfood = ({ className }) => {
       cancelButtonText: "ยกเลิก",
     }).then((result) => {
       if (result.isConfirmed) {
-        if (quantity === 0 || quantity > 50  ) {
+        if (quantity <= 0 || quantity > 50) {
           return Swal.fire({
             title: "Error!",
             text: "ไม่สามารถเพิ่มข้อมูลที่น้อยกว่า 1 จานหรือมากกว่า 50 จานได้",
@@ -109,13 +110,13 @@ const Pastfood = ({ className }) => {
     });
   }
 
-   //lugie modify****
-   const handleAddToHistory = () => {
+  //lugie modify****
+  const handleAddToHistory = () => {
     const addedFoodId = idfood;
     const foodsToAdd = Array.from({ length: quantity }, () => ({
       idfood: Number(addedFoodId),
     }));
-    Promise.all(foodsToAdd.map(food => postHistory(food))).then(() => {
+    Promise.all(foodsToAdd.map((food) => postHistory(food))).then(() => {
       Swal.fire("เพิ่มเรียบร้อยแล้ว").then(() => {
         backToHome();
       });
@@ -169,8 +170,8 @@ const Pastfood = ({ className }) => {
     navigate("/");
   }
 
-   //lugie modify****
-   async function postHistory(idfood) {
+  //lugie modify****
+  async function postHistory(idfood) {
     console.log("postHistory called:", idfood);
     try {
       const history = await postUsersHistory(idfood);

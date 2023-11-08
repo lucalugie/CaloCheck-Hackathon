@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { fetchUserNutritionByDate } from "../../Convert/userController";
 import { useDispatch } from "react-redux";
 import { AspectRatio } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Datastatus = ({ className, day, month, year }) => {
   //pimadded
@@ -15,12 +16,15 @@ const Datastatus = ({ className, day, month, year }) => {
 
   //lugie modify
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setData([]);
     var requestOptions = {
       credentials: "include",
     };
+    setLoading(true);
 
     fetch(
       `${process.env.REACT_APP_BASE_URL}/Calendars/foods?createdAt=${year}-${month}-${day}`,
@@ -29,33 +33,35 @@ const Datastatus = ({ className, day, month, year }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.length > 0) {
-            getFood(result);
+          getFood(result);
+          setLoading(false);
         } else {
           console.log("no data");
+          setLoading(false);
         }
       });
   }, [`${year}-${month}-${day}`]);
 
-  const getFood = async (arr) => { 
+  const getFood = async (arr) => {
     let temp = [];
-      await Promise.all(
-        arr.map(async (item) => {
-          const response = await fetch(
-            `${process.env.REACT_APP_BASE_URL}/foodnutrition/foods/?idfood=${item.idfood}`,
-            {
-              credentials: "include",
-            }
-          );
-          const result = await response.json();
-          temp.push(result[0]);
-        })
-      )
-      setData(prepareData(temp));
+    await Promise.all(
+      arr.map(async (item) => {
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/foodnutrition/foods/?idfood=${item.idfood}`,
+          {
+            credentials: "include",
+          }
+        );
+        const result = await response.json();
+        temp.push(result[0]);
+      })
+    );
+    setData(prepareData(temp));
   };
 
   //pimadded
 
-function prepareData(_){
+  function prepareData(_) {
     const countData = [];
     const newData = [];
 
@@ -64,21 +70,27 @@ function prepareData(_){
       if (foundItem) {
         foundItem.count++;
       } else {
-        countData.push({ idfood: item.idfood, skuu: item.sku,name: item.name, count: 1,kcal: item.kcal});
+        countData.push({
+          idfood: item.idfood,
+          skuu: item.sku,
+          name: item.name,
+          count: 1,
+          kcal: item.kcal,
+        });
       }
     }
-  
-  countData.forEach((entry) => {
-    newData.push({
-      idfood: entry.idfood,
-      skuu: entry.skuu,
-      name: entry.name,
-      per_items: entry.count,
-      kcal: entry.kcal*entry.count
-    })
-  })
 
-  return newData
+    countData.forEach((entry) => {
+      newData.push({
+        idfood: entry.idfood,
+        skuu: entry.skuu,
+        name: entry.name,
+        per_items: entry.count,
+        kcal: entry.kcal * entry.count,
+      });
+    });
+
+    return newData;
   }
 
   // lugie modify
@@ -93,6 +105,11 @@ function prepareData(_){
   useEffect(() => {
     fetchUserNutrition(year, month, day);
   }, [year, month, day]);
+
+  const handleRowClick = (data) => {
+    console.log(`Row clicked: ${data.name}`);
+    navigate(`/myfood/Showfood/${data.idfood}`);
+  };
 
   return (
     <>
@@ -113,8 +130,18 @@ function prepareData(_){
                 </h2>
               </div>
 
-              {/* row 1 */}
-              {Data.length > 0 ? (
+              {loading ? (
+                <>
+                  <div className="wrap w-full h-1/2 mt-32">
+                    <div className="flex flex-row justify-center items-center h-full">
+                      <span className="loading loading-ball loading-xs text-success"></span>
+                      <span className="loading loading-ball loading-sm text-primary"></span>
+                      <span className="loading loading-ball loading-md text-accent"></span>
+                      <span className="loading loading-ball loading-lg text-secondary"></span>
+                    </div>
+                  </div>
+                </>
+              ) : Data.length > 0 ? (
                 <>
                   <table className="table">
                     <thead>
@@ -126,10 +153,13 @@ function prepareData(_){
                       </tr>
                     </thead>
                     <tbody>
-                      {/*pimadded & modify*/} {/* lugie modify */}
                       {Data.map((data, index) => {
                         return (
-                          <tr key={data.index}>
+                          <tr
+                            key={data.index}
+                            onClick={() => handleRowClick(data)}
+                            className="cursor-pointer"
+                          >
                             <td>{index + 1}</td>
                             <td>{data.name}</td>
                             <td>{data.per_items}</td>
@@ -139,7 +169,6 @@ function prepareData(_){
                       })}
                     </tbody>
                   </table>
-                  {/* lugie modify */}
                   <div className="mt-4 mb-40">
                     <PieAll />
                   </div>
