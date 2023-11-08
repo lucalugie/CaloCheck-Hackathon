@@ -23,6 +23,7 @@ import IG from "./components/Scan/IG";
 
 import Showfood from "./components/Food/Showfood";
 //Pim added
+import SendPhoto from "./components/sendPhoto/sendPhoto";
 
 import API from "./constant/API";
 import liff from "@line/liff";
@@ -196,6 +197,7 @@ function App() {
               ></Route>
               <Route path="/ai-scan/confirm" element={<ConfirmAI />}></Route>
               <Route path="/ig-scan/confirm" element={<ConfirmIG />}></Route>
+              <Route path="/sendName" element={<SendPhoto />}></Route>
               <Route
                 path="/settings"
                 element={

@@ -5,6 +5,7 @@ import setSearch from "./setSearch";
 import userGoalSlice from "./userGoalSlice";
 import nutritionSlice from "./nutritionSlice";
 import barcodeSlice from "./barcodeSlice";
+import photoSlice from "./photoSlice";
 export default configureStore({
   reducer: {
     user: userSlice,
@@ -12,6 +13,7 @@ export default configureStore({
     search: setSearch,
     goals: userGoalSlice,
     nutrition: nutritionSlice,
-    barcode: barcodeSlice
+    barcode: barcodeSlice,
+    photo: photoSlice
   },
 });

@@ -11,7 +11,7 @@ async function getphotostoryFromIG(req, res) {
         const profile = await axios.get(`${API.igPhoto}/${name}`)
         res.json(profile.data)
       } catch (error) {
-        console.error(error);
+        res.json("error")
       }
     }
 module.exports = {

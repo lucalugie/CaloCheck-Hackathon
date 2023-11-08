@@ -71,12 +71,15 @@ function ConfirmAI({ className, url, nameOFFood }) {
                 <div className="card-actions">
                   {aiPage.url === "" ? (
                     <>
-                      <Link to="/ai-scan">
-                        <button className="btn btn-error">try again</button>
-                      </Link>
-                      <Link to="/myfood/Addfood">
-                        <button className="btn btn-success">Add food</button>
-                      </Link>
+                      <p>ช่วยบอกชื่อของอาหารได้ไหม กดปุ่มสีเขียวเลย!</p>
+                        <div className="w-full flex flex-row gap-10 justify-center items-center">
+                          <Link to="/ai-scan">
+                            <button className="btn btn-error">try again</button>
+                          </Link>
+                          <Link to="/sendName">
+                            <button className="btn btn-success">Send Name</button>
+                          </Link>
+                        </div>                      
                     </>
                   ) : (
                     <>

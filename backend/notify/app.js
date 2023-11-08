@@ -26,38 +26,40 @@ const doubleCal = require('./condition/doubleCal');
 console.log("start")
 setInterval(() => {
 
-//    //Automation เเจ้งเตือน ทานอาหาร+เเบบทดสอบ3เดือน
-// automation.Message();
-// automonths.MessageAutoMonth();
+   //Automation เเจ้งเตือน ทานอาหาร+เเบบทดสอบ3เดือน
+automation.Message();
+automonths.MessageAutoMonth();
 
-// //condtition วัดการกินเเล้วอัพเดตตาราง
-// conditioncarb.conditioncarb();
-// conditionProtein.conditionProtein();
-// conditioncal.conditioncal();
-// conditionfat.conditionfat();
-// conditionsalt.conditionsalt();
-// conditionsugar.conditionsugar();
-// conditionsuveg.conditionsuveg();
+//condtition วัดการกินเเล้วอัพเดตตาราง
+conditioncarb.conditioncarb();
+conditionProtein.conditionProtein();
+conditioncal.conditioncal();
+conditionfat.conditionfat();
+conditionsalt.conditionsalt();
+conditionsugar.conditionsugar();
+conditionsuveg.conditionsuveg();
 
-// //เเจ้งเตือนจากตาราง
+//เเจ้งเตือนจากตาราง
 
-//   lackcal.lackcalnoti();
-//   lackcarb.lackcarbnoti();
-//   lackfat.lackfatnoti();
-// lacksalt.lacksaltnoti();
-//  lackveg.lackvegnoti();
-//  lacksugar.lacksugarnoti();
-// overcal.overcalnoti();
-// overfat.overfatnoti();
-// overcarb.overcarbnoti();
-//  notimonthlackProtein.notimonthlackProtein();
-// oversalt.oversaltnoti();
-// overveg.overvegnoti();
-// oversugar.oversugarnoti();
-//  overProtein.overproteinnoti();
+  lackcal.lackcalnoti();
+  lackcarb.lackcarbnoti();
+  lackfat.lackfatnoti();
+lacksalt.lacksaltnoti();
+ lackveg.lackvegnoti();
+ lacksugar.lacksugarnoti();
+overcal.overcalnoti();
+overfat.overfatnoti();
+overcarb.overcarbnoti();
+ notimonthlackProtein.notimonthlackProtein();
+oversalt.oversaltnoti();
+overveg.overvegnoti();
+oversugar.oversugarnoti();
+ overProtein.overproteinnoti();
 
-//  //ชม
-//  compliment.complimentnoti();
+ //ชม
+ compliment.complimentnoti();
+
+//เเจ้งเตือน เเคล 2 เท่า
+doubleCal.condition();
 
 },1000)
-doubleCal.condition();

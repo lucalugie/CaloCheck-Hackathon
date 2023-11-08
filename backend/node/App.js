@@ -11,6 +11,7 @@ const usersGoalsRounter = require("./routes/UsersGoals/UsersGoals.routes");
 const historyRounter = require("./routes/Usershistorys/usershistorys.route");
 const igRouter = require("./routes/IG/ig.routes");
 const notifyRouter = require("./routes/notify/notify.routes");
+const photoRouter = require("./routes/Photo/photo.routes");
 const { connect, sync } = require("./config/database");
 const scheduleNutrition = require('./routes/UsersNutrition/scheduleNutrition');
 
@@ -42,6 +43,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // app.use('/products', routes);
 
+app.use(express.static(__dirname + '/public'));
+app.use('/uploads', express.static('uploads'));
+
 app.get("/", (req, res) => {
   res.json({stupid: true});
 })
@@ -63,6 +67,7 @@ app.post('/proxy-image', async (req, res) => {
   }
 });
 
+app.use("/photo", photoRouter); 
 app.use("/ig", igRouter);
 app.use("/notify", notifyRouter);
 app.use("/api", lineRouter);

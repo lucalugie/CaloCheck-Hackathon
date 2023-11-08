@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import ConfirmAI from "./ConfirmAI";
 import { setName, setUrl, setLoading } from "../../store/aiPageSlice";
+import { setPhoto, setBlob } from "../../store/photoSlice";
 import { useDispatch } from "react-redux";
 function AI({ className }) {
   const inputRef = useRef(null);
@@ -36,6 +37,7 @@ function AI({ className }) {
       reader.onload = (e) => {
         const base64Image = e.target.result;
         setSelectedImage(base64Image);
+        dispatch(setPhoto(base64Image));
         handleShowSlectedImage();
       };
       reader.readAsDataURL(file);
@@ -61,12 +63,14 @@ function AI({ className }) {
     if (selectedState === "camera") {
       var myInput = document.getElementById('camera-input');
       var file = myInput.files[0];
+      dispatch(setBlob(file));
       var formdata = new FormData();
       formdata.append("image_file", file);
 
     }
     if (selectedState === "gallery") {
       var formdata = new FormData();
+      dispatch(setBlob(inputRef.current.files[0]));
       formdata.append("image_file", inputRef.current.files[0]);
     }
     // ดูข้อมูลใน FormData

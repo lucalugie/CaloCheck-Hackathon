@@ -5,17 +5,19 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { setName, setUrl, setLoading } from "../../store/aiPageSlice";
 import { useDispatch } from "react-redux";
+import { setPhoto, setBlob } from "../../store/photoSlice";
+
 
 function IG({ className }) {
   const [loadingx, setLoadingx] = useState(false);
   const [wrongcheck, setwrongcheck] = useState(false);
-  const [blob, setBlob] = useState(null);
+  const [blob2, setBlob2] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedState, setSelectedState] = useState("");
   const [showSelectedImage, setShowSelectedImage] = useState(false);
   const [nameig, setNameig] = useState("");
   const dispatch = useDispatch();
-
+  
 
  useEffect(() => {
    console.log(nameig)
@@ -44,21 +46,27 @@ function IG({ className }) {
           })
           .then((res) => res.blob())
           .then((blob) => {
-            setBlob(blob);
+            if(blob.length == 0){
+              setLoadingx(false);
+              setwrongcheck(true);
+              alert("มีปัญหาบางอย่าง ไม่พบ Story IG นี้ในระบบ")
+              return
+            }
+            setBlob2(blob);
+            dispatch(setBlob(blob));
             const objectURL = URL.createObjectURL(blob);
             setSelectedImage(objectURL);
+            dispatch(setPhoto(objectURL));
             setShowSelectedImage(true);
             setLoadingx(false);
             setwrongcheck(false);
           })
-          
-          
        })
       .catch((error) => {
          console.log(error);
          setLoadingx(false);
          setwrongcheck(true);
-         alert("ไม่พบ IG นี้ในระบบ")
+         alert("มีปัญหาบางอย่าง ไม่พบ Story IG นี้ในระบบ")
        });
   }
 
@@ -66,7 +74,7 @@ function IG({ className }) {
 const AIchecked = async () => {
     
     var formdata = new FormData();
-    formdata.append("image_file",blob );
+    formdata.append("image_file",blob2 );
        var requestOptions = {
          method: "POST",
          body: formdata,
@@ -105,7 +113,7 @@ const AIchecked = async () => {
               กรอกชื่อ IG ของคุณเพื่อดึงภาพจาก IG Story เเละเริ่ม AI Scanning
             </h2>
             <p className="text-l text-warning text-center flex flex-col justify-center items-cente">
-             (ใช้ได้เฉพาะ IG Story ที่เป็นภาพเท่านั้น )
+             (ใช้ได้เฉพาะบัญชีสาธารณะเท่านั้น )
             </p>
 
             {/* bottom */}
