@@ -81,10 +81,10 @@ const Pastfood = ({ className }) => {
       cancelButtonText: "ยกเลิก",
     }).then((result) => {
       if (result.isConfirmed) {
-        if (quantity === 0 || quantity >= 11  ) {
+        if (quantity === 0 || quantity > 50  ) {
           return Swal.fire({
             title: "Error!",
-            text: "ไม่สามารถเพิ่มข้อมูลที่น้อยกว่า 1 จานหรือมากกว่า 10 จานได้",
+            text: "ไม่สามารถเพิ่มข้อมูลที่น้อยกว่า 1 จานหรือมากกว่า 50 จานได้",
             icon: "error",
             confirmButtonText: "รับทราบ",
           });
