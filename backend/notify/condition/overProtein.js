@@ -22,12 +22,13 @@ async function overproteinnoti() {
     checkeveryday.setSeconds(14);
 
  
- 
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
         overprotein()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
-        check7Days(); 
+        check7Days();
     }
 
 }

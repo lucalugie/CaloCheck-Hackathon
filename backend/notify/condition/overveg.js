@@ -22,10 +22,11 @@ async function overvegnoti() {
     checkeveryday.setSeconds(20);
 
 
- 
+   
     if(currentTime.getTime()==TimeTocheck.getTime()){
         overveg()
     }
+   
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days();
     }

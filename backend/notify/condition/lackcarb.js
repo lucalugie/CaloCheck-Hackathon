@@ -21,10 +21,11 @@ async function lackcarbnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(2);
 
-
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
         lackcarb()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

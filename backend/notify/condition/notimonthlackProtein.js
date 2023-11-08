@@ -22,11 +22,12 @@ async function notimonthlackProtein() {
     checkeveryday.setSeconds(8);
 
  
-
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
-   
         lackofprotein()
+        
     }
+   
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

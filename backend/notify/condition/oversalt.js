@@ -21,11 +21,11 @@ async function oversaltnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(16);
 
-  
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
         oversalt()
     }
-
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
     
         check7Days(); 

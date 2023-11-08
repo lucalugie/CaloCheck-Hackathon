@@ -22,10 +22,11 @@ async function oversugarnoti() {
     checkeveryday.setSeconds(18);
 
 
-  
+   
     if(currentTime.getTime()==TimeTocheck.getTime()){
         oversugar()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days();
     }

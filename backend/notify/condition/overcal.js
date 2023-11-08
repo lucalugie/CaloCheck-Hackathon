@@ -21,11 +21,12 @@ async function overcalnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(10);
 
-
+    
 
     if(currentTime.getTime()==TimeTocheck.getTime()){
         overcal()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

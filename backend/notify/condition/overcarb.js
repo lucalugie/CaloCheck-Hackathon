@@ -22,12 +22,13 @@ async function overcarbnoti() {
     checkeveryday.setSeconds(11);
 
 
-
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
         overcarb()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
-        check7Days(); 
+        check7Days();
     }
 
 }

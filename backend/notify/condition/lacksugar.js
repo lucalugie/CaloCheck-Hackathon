@@ -22,10 +22,11 @@ async function lacksugarnoti() {
     checkeveryday.setSeconds(5);
 
 
-
+    
     if(currentTime.getTime()==TimeTocheck.getTime()){
         lacksugar()
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

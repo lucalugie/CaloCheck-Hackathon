@@ -21,12 +21,13 @@ async function lackfatnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(2);
 
-
+    
 
     if(currentTime.getTime()==TimeTocheck.getTime()){
-   
         lackfat()
+       
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

@@ -20,11 +20,12 @@ async function lackcalnoti() {
     checkeveryday.setHours(9) //เวลาในการเช็ค
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(0);
-   
+    
     
     if(currentTime.getTime()==TimeTocheck.getTime()){
-        lackofcal()
+        lackofcal() 
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

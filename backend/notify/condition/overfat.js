@@ -22,10 +22,11 @@ async function overfatnoti() {
     checkeveryday.setSeconds(12);
 
   
-
+   
     if(currentTime.getTime()==TimeTocheck.getTime()){
         overfat()
     }
+   
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }

@@ -21,11 +21,12 @@ async function lackvegnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(6);
 
-
+   
     if(currentTime.getTime()==TimeTocheck.getTime()){
         lackveg()
 
     }
+    
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
     }
