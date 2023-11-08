@@ -39,24 +39,24 @@ async function getCookieByLIFF(req, res) {
                     pictureUrl: profile.data.pictureUrl,
                     userlineId: profile.data.userId,
                 })
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
                             httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
                             expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
                  }).status(200).json({type: "register", member: user});
             }else if(member.gender != null && member.weight != null && member.height != null && member.age != null && member.weight > 0 && member.height > 0 && member.age > 0){
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
 							httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
                             expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
                  }).status(200).json({type: "login", member: member});
             }else{
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
 							httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
@@ -116,24 +116,24 @@ async function login(req, res) {
                     pictureUrl: profile.data.pictureUrl,
                     userlineId: profile.data.userId,
                 })
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
 							httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
                             expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
                  }).status(200).json({type: "register", member: user});
             }else if(member.gender != null && member.weight != null && member.height != null && member.age != null && member.weight > 0 && member.height > 0 && member.age > 0){
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
 							httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
                             expires: new Date(Date.now() + 60 * 5* 24 * 60 * 1000)
                  }).status(200).json({type: "login", member: member});
             }else{
-                res.clearCookie('token').cookie('token', tokenid,{
-							
+                res.clearCookie('token',{ domain: '.yungying.com'}).cookie('token', tokenid,{
+							domain: '.yungying.com',
 							httpOnly: true,
                             secure: true,
                             sameSite: 'lax',
@@ -282,7 +282,7 @@ async function loginagain(req, res) {
             console.log("2")
             if(req.cookies.token==null){
             res.cookie('token', tokenid,{
-				
+				domain: '.yungying.com',
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
@@ -296,7 +296,7 @@ async function loginagain(req, res) {
             console.log("3")
             if(req.cookies.token==null){
             res.cookie('token', tokenid,{
-				
+				domain: '.yungying.com',
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
@@ -310,7 +310,7 @@ async function loginagain(req, res) {
             console.log("4")
             if(req.cookies.token==null){
             res.cookie('token', tokenid,{
-				
+				domain: '.yungying.com',
                 httpOnly: true,
                 secure: true,
                 sameSite: 'lax',
@@ -389,7 +389,7 @@ async function getMember(req, res) {
 
 async function clearCookie(req, res) {
 
-    res.clearCookie('token');
+    res.clearCookie('token',{domain:'.yungying.com'});
 
     return res.status(200).json({
         status: true

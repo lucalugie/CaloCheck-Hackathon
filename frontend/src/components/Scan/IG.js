@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 
 function IG({ className }) {
   const [loadingx, setLoadingx] = useState(false);
+  const [wrongcheck, setwrongcheck] = useState(false);
   const [blob, setBlob] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedState, setSelectedState] = useState("");
@@ -48,12 +49,16 @@ function IG({ className }) {
             setSelectedImage(objectURL);
             setShowSelectedImage(true);
             setLoadingx(false);
+            setwrongcheck(false);
           })
           
           
        })
       .catch((error) => {
          console.log(error);
+         setLoadingx(false);
+         setwrongcheck(true);
+         alert("ไม่พบ IG นี้ในระบบ")
        });
   }
 
@@ -99,12 +104,19 @@ const AIchecked = async () => {
             <h2 className="text-xl text-primary text-center flex flex-col justify-center items-center">
               กรอกชื่อ IG ของคุณเพื่อดึงภาพจาก IG Story เเละเริ่ม AI Scanning
             </h2>
-            <p className="text-l text-warning text-center flex flex-col justify-center items-center">
+            <p className="text-l text-warning text-center flex flex-col justify-center items-cente">
              (ใช้ได้เฉพาะ IG Story ที่เป็นภาพเท่านั้น )
             </p>
 
             {/* bottom */}
 
+            { loadingx ? 
+            <>
+              <center><input type="text" placeholder="Type here" className="input w-full max-w-xs m-10" disabled
+            /></center>
+            </>
+          :
+          <>
             <center><input type="text" placeholder="Type here" className="input w-full max-w-xs m-10" 
             onChange={
               (e) => {
@@ -113,6 +125,9 @@ const AIchecked = async () => {
               }
              }
             /></center>
+          </>  
+          }
+
 
             {/* show */}
             <div className="flex row justify-center items-center mb-4">

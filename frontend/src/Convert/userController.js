@@ -43,7 +43,6 @@ import {
   setAchCarb,
 } from "./../store/nutritionSlice";
 
-import { useSelector } from "react-redux";
 
 const fetchUserData = async (dispatch) => {
   try {
@@ -300,7 +299,6 @@ const fetchUserNutritionByDate = async (dispatch, year = null, month = null, dat
     console.log(error);
   }
 };
-
 
 
 
