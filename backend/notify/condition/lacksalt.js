@@ -21,8 +21,7 @@ async function lacksaltnoti() {
     checkeveryday.setMinutes(0);
     checkeveryday.setSeconds(4);
 
-
-
+  
     if(currentTime.getTime()==TimeTocheck.getTime()){
    
         lacksalt()

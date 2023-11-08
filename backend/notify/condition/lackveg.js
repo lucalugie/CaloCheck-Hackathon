@@ -22,7 +22,6 @@ async function lackvegnoti() {
     checkeveryday.setSeconds(6);
 
 
-
     if(currentTime.getTime()==TimeTocheck.getTime()){
         lackveg()
 
@@ -198,8 +197,8 @@ function getLast7Days() {
             },
             {
                 "type":"image",
-                "originalContentUrl": "https://yungying.com/images/preme/checklist/8.png",
-                "previewImageUrl": "https://yungying.com/images/preme/checklist/8.png"
+                "originalContentUrl": "https://yungying.com/images/preme/checklist/7.png",
+                "previewImageUrl": "https://yungying.com/images/preme/checklist/7.png"
             },
           
         ]
