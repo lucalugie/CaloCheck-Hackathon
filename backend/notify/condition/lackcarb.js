@@ -72,7 +72,7 @@ async function lackcarb() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
 
         },

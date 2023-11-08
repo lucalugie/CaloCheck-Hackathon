@@ -74,7 +74,7 @@ async function lacksugar() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
         },
         group: ['userlineid']

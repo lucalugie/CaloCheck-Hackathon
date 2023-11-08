@@ -8,9 +8,9 @@ dotenv.config();
 async function MessageAutoMonth() {
     const currentTime = new Date(); 
     const checkeveryday = new Date(); 
-    checkeveryday.setHours(9) //เวลาในการเช็ค
-    checkeveryday.setMinutes(0);
-    checkeveryday.setSeconds(0);
+    checkeveryday.setHours(17) //เวลาในการเช็ค
+    checkeveryday.setMinutes(31);
+    checkeveryday.setSeconds(10);
 
 
     if(currentTime.getTime()==checkeveryday.getTime()){
@@ -78,7 +78,7 @@ async function Message() {
     threeMonthsLater.setSeconds(0)
 
     var threeMonthsLaterend = new Date();
-    threeMonthsLaterend.setMonth(threeMonthsLater.getMonth()-3 )
+    threeMonthsLaterend.setMonth(threeMonthsLaterend.getMonth()-3 )
     threeMonthsLaterend.setHours(23)
     threeMonthsLaterend.setMinutes(59)
     threeMonthsLaterend.setSeconds(59)
@@ -87,7 +87,7 @@ async function Message() {
     const users = await User.findAll({
         where: {
             createdAt:{
-                [Op.and]: [{ [Op.gte]: threeMonthsLater }, { [Op.lte]: threeMonthsLaterend }],
+                [Op.and]: [{ [Op.gte]: threeMonthsLater }, { [Op.lte]: threeMonthsLaterend  }],
             }
         },
     });

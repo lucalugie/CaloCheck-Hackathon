@@ -73,7 +73,7 @@ async function overprotein() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
 
         },

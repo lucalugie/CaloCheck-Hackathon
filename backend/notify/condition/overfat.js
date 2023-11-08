@@ -73,7 +73,7 @@ async function overfat() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
 
         },

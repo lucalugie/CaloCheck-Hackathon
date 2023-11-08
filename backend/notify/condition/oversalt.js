@@ -22,12 +22,13 @@ async function oversaltnoti() {
     checkeveryday.setSeconds(16);
 
 
-
     if(currentTime.getTime()==TimeTocheck.getTime()){
         oversalt()
     }
+
     if(currentTime.getTime()==checkeveryday.getTime()){
         check7Days(); 
+
     }
 
 }
@@ -73,7 +74,7 @@ async function oversalt() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
 
         },
@@ -131,7 +132,7 @@ async function check7Days() {
           console.log("id:"+element.userlineid+" count: "+element.oversalt)
 
 
-            if(element.oversalt>=7){
+            if(element.oversalt>=3){
                 const result = await Users.findAll({
                     where: {
                       userlineid: element.userlineid,
@@ -157,7 +158,7 @@ function hasDuplicates(array) {
 function getLast7Days() {
     const today = new Date();
     const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 8);
+    sevenDaysAgo.setDate(today.getDate() - 4);
 
     const dateRange = [];
     let currentDate = sevenDaysAgo;

@@ -75,7 +75,7 @@ async function lacksalt() {
           ],
         where: {
             nameMon0thandyear: {
-                [Op.like]: `${numberofPreviousMonth}%`
+                [Op.like]: `%/${numberofPreviousMonth}/%`
         },
         },
         group: ['userlineid']
